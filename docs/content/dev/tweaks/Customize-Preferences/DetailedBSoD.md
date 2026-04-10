@@ -3,7 +3,7 @@ title: "Detailed BSoD"
 description: ""
 ---
 
-```json {filename="config/tweaks.json",linenos=inline,linenostart=2581}
+```json {filename="config/tweaks.json",linenos=inline,linenostart=2482}
   "WPFToggleDetailedBSoD": {
     "Content": "Detailed BSoD",
     "Description": "If enabled, you will see a detailed Blue Screen of Death (BSOD) with more information.",
@@ -32,6 +32,6 @@ description: ""
 
 ## Registry Changes
 
-Applications and System Components store and retrieve configuration data to modify windows settings, so we can use the registry to change many settings in one place.
+Applications and System Components store and retrieve configuration data to modify Windows settings, so we can use the registry to change many settings in one place.
 
 You can find information about the registry on [Wikipedia](https://www.wikiwand.com/en/Windows_Registry) and [Microsoft's Website](https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry).

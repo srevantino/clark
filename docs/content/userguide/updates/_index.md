@@ -1,11 +1,13 @@
 ---
 title: Updates
 weight: 6
+prev: /userguide/features/
+next: /userguide/automation/
 ---
 
 Winutil provides three update modes so you can choose how aggressively Windows Update is managed on your system:
 
-- **Default (Out of Box) Settings**: Restores standard Windows Update behavior
+- **Default (Out of the Box) Settings**: Restores standard Windows Update behavior
 - **Security (Recommended) Settings**: Prioritizes stability while still receiving security updates
 - **Disable ALL Updates**: Turns off Windows Update entirely and should only be used with extreme caution
 

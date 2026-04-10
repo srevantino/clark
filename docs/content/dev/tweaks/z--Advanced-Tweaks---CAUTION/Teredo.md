@@ -3,10 +3,10 @@ title: "Disable Teredo"
 description: ""
 ---
 
-```json {filename="config/tweaks.json",linenos=inline,linenostart=2089}
+```json {filename="config/tweaks.json",linenos=inline,linenostart=1990}
   "WPFTweaksTeredo": {
     "Content": "Disable Teredo",
-    "Description": "Teredo network tunneling is a IPv6 feature that can cause additional latency, but may cause problems with some games.",
+    "Description": "Teredo network tunneling is an IPv6 feature that can cause additional latency, but may cause problems with some games.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
     "registry": [
@@ -28,6 +28,6 @@ description: ""
 
 ## Registry Changes
 
-Applications and System Components store and retrieve configuration data to modify windows settings, so we can use the registry to change many settings in one place.
+Applications and System Components store and retrieve configuration data to modify Windows settings, so we can use the registry to change many settings in one place.
 
 You can find information about the registry on [Wikipedia](https://www.wikiwand.com/en/Windows_Registry) and [Microsoft's Website](https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry).

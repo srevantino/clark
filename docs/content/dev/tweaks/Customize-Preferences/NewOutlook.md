@@ -3,7 +3,7 @@ title: "New Outlook"
 description: ""
 ---
 
-```json {filename="config/tweaks.json",linenos=inline,linenostart=2401}
+```json {filename="config/tweaks.json",linenos=inline,linenostart=2302}
   "WPFToggleNewOutlook": {
     "Content": "New Outlook",
     "Description": "If disabled, it removes the new Outlook toggle, disables the new Outlook migration, and ensures the classic Outlook application is used.",
@@ -48,6 +48,6 @@ description: ""
 
 ## Registry Changes
 
-Applications and System Components store and retrieve configuration data to modify windows settings, so we can use the registry to change many settings in one place.
+Applications and System Components store and retrieve configuration data to modify Windows settings, so we can use the registry to change many settings in one place.
 
 You can find information about the registry on [Wikipedia](https://www.wikiwand.com/en/Windows_Registry) and [Microsoft's Website](https://learn.microsoft.com/en-us/windows/win32/sysinfo/registry).

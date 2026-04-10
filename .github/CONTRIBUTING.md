@@ -21,11 +21,13 @@
 
 * Pull requests are now handled directly on the **MAIN branch**. This was done since we can now select specific releases to launch via releases in GitHub.
 
-* If you're doing code changes, then you can submit a PR to `main` branch, but I am very selective about these.
+* If you're doing code changes, then you can submit a PR to the `main` branch.
 
 !!! warning "Important"
 
      Do not use a code formatter, make massive amounts of line changes, or make multiple feature changes. EACH FEATURE CHANGE SHOULD BE IT'S OWN PULL REQUEST!
+
+     Do not open a pull request that adds support for other languages to WinUtil for now, until we decide how we want to move forward with language support.
 
 * When creating pull requests, it is essential to thoroughly document all changes made. This includes, but is not limited to, documenting any additions made to the `tweaks` section and corresponding `undo tweak`, so users are able to remove the newly added tweaks if necessary, and comprehensive documentation is required for all code changes. Document your changes and briefly explain why you made your changes in your Pull Request Description. Failure to adhere to this format may result in the denial of the pull request. Additionally, any code lacking sufficient documentation may also be denied.
 
@@ -87,7 +89,7 @@ graph TD
 
 ### Testing your changes
 
-* To test to see if your changes work as intended run following commands in a powershell terminal as admin:
+* To test to see if your changes work as intended, run the following commands in a PowerShell terminal as admin:
 
 * Change the directory where you are running the commands to the forked project.
 * `cd {path to the folder with the compile.ps1}`
@@ -112,6 +114,6 @@ graph TD
 ![Push Commit Image](/docs/assets/images/Push-Commit.png)
 
 ### Making a PR
-* To make a PR on your repo under a new branch linking to the main branch, a button will show and say Preview and Create pull request. Click that button and fill in all the information that is provided on the template. Once all the information is filled in correctly, check your PR to make sure there is not a WinUtil.ps1 file attached to the PR. Once everything is good, make the PR and wait for Chris (the maintainer) to accept or deny your PR. Once it is accepted by Chris, you will be able to see your changes in the "/windev" build.
+* To make a PR on your repo under a new branch linking to the main branch, a button will show and say Preview and Create pull request. Click that button and fill in all the information that is provided on the template. Once all the information is filled in correctly, check your PR to make sure there is no WinUtil.ps1 file attached to the PR. Once everything is good, make the PR and wait for Chris (the maintainer) to accept or deny your PR. Once it is accepted by Chris, you will be able to see your changes in the "/windev" build.
 * If you do not see your feature in the main "/win" build, that is fine. All new changes go into the /windev build to make sure everything is working OK before going fully public.
 * Congratulations! You just submitted your first PR. Thank you so much for contributing to WinUtil.

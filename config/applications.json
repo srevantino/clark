@@ -36,7 +36,7 @@
         "category": "Document",
         "choco": "na",
         "content": "AFFiNE",
-        "description": "AFFiNE is an open-source alternative to Notion. Write, draw, plan all at once. Selfhost it to sync across devices.",
+        "description": "AFFiNE is an open-source alternative to Notion. Write, draw, plan all at once. Self-host it to sync across devices.",
         "link": "https://affine.pro/",
         "winget": "ToEverything.AFFiNE",
         "foss": true
@@ -257,11 +257,20 @@
         "link": "https://www.advancedrenamer.com/",
         "winget": "HulubuluSoftware.AdvancedRenamer"
     },
+    "cryptomator": {
+        "category": "Utilities",
+        "choco": "cryptomator",
+        "content": "Cryptomator",
+        "description": "Cryptomator for Windows, macOS, and Linux: Secure client-side encryption for your cloud storage, ensuring privacy and control over your data.",
+        "link": "https://github.com/cryptomator/cryptomator/",
+        "winget": "Cryptomator.Cryptomator",
+        "foss": true
+    },
     "citrixworkspaceapp": {
         "category": "Utilities",
         "choco": "citrix-workspace",
         "content": "Citrix Workspace app",
-        "description": "a secure, unified client application that provides instant access to virtual desktops, SaaS, web, and Windows apps from any device (Windows, macOS, Linux, iOS, Android) or browser.",
+        "description": "A secure, unified client application that provides instant access to virtual desktops, SaaS, web, and Windows apps from any device (Windows, macOS, Linux, iOS, Android) or browser.",
         "link": "https://www.citrix.com/downloads/workspace-app/",
         "winget": "Citrix.Workspace"
     },
@@ -357,7 +366,7 @@
         "category": "Development",
         "choco": "clink",
         "content": "Clink",
-        "description": "Clink is a powerful Bash-compatible command-line interface (CLIenhancement for Windows, adding features like syntax highlighting and improved history).",
+        "description": "Clink is a powerful Bash-compatible command-line interface (CLI enhancement for Windows, adding features like syntax highlighting and improved history).",
         "link": "https://mridgers.github.io/clink/",
         "winget": "chrisant996.Clink",
         "foss": true
@@ -519,11 +528,20 @@
         "link": "https://ntlite.com",
         "winget": "Nlitesoft.NTLite"
     },
+    "dorion": {
+        "category": "Communications",
+        "choco": "na",
+        "content": "Dorion",
+        "description": "Tiny alternative Discord client with a smaller footprint, snappier startup, themes, plugins and more!",
+        "link": "https://github.com/SpikeHD/Dorion",
+        "winget": "SpikeHD.Dorion",
+        "foss": true
+    },
     "ditto": {
         "category": "Utilities",
         "choco": "ditto",
         "content": "Ditto",
-        "description": "Ditto is an extension to the standard windows clipboard.",
+        "description": "Ditto is an extension to the standard Windows Clipboard.",
         "link": "https://github.com/sabrogden/Ditto",
         "winget": "Ditto.Ditto",
         "foss": true
@@ -609,6 +627,14 @@
         "link": "https://www.duplicati.com/",
         "winget": "Duplicati.Duplicati",
         "foss": true
+    },
+    "ecm": {
+        "category": "Utilities",
+        "choco": "ecm",
+        "content": "Easy Context Menu",
+        "description": "Easy Context Menu (ECM) lets you add a variety of useful commands and tweaks to the Desktop, My Computer, Drives, File and Folder right-click context menus. This enables you to access the most used Windows components quickly and easily. Simply check the box next to the items you wish to add. Once added, just right click and the select the component shortcut to launch it. Easy Context Menu is both portable and freeware.",
+        "link": "https://www.sordum.org/7615/easy-context-menu-v1-6/",
+        "winget": "sordum.EasyContextMenu"
     },
     "eaapp": {
         "category": "Games",
@@ -726,7 +752,7 @@
         "category": "Multimedia Tools",
         "choco": "ffmpeg-full",
         "content": "FFmpeg (full)",
-        "description": "FFmpeg is a powerful multimedia processing tool that enables users to convert, edit, and stream audio and video files with a vast range of codecs and formats. | Note: FFmpeg can not be uninstalled using winget.",
+        "description": "FFmpeg is a powerful multimedia processing tool that enables users to convert, edit, and stream audio and video files with a vast range of codecs and formats. | Note: FFmpeg can not be uninstalled using WinGet.",
         "link": "https://ffmpeg.org/",
         "winget": "Gyan.FFmpeg"
     },
@@ -787,7 +813,7 @@
         "category": "Multimedia Tools",
         "choco": "lightshot",
         "content": "Lightshot (Screenshots)",
-        "description": "Ligthshot is an easy-to-use, light-weight screenshot software tool, where you can optionally edit your screenshots using different tools, share them via Internet and/or save to disk, and customize the available options.",
+        "description": "Lightshot is an easy-to-use, light-weight screenshot software tool, where you can optionally edit your screenshots using different tools, share them via Internet and/or save to disk, and customize the available options.",
         "link": "https://app.prntscr.com/",
         "winget": "Skillbrains.Lightshot"
     },
@@ -1029,6 +1055,15 @@
         "description": "Gsudo is a sudo implementation for Windows, allowing elevated privilege execution.",
         "link": "https://gerardog.github.io/gsudo/",
         "winget": "gerardog.gsudo"
+    },
+    "hugo": {
+        "category": "Utilities",
+        "choco": "hugo-extended",
+        "content": "Hugo",
+        "description": "The world’s fastest framework for building websites.",
+        "link": "https://github.com/gohugoio/hugo/",
+        "winget": "Hugo.Hugo.Extended",
+        "foss": true
     },
     "handbrake": {
         "category": "Multimedia Tools",
@@ -1359,7 +1394,7 @@
         "category": "Communications",
         "choco": "linphone",
         "content": "Linphone",
-        "description": "Linphone is an open-source voice over IP (VoIPservice that allows for audio and video calls, messaging, and more.",
+        "description": "Linphone is an open-source voice over IP (VoIP) service that allows for audio and video calls, messaging, and more.",
         "link": "https://www.linphone.org/",
         "winget": "BelledonneCommunications.Linphone",
         "foss": true
@@ -1423,6 +1458,15 @@
         "description": "Malwarebytes is an anti-malware software that provides real-time protection against threats.",
         "link": "https://www.malwarebytes.com/",
         "winget": "Malwarebytes.Malwarebytes"
+    },
+    "mpc-qt": {
+        "category": "Multimedia Tools",
+        "choco": "mediainfo",
+        "content": "mpc-qt",
+        "description": "MPC-HC (Media Player Classic Home Cinema) is considered by many to be the quintessential media player for the Windows desktop. MPC-QT (Media Player Classic Qute Theater) aims to reproduce most of the interface and functionality of MPC-HC while using libmpv to play video instead of DirectShow.",
+        "link": "https://github.com/mpc-qt/mpc-qt",
+        "winget": "mpc-qt.mpc-qt",
+        "foss": true
     },
     "masscode": {
         "category": "Document",
@@ -1549,15 +1593,6 @@
         "winget": "MullvadVPN.MullvadVPN",
         "foss": true
     },
-    "BorderlessGaming": {
-        "category": "Utilities",
-        "choco": "borderlessgaming",
-        "content": "Borderless Gaming",
-        "description": "Play your favorite games in a borderless window; no more time consuming alt-tabs.",
-        "link": "https://github.com/Codeusa/Borderless-Gaming",
-        "winget": "Codeusa.BorderlessGaming",
-        "foss": true
-    },
     "EqualizerAPO": {
         "category": "Multimedia Tools",
         "choco": "equalizerapo",
@@ -1640,7 +1675,7 @@
         "category": "Pro Tools",
         "choco": "netbird",
         "content": "NetBird",
-        "description": "NetBird is a open-source alternative comparable to TailScale that can be connected to a selfhosted Server.",
+        "description": "NetBird is a open-source alternative comparable to TailScale that can be connected to a self-hosted server.",
         "link": "https://netbird.io/",
         "winget": "netbird",
         "foss": true
@@ -1712,7 +1747,8 @@
         "content": "NodeJS LTS",
         "description": "NodeJS LTS provides Long-Term Support releases for stable and reliable server-side JavaScript development.",
         "link": "https://nodejs.org/",
-        "winget": "OpenJS.NodeJS.LTS"
+        "winget": "OpenJS.NodeJS.LTS",
+        "foss": true
     },
     "nomacs": {
         "category": "Multimedia Tools",
@@ -1899,6 +1935,15 @@
         "winget": "Fleex255.PolicyPlus",
         "foss": true
     },
+    "qview": {
+        "category": "Multimedia Tools",
+        "choco": "na",
+        "content": "qView",
+        "description": "qView is an image viewer designed with minimalism and usability in mind.",
+        "link": "https://github.com/jurplel/qView",
+        "winget": "jurplel.qView",
+        "foss": true
+    },
     "potplayer": {
         "category": "Multimedia Tools",
         "choco": "na",
@@ -1944,7 +1989,7 @@
         "category": "Document",
         "choco": "pdfxchangeeditor",
         "content": "PDF-XChangeEditor",
-        "description": "a comprehensive Windows-based software suite and editor for creating, viewing, editing, annotating, and signing PDF files.",
+        "description": "A comprehensive Windows-based software suite and editor for creating, viewing, editing, annotating, and signing PDF files.",
         "link": "https://www.pdf-xchange.com/",
         "winget": "TrackerSoftware.PDF-XChangeEditor"
     },
@@ -2091,6 +2136,42 @@
         "description": "2FA app from Proton to securely sync and backup 2FA codes.",
         "link": "https://proton.me/authenticator",
         "winget": "Proton.ProtonAuthenticator",
+        "foss": true
+    },
+    "protonmail": {
+        "category": "Communications",
+        "choco": "na",
+        "content": "Proton Mail",
+        "description": "Proton Mail is an end-to-end encrypted email service by Proton, protecting your privacy with zero-access encryption.",
+        "link": "https://proton.me/mail",
+        "winget": "Proton.ProtonMail",
+        "foss": true
+    },
+    "protondrive": {
+        "category": "Utilities",
+        "choco": "na",
+        "content": "Proton Drive",
+        "description": "Proton Drive is an end-to-end encrypted Swiss vault for your files that protects your data.",
+        "link": "https://proton.me/drive",
+        "winget": "Proton.ProtonDrive",
+        "foss": true
+    },
+    "protonpass": {
+        "category": "Utilities",
+        "choco": "na",
+        "content": "Proton Pass",
+        "description": "Proton Pass is a cloud-based password manager with end-to-end encryption and unique email aliases.",
+        "link": "https://proton.me/pass",
+        "winget": "Proton.ProtonPass",
+        "foss": true
+    },
+    "protonvpn": {
+        "category": "Pro Tools",
+        "choco": "protonvpn",
+        "content": "Proton VPN",
+        "description": "Proton VPN is a no-logs VPN service that protects your privacy online with features like Secure Core and Tor over VPN.",
+        "link": "https://protonvpn.com/",
+        "winget": "Proton.ProtonVPN",
         "foss": true
     },
     "processmonitor": {
@@ -2552,6 +2633,14 @@
         "link": "https://www.teamviewer.com/",
         "winget": "TeamViewer.TeamViewer"
     },
+    "teamspeak3": {
+        "category": "Utilities",
+        "choco": "teamspeak",
+        "content": "TeamSpeak 3",
+        "description": "TEAMSPEAK. YOUR TEAM. YOUR RULES. Use crystal clear sound to communicate with your team mates cross-platform with military-grade security, lag-free performance & unparalleled reliability and uptime.",
+        "link": "https://www.teamspeak.com/",
+        "winget": "TeamSpeakSystems.TeamSpeakClient"
+    },
     "telegram": {
         "category": "Communications",
         "choco": "telegram",
@@ -2700,6 +2789,15 @@
         "link": "https://unity.com/",
         "winget": "Unity.UnityHub"
     },
+    "veravrypt": {
+        "category": "Utilities",
+        "choco": "veracrypt",
+        "content": "VeraCrypt",
+        "description": "Disk encryption with strong security based on TrueCrypt.",
+        "link": "https://github.com/veracrypt/VeraCrypt/",
+        "winget": "IDRIX.VeraCrypt",
+        "foss": true
+    },
     "vagrant": {
         "category": "Development",
         "choco": "vagrant",
@@ -2847,7 +2945,7 @@
     "wazuh": {
         "category": "Utilities",
         "choco": "wazuh-agent",
-        "content": "Wazuh.",
+        "content": "Wazuh",
         "description": "Wazuh is an open-source security monitoring platform that offers intrusion detection, compliance checks, and log analysis.",
         "link": "https://wazuh.com/",
         "winget": "Wazuh.WazuhAgent",
@@ -2882,9 +2980,9 @@
         "category": "Utilities",
         "choco": "wingetui",
         "content": "UniGetUI",
-        "description": "UniGetUI is a GUI for Winget, Chocolatey, and other Windows CLI package managers.",
-        "link": "https://www.marticliment.com/wingetui/",
-        "winget": "MartiCliment.UniGetUI",
+        "description": "UniGetUI is a GUI for WinGet, Chocolatey, and other Windows CLI package managers.",
+        "link": "https://devolutions.net/unigetui/",
+        "winget": "Devolutions.UniGetUI",
         "foss": true
     },
     "winmerge": {
@@ -3156,6 +3254,15 @@
         "winget": "Intel.PresentMon.Beta",
         "foss": true
     },
+    "uv": {
+        "category": "Development",
+        "choco": "na",
+        "content": "uv",
+        "description": "uv is a fast Python package and project manager written in Rust.",
+        "link": "https://docs.astral.sh/uv/getting-started/installation/",
+        "winget": "astral-sh.uv",
+        "foss": true
+    },
     "pyenvwin": {
         "category": "Development",
         "choco": "pyenv-win",
@@ -3214,7 +3321,7 @@
         "content": "Ambie White Noise",
         "description": "Ambie is the ultimate app to help you focus, study, or relax. We use white noise and nature sounds combined with an innovative focus timer to keep you concentrated on doing your best work.",
         "link": "https://ambieapp.com/",
-        "winget": "9P07XNM5CHP0",
+        "winget": "JeniusApps.Ambie",
         "foss": true
     },
     "magicwormhole": {
@@ -3369,7 +3476,7 @@
         "category": "Utilities",
         "choco": "na",
         "content": "Lenovo Legion Toolkit",
-        "description": "Lenovo Legion Toolkit (LLT) is a open-source utility created for Lenovo Legion (and similar) series laptops, that allows changing a couple of features that are only available in Lenovo Vantage or Legion Zone. It runs no background services, uses less memory, uses virtually no CPU, and contains no telemetry. Just like Lenovo Vantage, this application is Windows only.",
+        "description": "Lenovo Legion Toolkit (LLT) is a open-source utility created for Lenovo Legion laptops, that allows changing a couple of features that are only available in Lenovo Vantage or Legion Zone. It runs no background services, uses less memory, uses virtually no CPU, and contains no telemetry. Just like Lenovo Vantage, this application is Windows only.",
         "link": "https://github.com/BartoszCichecki/LenovoLegionToolkit",
         "winget": "BartoszCichecki.LenovoLegionToolkit",
         "foss": true
@@ -3443,6 +3550,24 @@
         "description": "A powerful assembler for the x86 platform.",
         "content": "NASM",
         "link": "https://nasm.us",
+        "foss": true
+    },
+    "Ruby": {
+        "category": "Development",
+        "choco": "ruby",
+        "winget": "RubyInstallerTeam.RubyWithDevkit.3.4",
+        "description": "A Ruby language execution environment with a MSYS2 installation.",
+        "content": "Ruby",
+        "link": "https://rubyinstaller.org/",
+        "foss": true
+    },
+    "Lua": {
+        "category": "Development",
+        "choco": "lua",
+        "winget": "rjpcomputing.luaforwindows",
+        "description": "A 'batteries included environment' for the Lua scripting language on Windows.",
+        "content": "Lua",
+        "link": "https://github.com/rjpcomputing/luaforwindows",
         "foss": true
     }
 }

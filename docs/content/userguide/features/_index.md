@@ -1,6 +1,8 @@
 ---
 title: Features
 weight: 5
+prev: /userguide/tweaks/
+next: /userguide/updates/
 ---
 
 Use the **Features** and **Fixes** sections to install optional Windows components and run common repair tasks.
@@ -13,7 +15,7 @@ Install common **Windows features** by selecting the feature checkboxes and clic
 * Hyper-V Virtualization
 * Legacy Media (WMP, DirectPlay)
 * NFS - Network File System
-* Enable Daily Registry Backup Task 12:30am
+* Enable Daily Registry Backup Task 12:30 AM
 * Enable Legacy F8 Boot Recovery
 * Disable Legacy F8 Boot Recovery
 * Windows Subsystem for Linux
@@ -28,7 +30,6 @@ Use these one-click fixes for common system problems.
 * Reset Network
 * System Corruption Scan
 * WinGet Reinstall
-* Remove Adobe Creative Cloud
 
 ## Legacy Windows Panels
 
