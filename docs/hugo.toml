@@ -1,6 +1,6 @@
-baseURL = "https://winutil.christitus.com/"
+baseURL = "/"
 languageCode = "en-us"
-title = "Winutil Documentation"
+title = "A-SYS Documentation (Advance Systems 4042)"
 enableGitInfo = true
 canonifyURLs = true
 
@@ -56,8 +56,8 @@ weight = 2
 parent = "help"
 
 [[menu.main]]
-name = "Store"
-url = "https://christitus.com/downloads/"
+name = "Advance Systems 4042"
+url = "https://myutil.advancesystems4042.com/"
 weight = 5
 
 [[menu.main]]
@@ -70,13 +70,13 @@ weight = 6
 [[menu.main]]
 name = "GitHub"
 weight = 7
-url = "https://github.com/christitustech/Winutil"
+url = "https://github.com/AdvanceSystems4042/A-SYS"
 
   [menu.main.params]
   icon = "github"
 
 [params]
-description = "Chris Titus Tech's Windows Utility - Install Programs, Tweaks, Fixes, and Updates"
+description = "A-SYS by Advance Systems 4042 — installs, tweaks, fixes, and updates for Windows (fork of WinUtil)."
 displayUpdatedDate = true
 dateFormat = "January 2, 2006"
 
@@ -118,7 +118,7 @@ display = "hover"
 
   [[menu.sidebar]]
   name = "Github Repo ↗"
-  url = "https://github.com/ChrisTitusTech/winutil"
+  url = "https://github.com/AdvanceSystems4042/A-SYS"
   weight = 2
 
   [[menu.sidebar]]

@@ -1,8 +1,7 @@
 <#
 .NOTES
-    Author         : Chris Titus @christitustech
-    Runspace Author: @DeveloperDurp
-    GitHub         : https://github.com/ChrisTitusTech
+    Product        : A-SYS
+    Organization   : Advance Systems 4042 (developed & managed)
     Version        : #{replaceme}
 #>
 
@@ -40,7 +39,7 @@ if ($Offline) {
 
 
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Output "Winutil needs to be run as Administrator. Attempting to relaunch."
+    Write-Output "A-SYS needs to be run as Administrator. Attempting to relaunch."
     $argList = @()
 
     $PSBoundParameters.GetEnumerator() | ForEach-Object {
@@ -56,7 +55,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     $script = if ($PSCommandPath) {
         "& { & `'$($PSCommandPath)`' $($argList -join ' ') }"
     } else {
-        "&([ScriptBlock]::Create((irm https://github.com/ChrisTitusTech/winutil/releases/latest/download/winutil.ps1))) $($argList -join ' ')"
+        "&([ScriptBlock]::Create((irm 'https://myutil.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac'))) $($argList -join ' ')"
     }
 
     $powershellCmd = if (Get-Command pwsh -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
@@ -93,14 +92,14 @@ $sync.selectedAppsPopup
 
 $dateTime = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 
-# Set the path for the winutil directory
-$winutildir = "$env:LocalAppData\winutil"
-New-Item $winutildir -ItemType Directory -Force | Out-Null
+# App data and logs (A-SYS / Advance Systems 4042)
+$asysdir = "$env:LocalAppData\asys"
+New-Item $asysdir -ItemType Directory -Force | Out-Null
 
-$logdir = "$winutildir\logs"
+$logdir = "$asysdir\logs"
 New-Item $logdir -ItemType Directory -Force | Out-Null
-Start-Transcript -Path "$logdir\winutil_$dateTime.log" -Append -NoClobber | Out-Null
+Start-Transcript -Path "$logdir\asys_$dateTime.log" -Append -NoClobber | Out-Null
 
 # Set PowerShell window title
-$Host.UI.RawUI.WindowTitle = "WinUtil (Admin)"
+$Host.UI.RawUI.WindowTitle = "A-SYS (Admin) — Advance Systems 4042"
 clear-host

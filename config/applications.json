@@ -195,6 +195,14 @@
         "winget": "CrystalDewWorld.CrystalDiskMark",
         "foss": true
     },
+    "diskgenius": {
+        "category": "Disk & backup",
+        "choco": "na",
+        "content": "DiskGenius",
+        "description": "Disk partition manager, backup, and data recovery for Windows. Supports partition operations, disk cloning, and file recovery.",
+        "link": "https://www.diskgenius.com/",
+        "winget": "Eassos.DiskGenius"
+    },
     "cursor": {
         "category": "Development",
         "choco": "cursoride",
@@ -429,8 +437,17 @@
         "winget": "ItchIo.Itch",
         "foss": true
     },
+    "hydralauncher": {
+        "category": "Games & modding",
+        "choco": "na",
+        "content": "Hydra Launcher",
+        "description": "Game launcher with library management and download support for DRM-free and third-party sources. Open source.",
+        "link": "https://hydralauncher.gg/",
+        "winget": "HydraLauncher.Hydra",
+        "foss": true
+    },
     "itunes": {
-        "category": "Multimedia Tools",
+        "category": "Media & music",
         "choco": "itunes",
         "content": "iTunes",
         "description": "iTunes is a media player, media library, and online radio broadcaster application developed by Apple Inc.",
@@ -532,6 +549,14 @@
         "link": "https://www.malwarebytes.com/",
         "winget": "Malwarebytes.Malwarebytes"
     },
+    "macriumreflect": {
+        "category": "Disk & backup",
+        "choco": "reflect-free",
+        "content": "Macrium Reflect Free",
+        "description": "Disk imaging and cloning for backup and recovery. Free edition; Chocolatey package automates setup where silent install is limited.",
+        "link": "https://www.macrium.com/reflectfree",
+        "winget": "na"
+    },
     "Motrix": {
         "category": "Utilities",
         "choco": "motrix",
@@ -548,6 +573,14 @@
         "description": "MSI Afterburner is a graphics card overclocking utility with advanced features.",
         "link": "https://www.msi.com/Landing/afterburner",
         "winget": "Guru3D.Afterburner"
+    },
+    "microsoftoffice": {
+        "category": "Productivity",
+        "choco": "na",
+        "content": "Microsoft 365 / Office (Click-to-Run)",
+        "description": "Microsoft 365 Apps (Office) via WinGet. May require admin and a Microsoft account or existing license; channel can vary by manifest.",
+        "link": "https://www.microsoft.com/microsoft-365",
+        "winget": "Microsoft.Office"
     },
     "CompactGUI": {
         "category": "Utilities",
@@ -899,6 +932,22 @@
         "winget": "WinsiderSS.SystemInformer",
         "foss": true
     },
+    "sidebar": {
+        "category": "Advance Systems 4042",
+        "choco": "na",
+        "content": "Sidebar",
+        "description": "Advance Systems 4042 utility (add your project URL in applications.json when ready). Install is manual until you publish a WinGet or Chocolatey package.",
+        "link": "https://REPLACE_WITH_YOUR_SIDEBAR_URL",
+        "winget": "na"
+    },
+    "sideloadly": {
+        "category": "Mobile & iOS tools",
+        "choco": "na",
+        "content": "Sideloadly",
+        "description": "Sideload apps to iOS devices without the App Store (IPA install, Apple ID sign-in). Use responsibly and in line with Apple\u2019s terms.",
+        "link": "https://sideloadly.io/",
+        "winget": "iOSGods.Sideloadly"
+    },
     "slack": {
         "category": "Communications",
         "choco": "slack",
@@ -915,6 +964,14 @@
         "link": "https://www.spacedrive.com/",
         "winget": "spacedrive.Spacedrive",
         "foss": true
+    },
+    "spotify": {
+        "category": "Media & music",
+        "choco": "spotify",
+        "content": "Spotify",
+        "description": "Spotify streams music and podcasts with playlists, discovery, and offline listening on premium plans.",
+        "link": "https://www.spotify.com/download/windows/",
+        "winget": "Spotify.Spotify"
     },
     "steam": {
         "category": "Games",
@@ -1068,6 +1125,15 @@
         "link": "https://visualstudio.microsoft.com/",
         "winget": "Microsoft.VisualStudio.2026.Community"
     },
+    "vortex": {
+        "category": "Games & modding",
+        "choco": "na",
+        "content": "Vortex Mod Manager",
+        "description": "Nexus Mods mod manager for games: install, enable, and sort mods with conflict detection and plugin support.",
+        "link": "https://www.nexusmods.com/about/vortex/",
+        "winget": "NexusMods.Vortex",
+        "foss": true
+    },
     "vlc": {
         "category": "Multimedia Tools",
         "choco": "vlc",
@@ -1162,6 +1228,14 @@
         "description": "WiseToys is a set of utilities and tools designed to enhance and optimize your Windows experience.",
         "link": "https://toys.wisecleaner.com/",
         "winget": "WiseCleaner.WiseToys"
+    },
+    "wittytool": {
+        "category": "Disk & backup",
+        "choco": "na",
+        "content": "WittyTool",
+        "description": "Free disk clone, partition, and data recovery tools from WittyTool. Install from the website; not available via WinGet or Chocolatey in this list.",
+        "link": "https://www.wittytool.com/",
+        "winget": "na"
     },
     "wizfile": {
         "category": "Utilities",

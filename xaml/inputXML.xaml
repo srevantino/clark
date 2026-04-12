@@ -12,7 +12,7 @@
         Height="Auto"
         MinWidth="800"
         MinHeight="600"
-        Title="WinUtil">
+        Title="A-SYS">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" CornerRadius="10"/>
     </WindowChrome.WindowChrome>
@@ -1056,7 +1056,7 @@
                     Margin="0,0,2,0"
                     FontFamily="Segoe MDL2 Assets"
                     Content="N/A"
-                    ToolTip="Change the Winutil UI Theme"
+                    ToolTip="Change the A-SYS UI theme (Advance Systems 4042)"
                 />
                     <Popup Name="ThemePopup"
                     IsOpen="False"

@@ -1716,7 +1716,7 @@
   },
   "WPFTweaksRestorePoint": {
     "Content": "Create Restore Point",
-    "Description": "Creates a restore point at runtime in case a revert is needed from WinUtil modifications.",
+    "Description": "Creates a restore point at runtime in case a revert is needed from A-SYS modifications.",
     "category": "Essential Tweaks",
     "panel": "1",
     "Checked": "False",
@@ -1735,7 +1735,7 @@
           Enable-ComputerRestore -Drive $Env:SystemDrive
       }
 
-      Checkpoint-Computer -Description \"System Restore Point created by WinUtil\" -RestorePointType MODIFY_SETTINGS
+      Checkpoint-Computer -Description \"System Restore Point created by A-SYS (Advance Systems 4042)\" -RestorePointType MODIFY_SETTINGS
       Write-Host \"System Restore Point Created Successfully\" -ForegroundColor Green
       "
     ],

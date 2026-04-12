@@ -8,7 +8,7 @@ function Invoke-WPFundoall {
 
     if($sync.ProcessRunning) {
         $msg = "[Invoke-WPFundoall] Install process is currently running."
-        [System.Windows.MessageBox]::Show($msg, "Winutil", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
+        [System.Windows.MessageBox]::Show($msg, "A-SYS", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
         return
     }
 
@@ -16,7 +16,7 @@ function Invoke-WPFundoall {
 
     if ($tweaks.count -eq 0) {
         $msg = "Please check the tweaks you wish to undo."
-        [System.Windows.MessageBox]::Show($msg, "Winutil", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
+        [System.Windows.MessageBox]::Show($msg, "A-SYS", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
         return
     }
 

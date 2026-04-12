@@ -151,14 +151,14 @@ function Invoke-WinUtilISOModify {
     $sync["WPFWin11ISOModifyButton"].IsEnabled = $false
     $sync["Win11ISOModifying"] = $true
 
-    $existingWorkDir = Get-Item -Path (Join-Path $env:TEMP "WinUtil_Win11ISO*") -ErrorAction SilentlyContinue |
+    $existingWorkDir = Get-Item -Path (Join-Path $env:TEMP "ASYS_Win11ISO*") -ErrorAction SilentlyContinue |
         Where-Object { $_.PSIsContainer } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
     $workDir = if ($existingWorkDir) {
         Write-Win11ISOLog "Reusing existing temp directory: $($existingWorkDir.FullName)"
         $existingWorkDir.FullName
     } else {
-        Join-Path $env:TEMP "WinUtil_Win11ISO_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+        Join-Path $env:TEMP "ASYS_Win11ISO_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
     }
 
     $autounattendContent = if ($WinUtilAutounattendXml) {
@@ -202,7 +202,7 @@ function Invoke-WinUtilISOModify {
                 $sync["WPFWin11ISOStatusLog"].CaretIndex = $sync["WPFWin11ISOStatusLog"].Text.Length
                 $sync["WPFWin11ISOStatusLog"].ScrollToEnd()
             })
-            Add-Content -Path (Join-Path $workDir "WinUtil_Win11ISO.log") -Value "[$ts] $msg" -ErrorAction SilentlyContinue
+            Add-Content -Path (Join-Path $workDir "ASYS_Win11ISO.log") -Value "[$ts] $msg" -ErrorAction SilentlyContinue
         }
 
         function SetProgress($label, $pct) {
@@ -239,7 +239,7 @@ function Invoke-WinUtilISOModify {
             Mount-WindowsImage -ImagePath $localWim -Index $selectedWimIndex -Path $mountDir -ErrorAction Stop | Out-Null
             SetProgress "Modifying install.wim..." 45
 
-            Log "Applying WinUtil modifications to install.wim..."
+            Log "Applying A-SYS (Advance Systems 4042) modifications to install.wim..."
             Invoke-WinUtilISOScript -ScratchDir $mountDir -ISOContentsDir $isoContents -AutoUnattendXml $autounattendContent -InjectCurrentSystemDrivers $injectDrivers -Log { param($m) Log $m }
 
             SetProgress "Cleaning up component store (WinSxS)..." 56
@@ -335,7 +335,7 @@ function Invoke-WinUtilISOCheckExistingWork {
         return
     }
 
-    $existingWorkDir = Get-Item -Path (Join-Path $env:TEMP "WinUtil_Win11ISO*") -ErrorAction SilentlyContinue |
+    $existingWorkDir = Get-Item -Path (Join-Path $env:TEMP "ASYS_Win11ISO*") -ErrorAction SilentlyContinue |
         Where-Object { $_.PSIsContainer } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
     if (-not $existingWorkDir) { return }
@@ -357,7 +357,7 @@ function Invoke-WinUtilISOCheckExistingWork {
     Write-Win11ISOLog "Click 'Clean & Reset' if you want to start over with a new ISO."
 
     [System.Windows.MessageBox]::Show(
-        "A previous WinUtil ISO working directory was found:`n`n$($existingWorkDir.FullName)`n`n(Last modified: $modified)`n`nStep 4 (output options) has been restored so you can save the already-modified image.`n`nClick 'Clean & Reset' in Step 4 if you want to start over.",
+        "A previous A-SYS ISO working directory was found:`n`n$($existingWorkDir.FullName)`n`n(Last modified: $modified)`n`nStep 4 (output options) has been restored so you can save the already-modified image.`n`nClick 'Clean & Reset' in Step 4 if you want to start over.",
         "Existing Work Found", "OK", "Info")
 }
 
@@ -391,7 +391,7 @@ function Invoke-WinUtilISOCleanAndReset {
                 $sync["WPFWin11ISOStatusLog"].CaretIndex = $sync["WPFWin11ISOStatusLog"].Text.Length
                 $sync["WPFWin11ISOStatusLog"].ScrollToEnd()
             })
-            Add-Content -Path (Join-Path $workDir "WinUtil_Win11ISO.log") -Value "[$ts] $msg" -ErrorAction SilentlyContinue
+            Add-Content -Path (Join-Path $workDir "ASYS_Win11ISO.log") -Value "[$ts] $msg" -ErrorAction SilentlyContinue
         }
 
         function SetProgress($label, $pct) {

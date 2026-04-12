@@ -29,6 +29,10 @@ function Get-WinUtilSelectedPackages
     Write-Debug "Checking packages using Preference '$($Preference)'"
 
     foreach ($package in $PackageList) {
+        if ($package.winget -eq "na" -and $package.choco -eq "na") {
+            Write-Warning "[A-SYS / Advance Systems 4042] $($package.content) has no WinGet or Chocolatey package. Download or install from: $($package.link)"
+            continue
+        }
         switch ($Preference) {
             "Choco" {
                 if ($package.choco -eq "na") {

@@ -71,7 +71,7 @@ $sync.configs.applications.PSObject.Properties | ForEach-Object {
 Set-Preferences
 
 if ($PARAM_NOUI) {
-    Show-CTTLogo
+    Show-ASYSLogo
     if ($PARAM_CONFIG -and -not [string]::IsNullOrWhiteSpace($PARAM_CONFIG)) {
         Write-Host "Running config file tasks..."
         Invoke-WPFImpex -type "import" -Config $PARAM_CONFIG
@@ -245,7 +245,7 @@ Invoke-WPFRunspace -ScriptBlock {
 #===========================================================================
 
 # Print the logo
-Show-CTTLogo
+Show-ASYSLogo
 
 # Progress bar in taskbaritem > Set-WinUtilProgressbar
 $sync["Form"].TaskbarItemInfo = New-Object System.Windows.Shell.TaskbarItemInfo
@@ -320,7 +320,7 @@ $sync["Form"].Add_MouseDoubleClick({
 })
 
 $sync["Form"].Add_Deactivated({
-    Write-Debug "WinUtil lost focus"
+    Write-Debug "A-SYS lost focus"
     Invoke-WPFPopup -Action "Hide" -Popups @("Settings", "Theme", "FontScaling")
 })
 

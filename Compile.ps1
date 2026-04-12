@@ -3,12 +3,12 @@ param (
     [string]$Arguments
 )
 
-if ((Get-Item ".\winutil.ps1" -ErrorAction SilentlyContinue).IsReadOnly) {
-    Remove-Item ".\winutil.ps1" -Force
+if ((Get-Item ".\asys.ps1" -ErrorAction SilentlyContinue).IsReadOnly) {
+    Remove-Item ".\asys.ps1" -Force
 }
 
 $OFS = "`r`n"
-$scriptname = "winutil.ps1"
+$scriptname = "asys.ps1"
 $workingdir = $PSScriptRoot
 
 # Variable to sync between runspaces
@@ -129,11 +129,11 @@ Remove-Item "xaml\inputFeatures.xaml" -ErrorAction SilentlyContinue
 Set-Content -Path "$scriptname" -Value ($script_content -join "`r`n") -Encoding ascii
 Write-Progress -Activity "Compiling" -Completed
 
-Update-Progress -Activity "Validating" -StatusMessage "Checking winutil.ps1 Syntax" -Percent 0
+Update-Progress -Activity "Validating" -StatusMessage "Checking asys.ps1 Syntax" -Percent 0
 try {
-    Get-Command -Syntax .\winutil.ps1 | Out-Null
+    Get-Command -Syntax .\asys.ps1 | Out-Null
 } catch {
-    Write-Warning "Syntax Validation for 'winutil.ps1' has failed"
+    Write-Warning "Syntax Validation for 'asys.ps1' has failed"
     Write-Host "$($Error[0])" -ForegroundColor Red
     exit 1
 }
@@ -141,6 +141,6 @@ Write-Progress -Activity "Validating" -Completed
 
 if ($run) {
     Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-    .\Winutil.ps1 $Arguments
+    .\asys.ps1 $Arguments
     break
 }
