@@ -8,7 +8,7 @@ function Invoke-WPFtweaksbutton {
 
   if($sync.ProcessRunning) {
     $msg = "[Invoke-WPFtweaksbutton] Install process is currently running."
-    [System.Windows.MessageBox]::Show($msg, "A-SYS", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
+    [System.Windows.MessageBox]::Show($msg, "A-SYS_clark", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
     return
   }
 
@@ -22,7 +22,7 @@ function Invoke-WPFtweaksbutton {
 
   if ($tweaks.count -eq 0 -and $dnsProvider -eq "Default") {
     $msg = "Please check the tweaks you wish to perform."
-    [System.Windows.MessageBox]::Show($msg, "A-SYS", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
+    [System.Windows.MessageBox]::Show($msg, "A-SYS_clark", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Warning)
     return
   }
 

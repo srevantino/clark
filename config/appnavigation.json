@@ -74,11 +74,11 @@
         "Description": "Show the selected applications"
     },
     "WPFActivationScripts": {
-        "Content": "Activation scripts (online)",
+        "Content": "Activation Scripts (Local MAS Menu)",
         "Category": "____Actions",
         "Type": "Button",
         "Order": "6",
-        "Description": "Opens a new PowerShell window and runs: irm https://get.activated.win | iex"
+        "Description": "Opens the local Microsoft Activation Scripts (MAS) menu from Microsoft-Activation-Scripts-master"
     },
     "WPFToggleFOSSHighlight": {
         "Content": "Highlight FOSS",

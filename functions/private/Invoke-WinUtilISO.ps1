@@ -13,6 +13,145 @@ function Write-Win11ISOLog {
     })
 }
 
+function Get-WinUtilISODirectDownloadCatalog {
+    return @{
+        "Windows 11" = @("24H2", "23H2", "22H2")
+        "Windows 10" = @("22H2", "21H2")
+    }
+}
+
+function Set-WinUtilISODirectDownloadVersions {
+    if (-not $sync["WPFWinISODownloadProductComboBox"] -or -not $sync["WPFWinISODownloadVersionComboBox"]) {
+        return
+    }
+
+    $catalog = Get-WinUtilISODirectDownloadCatalog
+    $selectedProduct = [string]$sync["WPFWinISODownloadProductComboBox"].SelectedItem
+    if ([string]::IsNullOrWhiteSpace($selectedProduct)) {
+        $selectedProduct = "Windows 11"
+    }
+
+    $versions = @($catalog[$selectedProduct])
+    if (-not $versions -or $versions.Count -eq 0) {
+        $versions = @("Latest")
+    }
+
+    $sync["WPFWinISODownloadVersionComboBox"].Items.Clear()
+    foreach ($version in $versions) {
+        [void]$sync["WPFWinISODownloadVersionComboBox"].Items.Add($version)
+    }
+    $sync["WPFWinISODownloadVersionComboBox"].SelectedIndex = 0
+}
+
+function Get-WinUtilFidoScriptPath {
+    $toolsDir = Join-Path $sync.asysdir "tools"
+    if (-not (Test-Path $toolsDir)) {
+        New-Item -Path $toolsDir -ItemType Directory -Force | Out-Null
+    }
+
+    $fidoPath = Join-Path $toolsDir "Fido.ps1"
+    if (-not (Test-Path $fidoPath)) {
+        Write-Win11ISOLog "Downloading Fido helper script..."
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile $fidoPath -UseBasicParsing
+        Write-Win11ISOLog "Fido helper script downloaded."
+    }
+
+    return $fidoPath
+}
+
+function Get-WinUtilDirectISODownloadUrl {
+    param(
+        [Parameter(Mandatory)]
+        [string]$WindowsProduct,
+        [Parameter(Mandatory)]
+        [string]$WindowsRelease
+    )
+
+    $fidoPath = Get-WinUtilFidoScriptPath
+    $arguments = @(
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "`"$fidoPath`"",
+        "-Win", "`"$WindowsProduct`"",
+        "-Rel", "`"$WindowsRelease`"",
+        "-GetUrl"
+    )
+
+    $output = & powershell.exe @arguments 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        throw "Unable to get Microsoft ISO link for $WindowsProduct $WindowsRelease. Fido output: $($output -join ' ')"
+    }
+
+    $url = ($output | Where-Object { $_ -match '^https?://.*\.iso(\?.*)?$' } | Select-Object -Last 1)
+    if ([string]::IsNullOrWhiteSpace($url)) {
+        $url = ($output | Select-Object -Last 1)
+    }
+
+    if ([string]::IsNullOrWhiteSpace($url) -or $url -notmatch '^https?://') {
+        throw "No valid ISO URL was returned for $WindowsProduct $WindowsRelease."
+    }
+
+    return [string]$url
+}
+
+function Invoke-WinUtilISODirectDownload {
+    Add-Type -AssemblyName System.Windows.Forms
+
+    $windowsProduct = [string]$sync["WPFWinISODownloadProductComboBox"].SelectedItem
+    $windowsRelease = [string]$sync["WPFWinISODownloadVersionComboBox"].SelectedItem
+
+    if ([string]::IsNullOrWhiteSpace($windowsProduct)) {
+        $windowsProduct = "Windows 11"
+    }
+    if ([string]::IsNullOrWhiteSpace($windowsRelease)) {
+        $windowsRelease = "Latest"
+    }
+
+    $fileName = if ($windowsProduct -match "11") {
+        "Win11_$windowsRelease.iso"
+    } else {
+        "Win10_$windowsRelease.iso"
+    }
+
+    $dlg = [System.Windows.Forms.SaveFileDialog]::new()
+    $dlg.Title = "Save downloaded ISO"
+    $dlg.Filter = "ISO files (*.iso)|*.iso"
+    $dlg.FileName = $fileName
+    $dlg.InitialDirectory = [System.Environment]::GetFolderPath("Desktop")
+    if ($dlg.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK) {
+        return
+    }
+
+    $destination = $dlg.FileName
+    $sync["WPFWinISODownloadDirectButton"].IsEnabled = $false
+
+    Invoke-WPFRunspace -ParameterList @(("windowsProduct", $windowsProduct), ("windowsRelease", $windowsRelease), ("destination", $destination)) -ScriptBlock {
+        param($windowsProduct, $windowsRelease, $destination)
+        try {
+            $sync.ProcessRunning = $true
+            Write-Win11ISOLog "Resolving official ISO link for $windowsProduct $windowsRelease..."
+            Set-WinUtilProgressBar -Label "Resolving ISO URL..." -Percent 10
+
+            $url = Get-WinUtilDirectISODownloadUrl -WindowsProduct $windowsProduct -WindowsRelease $windowsRelease
+            Write-Win11ISOLog "Download URL resolved. Starting download to: $destination"
+            Set-WinUtilProgressBar -Label "Downloading ISO..." -Percent 40
+
+            Start-BitsTransfer -Source $url -Destination $destination -DisplayName "A-SYS_clark ISO Download" -Description "$windowsProduct $windowsRelease"
+
+            Set-WinUtilProgressBar -Label "Download complete" -Percent 100
+            Write-Win11ISOLog "ISO download completed: $destination"
+            [System.Windows.MessageBox]::Show("ISO download complete:`n`n$destination", "Download Complete", "OK", "Information") | Out-Null
+        } catch {
+            Write-Win11ISOLog "ERROR during direct ISO download: $_"
+            [System.Windows.MessageBox]::Show("Direct ISO download failed:`n`n$($_.Exception.Message)", "Download Error", "OK", "Error") | Out-Null
+        } finally {
+            $sync.ProcessRunning = $false
+            Set-WinUtilProgressBar -Label "" -Percent 0
+            Invoke-WPFUIThread -ScriptBlock { $sync["WPFWinISODownloadDirectButton"].IsEnabled = $true }
+        }
+    } | Out-Null
+}
+
 function Invoke-WinUtilISOBrowse {
     Add-Type -AssemblyName System.Windows.Forms
 
@@ -243,7 +382,7 @@ function Invoke-WinUtilISOModify {
             Mount-WindowsImage -ImagePath $localWim -Index $selectedWimIndex -Path $mountDir -ErrorAction Stop | Out-Null
             SetProgress "Modifying install.wim..." 45
 
-            Log "Applying A-SYS (Advance Systems 4042) modifications to install.wim..."
+            Log "Applying A-SYS_clark (Advance Systems 4042) modifications to install.wim..."
             Invoke-WinUtilISOScript -ScratchDir $mountDir -ISOContentsDir $isoContents -AutoUnattendXml $autounattendContent -InjectCurrentSystemDrivers $injectDrivers -Log { param($m) Log $m }
 
             SetProgress "Cleaning up component store (WinSxS)..." 56
@@ -362,7 +501,7 @@ function Invoke-WinUtilISOCheckExistingWork {
     Write-Win11ISOLog "Click 'Clean & Reset' if you want to start over with a new ISO."
 
     [System.Windows.MessageBox]::Show(
-        "A previous A-SYS ISO working directory was found:`n`n$($existingWorkDir.FullName)`n`n(Last modified: $modified)`n`nStep 4 (output options) has been restored so you can save the already-modified image.`n`nClick 'Clean & Reset' in Step 4 if you want to start over.",
+        "A previous A-SYS_clark ISO working directory was found:`n`n$($existingWorkDir.FullName)`n`n(Last modified: $modified)`n`nStep 4 (output options) has been restored so you can save the already-modified image.`n`nClick 'Clean & Reset' in Step 4 if you want to start over.",
         "Existing Work Found", "OK", "Info")
 }
 

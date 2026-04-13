@@ -70,6 +70,15 @@ $sync.configs.applications.PSObject.Properties | ForEach-Object {
 
 Set-Preferences
 
+if ($sync.preferences.activeprofile -and -not $PARAM_CONFIG) {
+    try {
+        Import-WinUtilProfile -Name $sync.preferences.activeprofile
+        Write-Host "Loaded active profile '$($sync.preferences.activeprofile)'"
+    } catch {
+        Write-Warning "Unable to load active profile '$($sync.preferences.activeprofile)': $($_.Exception.Message)"
+    }
+}
+
 if ($PARAM_NOUI) {
     Show-ASYSLogo
     if ($PARAM_CONFIG -and -not [string]::IsNullOrWhiteSpace($PARAM_CONFIG)) {
@@ -336,7 +345,7 @@ $sync["Form"].Add_StateChanged({
 })
 
 $sync["Form"].Add_Deactivated({
-    Write-Debug "A-SYS lost focus"
+    Write-Debug "A-SYS_clark lost focus"
     Invoke-WPFPopup -Action "Hide" -Popups @("Settings", "Theme", "FontScaling")
 })
 
@@ -398,6 +407,14 @@ $sync["Form"].Add_ContentRendered({
         Invoke-WPFTab "WPFTab1BT"  # Default to install tab
     }
 
+    if ($sync["WPFWinISODownloadProductComboBox"]) {
+        $sync["WPFWinISODownloadProductComboBox"].Items.Clear()
+        [void]$sync["WPFWinISODownloadProductComboBox"].Items.Add("Windows 11")
+        [void]$sync["WPFWinISODownloadProductComboBox"].Items.Add("Windows 10")
+        $sync["WPFWinISODownloadProductComboBox"].SelectedIndex = 0
+        Set-WinUtilISODirectDownloadVersions
+    }
+
     $sync["Form"].Focus()
 
    if ($PARAM_CONFIG -and -not [string]::IsNullOrWhiteSpace($PARAM_CONFIG)) {
@@ -449,7 +466,7 @@ $sync["Form"].Add_Loaded({
 
 $NavLogoPanel = $sync["Form"].FindName("NavLogoPanel")
 $navBrand = New-Object Windows.Controls.TextBlock
-$navBrand.Text = "A-SYS"
+$navBrand.Text = "A-SYS_clark"
 $navBrand.FontStyle = [Windows.FontStyles]::Italic
 $navBrand.VerticalAlignment = [Windows.VerticalAlignment]::Center
 $navBrand.SetResourceReference([Windows.Controls.Control]::FontSizeProperty, "HeaderFontSize")
@@ -587,6 +604,15 @@ $sync["WPFWin11ISODownloadLink"].Add_Click({
 $sync["WPFWin10ISODownloadLink"].Add_Click({
     Write-Debug "WPFWin10ISODownloadLink clicked"
     Start-Process "https://www.microsoft.com/software-download/windows10"
+})
+
+$sync["WPFWinISODownloadProductComboBox"].Add_SelectionChanged({
+    Set-WinUtilISODirectDownloadVersions
+})
+
+$sync["WPFWinISODownloadDirectButton"].Add_Click({
+    Write-Debug "WPFWinISODownloadDirectButton clicked"
+    Invoke-WinUtilISODirectDownload
 })
 
 $sync["WPFWin11ISOMountButton"].Add_Click({

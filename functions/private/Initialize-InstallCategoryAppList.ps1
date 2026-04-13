@@ -16,23 +16,6 @@ function Initialize-InstallCategoryAppList {
         $Apps
     )
 
-    # Shown after IT-focused categories when both groups exist (see $script:InstallUiLeisureCategories).
-    function Add-InstallSectionTitle {
-        param(
-            [Windows.Controls.ItemsControl]$ItemsCtl,
-            [string]$Title,
-            [double]$TopMargin = 0
-        )
-        $lab = New-Object Windows.Controls.Label
-        $lab.Content = $Title
-        $lab.Margin = New-Object Windows.Thickness(0, $TopMargin, 0, 6)
-        $lab.SetResourceReference([Windows.Controls.Control]::FontSizeProperty, "HeaderFontSize")
-        $lab.SetResourceReference([Windows.Controls.Control]::FontFamilyProperty, "HeaderFontFamily")
-        $lab.SetResourceReference([Windows.Controls.Control]::ForegroundProperty, "MainForegroundColor")
-        $lab.FontWeight = [Windows.FontWeights]::SemiBold
-        [void]$ItemsCtl.Items.Add($lab)
-    }
-
     function Add-InstallCategoryBlocks {
         param([hashtable]$AppsByCategory)
 
@@ -107,8 +90,8 @@ function Initialize-InstallCategoryAppList {
         }
     }
 
-    # Categories listed here appear under "Media, games & entertainment" when IT-focused categories also exist.
-    $installUiLeisureCategories = @('Media')
+    # Categories listed here appear under the "Others" section.
+    $installUiOtherCategories = @('Media')
 
     # Pre-group apps by category
     $appsByCategory = @{}
@@ -121,27 +104,28 @@ function Initialize-InstallCategoryAppList {
     }
 
     $essentialsByCategory = @{}
-    $leisureByCategory = @{}
+    $othersByCategory = @{}
     foreach ($cat in $appsByCategory.Keys) {
-        if ($installUiLeisureCategories -contains $cat) {
-            $leisureByCategory[$cat] = $appsByCategory[$cat]
+        if ($installUiOtherCategories -contains $cat) {
+            $othersByCategory[$cat] = $appsByCategory[$cat]
         } else {
             $essentialsByCategory[$cat] = $appsByCategory[$cat]
         }
     }
 
-    $hasEssentials = $essentialsByCategory.Count -gt 0
-    $hasLeisure = $leisureByCategory.Count -gt 0
+    $groupedCategories = @{}
 
-    if ($hasEssentials -and $hasLeisure) {
-        Add-InstallSectionTitle -ItemsCtl $TargetElement -Title "IT, browsers & productivity"
-        Add-InstallCategoryBlocks -AppsByCategory $essentialsByCategory
-        Add-InstallSectionTitle -ItemsCtl $TargetElement -Title "Media, games & entertainment" -TopMargin 20
-        Add-InstallCategoryBlocks -AppsByCategory $leisureByCategory
-    } elseif ($hasLeisure) {
-        Add-InstallSectionTitle -ItemsCtl $TargetElement -Title "Media, games & entertainment"
-        Add-InstallCategoryBlocks -AppsByCategory $leisureByCategory
-    } else {
-        Add-InstallCategoryBlocks -AppsByCategory $essentialsByCategory
+    if ($essentialsByCategory.Count -gt 0) {
+        $groupedCategories["Technical & Productivity"] = @(
+            $essentialsByCategory.Values | ForEach-Object { $_ } | Sort-Object
+        )
     }
+
+    if ($othersByCategory.Count -gt 0) {
+        $groupedCategories["Others"] = @(
+            $othersByCategory.Values | ForEach-Object { $_ } | Sort-Object
+        )
+    }
+
+    Add-InstallCategoryBlocks -AppsByCategory $groupedCategories
 }

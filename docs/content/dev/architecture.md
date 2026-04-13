@@ -660,10 +660,9 @@ Outputs `winutil.ps1` in the root directory.
 
 ## Related Documentation
 
-- [Contributing Guide](../../contributing/) - How to contribute code
 - [User Guide](../../userguide/) - End-user documentation
 - [Win ISO Creator Guide](../../userguide/win11creator/) - Building customized Windows 10 or Windows 11 ISOs
-- [FAQ](../../faq/) - Common questions
+- [README FAQ](https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#faq) - Common questions
 
 ## Additional Resources
 

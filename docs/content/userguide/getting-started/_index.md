@@ -211,7 +211,7 @@ Winutil offers several preset configurations:
 
 ### Script Won't Download
 
-If you get any errors when running Winutil please refer to [Known Issues](/knownissues/) page
+If you get any errors when running Winutil please refer to [README Known Issues](https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#known-issues).
 
 ## Next Steps
 
@@ -219,14 +219,14 @@ Now that you're set up, explore these guides:
 
 - [Applications Guide](../application/) - Learn about installing, upgrading, and uninstalling software
 - [Tweaks Guide](../tweaks/) - Understand system optimizations
-- [FAQ](/faq/) - Common questions and answers
+- [README FAQ](https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#faq) - Common questions and answers
 
 ## Getting Help
 
 If you need assistance:
 
 - **Documentation**: Browse this documentation site
-- **Known Issues**: Check the [Known Issues](/knownissues/) page
+- **Known Issues**: Check [README Known Issues](https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#known-issues)
 - **Discord**: Join the [community Discord server](https://discord.gg/RUbZUZyByQ)
 - **GitHub Issues**: Report bugs on [GitHub](https://github.com/ChrisTitusTech/winutil/issues)
 - **YouTube**: Watch [video tutorials](https://www.youtube.com/watch?v=6UQZ5oQg8XA)

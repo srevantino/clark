@@ -1,6 +1,6 @@
 baseURL = "/"
 languageCode = "en-us"
-title = "A-SYS Documentation (Advance Systems 4042)"
+title = "A-SYS_clark Documentation (Advance Systems 4042)"
 enableGitInfo = true
 canonifyURLs = true
 
@@ -23,17 +23,10 @@ name = "Developer Documentation"
 weight = 2
 
 [[menu.main]]
-identifier = "contribution-guides"
-name = "Contribution Guides"
-pageRef = "CONTRIBUTING.md"
-weight = 1
-parent = "documentation"
-
-[[menu.main]]
 identifier = "developer-documentation"
 name = "Developer Docs"
 pageRef = "/dev"
-weight = 2
+weight = 1
 parent = "documentation"
 
 [[menu.main]]
@@ -44,14 +37,14 @@ weight = 3
 [[menu.main]]
 identifier = "faq"
 name = "FAQ"
-pageRef = "faq.md"
+url = "https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#faq"
 weight = 1
 parent = "help"
 
 [[menu.main]]
 identifier = "known-issues"
 name = "Known Issues"
-pageRef = "KnownIssues.md"
+url = "https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#known-issues"
 weight = 2
 parent = "help"
 
@@ -70,26 +63,19 @@ weight = 6
 [[menu.main]]
 name = "GitHub"
 weight = 7
-url = "https://github.com/AdvanceSystems4042/A-SYS"
+url = "https://github.com/AdvanceSystems4042/A-SYS_clark"
 
   [menu.main.params]
   icon = "github"
 
 [params]
-description = "A-SYS by Advance Systems 4042 — installs, tweaks, fixes, and updates for Windows (fork of WinUtil)."
+description = "A-SYS_clark by Advance Systems 4042 — installs, tweaks, fixes, and updates for Windows (fork of WinUtil)."
 displayUpdatedDate = true
 dateFormat = "January 2, 2006"
 
   [params.navbar]
   displayTitle = false
-  displayLogo = true
-
-    [params.navbar.logo]
-    path = "navlogo.png"
-    dark = "navlogo.png"
-    link = "/"
-    width = 150
-    height = 50
+  displayLogo = false
 
   [params.theme]
   default = "system"
@@ -118,7 +104,7 @@ display = "hover"
 
   [[menu.sidebar]]
   name = "Github Repo ↗"
-  url = "https://github.com/AdvanceSystems4042/A-SYS"
+  url = "https://github.com/AdvanceSystems4042/A-SYS_clark"
   weight = 2
 
   [[menu.sidebar]]

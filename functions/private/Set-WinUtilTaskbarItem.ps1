@@ -21,7 +21,7 @@ function Set-WinUtilTaskbaritem {
 
     .PARAMETER overlay
         Overlay icon to display on the taskbar item, there are the presets 'None', 'logo' and 'checkmark' or you can specify a path/link to an image file.
-        A-SYS logo preset:
+        A-SYS_clark logo preset:
         - Set-WinUtilTaskbaritem -overlay "logo"
         Checkmark preset:
         - Set-WinUtilTaskbaritem -overlay "checkmark"

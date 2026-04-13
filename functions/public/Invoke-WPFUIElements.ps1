@@ -1,7 +1,7 @@
 function Invoke-WPFUIElements {
     <#
     .SYNOPSIS
-        Adds UI elements to a specified Grid in the A-SYS GUI based on a JSON configuration.
+        Adds UI elements to a specified Grid in the A-SYS_clark GUI based on a JSON configuration.
     .PARAMETER configVariable
         The variable/link containing the JSON configuration.
     .PARAMETER targetGridName

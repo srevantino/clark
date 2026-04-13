@@ -318,5 +318,77 @@
     "ButtonWidth": "300",
     "function": "Invoke-WPFSSHServer",
     "link": "https://winutil.christitus.com/dev/features/remote-access/sshserver"
+  },
+  "WPFAutoReapplyEnable": {
+    "Content": "Enable Auto Reapply at Startup",
+    "Description": "Creates scheduled tasks that rerun the selected profile on logon and startup.",
+    "category": "Windows",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFAutoReapplyEnable"
+  },
+  "WPFAutoReapplyDisable": {
+    "Content": "Disable Auto Reapply Tasks",
+    "Description": "Removes scheduled tasks created for automatic reapply.",
+    "category": "Windows",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFAutoReapplyDisable"
+  },
+  "WPFProfileSave": {
+    "Content": "Save Current Selection as Profile",
+    "Description": "Saves selected apps, tweaks, toggles, and features as a named profile.",
+    "category": "Windows",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFProfileSave"
+  },
+  "WPFProfileLoad": {
+    "Content": "Load Profile",
+    "Description": "Loads a named profile into current selections.",
+    "category": "Windows",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFProfileLoad"
+  },
+  "WPFProfileDelete": {
+    "Content": "Delete Profile",
+    "Description": "Deletes a named saved profile.",
+    "category": "Windows",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFProfileDelete"
+  },
+  "WPFActivationScriptsMenu": {
+    "Content": "Open MAS Activation Menu",
+    "Description": "Launches local Microsoft Activation Scripts AIO menu from Microsoft-Activation-Scripts-master.",
+    "category": "Activation",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFActivationScriptsMenu"
+  },
+  "WPFCheckActivationStatus": {
+    "Content": "Check Windows & Office Activation (MAS)",
+    "Description": "Runs local MAS activation status script for both Windows and Office.",
+    "category": "Activation",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFActivationStatus"
+  },
+  "WPFRollbackLastTweak": {
+    "Content": "Rollback Last Tweak Snapshot",
+    "Description": "Restores the most recent captured tweak state from rollback journal.",
+    "category": "Windows",
+    "panel": "1",
+    "Type": "Button",
+    "ButtonWidth": "300",
+    "function": "Invoke-WPFRollbackLastTweak"
   }
 }

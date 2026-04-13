@@ -1,9 +1,9 @@
 function Show-ASYSLogo {
     <#
     .SYNOPSIS
-        Displays the A-SYS ASCII logo.
+        Displays the A-SYS_clark ASCII logo.
     .DESCRIPTION
-        Prints the A-SYS banner and product name to the console.
+        Prints the A-SYS_clark banner and product name to the console.
     .EXAMPLE
         Show-ASYSLogo
     #>
@@ -16,7 +16,7 @@ function Show-ASYSLogo {
 /_/  |_|            /____/  /_//____/
 
 
-====A-SYS=====
+====A-SYS_clark=====
 =====Advance Systems 4042=====
 "@
 

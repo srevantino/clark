@@ -12,7 +12,7 @@
         Height="Auto"
         MinWidth="800"
         MinHeight="600"
-        Title="A-SYS">
+        Title="A-SYS_clark">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" CornerRadius="10"/>
     </WindowChrome.WindowChrome>
@@ -1056,7 +1056,7 @@
                     Margin="0,0,2,0"
                     FontFamily="Segoe MDL2 Assets"
                     Content="N/A"
-                    ToolTip="Change the A-SYS UI theme (Advance Systems 4042)"
+                    ToolTip="Change the A-SYS_clark UI theme (Advance Systems 4042)"
                 />
                     <Popup Name="ThemePopup"
                     IsOpen="False"
@@ -1495,6 +1495,38 @@
                                                 Width="Auto" Padding="12,0" Margin="8,0,0,0"
                                                 Height="{DynamicResource ButtonHeight}"/>
                                         </StackPanel>
+                                        <Separator Margin="0,12,0,10"/>
+                                        <TextBlock FontSize="{DynamicResource FontSize}" FontWeight="Bold"
+                                                   Foreground="{DynamicResource MainForegroundColor}" Margin="0,0,0,8">
+                                            Direct ISO download by version
+                                        </TextBlock>
+                                        <TextBlock FontSize="{DynamicResource FontSize}"
+                                                   Foreground="{DynamicResource MainForegroundColor}"
+                                                   TextWrapping="Wrap" Margin="0,0,0,8">
+                                            Choose Windows version and release, then A-SYS_clark will fetch an official Microsoft ISO link and download it directly.
+                                        </TextBlock>
+                                        <Grid Margin="0,0,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ComboBox Name="WPFWinISODownloadProductComboBox"
+                                                      Grid.Column="0"
+                                                      Foreground="{DynamicResource MainForegroundColor}"
+                                                      Background="{DynamicResource MainBackgroundColor}"
+                                                      ToolTip="Windows product"/>
+                                            <ComboBox Name="WPFWinISODownloadVersionComboBox"
+                                                      Grid.Column="2"
+                                                      Foreground="{DynamicResource MainForegroundColor}"
+                                                      Background="{DynamicResource MainBackgroundColor}"
+                                                      ToolTip="Windows release version"/>
+                                        </Grid>
+                                        <Button Name="WPFWinISODownloadDirectButton"
+                                                Content="Download Selected ISO Version"
+                                                HorizontalAlignment="Left"
+                                                Width="Auto" Padding="12,0"
+                                                Height="{DynamicResource ButtonHeight}"/>
                                     </StackPanel>
                                 </Border>
                             </Grid>

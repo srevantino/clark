@@ -2,7 +2,7 @@ function Invoke-WPFUIThread {
     <#
 
     .SYNOPSIS
-        Creates and runs a task on the A-SYS WPF UI thread.
+        Creates and runs a task on the A-SYS_clark WPF UI thread.
 
     .PARAMETER ScriptBlock
         The scriptblock to invoke in the thread

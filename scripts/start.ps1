@@ -1,6 +1,6 @@
 <#
 .NOTES
-    Product        : A-SYS
+    Product        : A-SYS_clark
     Organization   : Advance Systems 4042 (developed & managed)
     Version        : #{replaceme}
 #>
@@ -34,7 +34,7 @@ if ($Offline) {
 
 
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Output "A-SYS needs to be run as Administrator. Attempting to relaunch."
+    Write-Output "A-SYS_clark needs to be run as Administrator. Attempting to relaunch."
     $argList = @()
 
     $PSBoundParameters.GetEnumerator() | ForEach-Object {
@@ -90,14 +90,23 @@ $sync.selectedAppsPopup
 
 $dateTime = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 
-# App data and logs (A-SYS / Advance Systems 4042)
+# App data and logs (A-SYS_clark / Advance Systems 4042)
 $asysdir = "$env:LocalAppData\asys"
 New-Item $asysdir -ItemType Directory -Force | Out-Null
+$sync.asysdir = $asysdir
+
+$profilesDir = "$asysdir\profiles"
+New-Item $profilesDir -ItemType Directory -Force | Out-Null
+$sync.profilesDir = $profilesDir
+
+$rollbackDir = "$asysdir\rollback"
+New-Item $rollbackDir -ItemType Directory -Force | Out-Null
+$sync.rollbackDir = $rollbackDir
 
 $logdir = "$asysdir\logs"
 New-Item $logdir -ItemType Directory -Force | Out-Null
 Start-Transcript -Path "$logdir\asys_$dateTime.log" -Append -NoClobber | Out-Null
 
 # Set PowerShell window title
-$Host.UI.RawUI.WindowTitle = "A-SYS (Admin) - Advance Systems 4042"
+$Host.UI.RawUI.WindowTitle = "A-SYS_clark (Admin) - Advance Systems 4042"
 clear-host

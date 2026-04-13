@@ -127,8 +127,8 @@ Before using Winutil:
 Need help?
 
 - **📖 Documentation**: You're reading it! Use the navigation menu
-- **❓ FAQ**: Check [Frequently Asked Questions](../faq/)
-- **🐛 Known Issues**: Review [Known Issues](../knownissues/)
+- **❓ FAQ**: Check the [README FAQ](https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#faq)
+- **🐛 Known Issues**: Review [README Known Issues](https://github.com/AdvanceSystems4042/A-SYS_clark/blob/main/README.md#known-issues)
 - **💬 Discord**: Join the [community Discord](https://discord.gg/RUbZUZyByQ)
 - **🐙 GitHub**: Report bugs on [GitHub Issues](https://github.com/ChrisTitusTech/winutil/issues)
 - **📺 YouTube**: Watch [video tutorials](https://www.youtube.com/watch?v=6UQZ5oQg8XA)
@@ -143,7 +143,7 @@ Want to help improve Winutil?
 - **Improve Docs**: Help expand this documentation
 - **Share Knowledge**: Help others in Discord
 
-**[Read Contributing Guide →](../contributing/)**
+**Contributions are currently handled via repository discussions and issues.**
 
 ## Video Tutorial
 

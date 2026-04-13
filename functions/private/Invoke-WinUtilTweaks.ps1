@@ -22,6 +22,45 @@ function Invoke-WinUtilTweaks {
     )
 
     Write-Debug "Tweaks: $($CheckBox)"
+    $executedAction = $false
+    $tweakConfig = $sync.configs.tweaks.$CheckBox
+
+    # Skip Windows 11-only tweaks on Windows 10 hosts.
+    # This keeps imports/autoruns usable across both OS generations.
+    if (-not $sync.ContainsKey("OSBuildNumber")) {
+        $buildNumber = [System.Environment]::OSVersion.Version.Build
+        try {
+            $regBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "CurrentBuildNumber" -ErrorAction Stop).CurrentBuildNumber
+            if ($regBuild -match '^\d+$') {
+                $buildNumber = [int]$regBuild
+            }
+        } catch {
+            Write-Debug "Falling back to Environment OS build: $buildNumber"
+        }
+        $sync.OSBuildNumber = $buildNumber
+    }
+
+    $isWindows11OnlyTweak = $false
+    if ($tweakConfig -and $tweakConfig.PSObject.Properties.Name -contains "Description") {
+        $descriptionText = [string]$tweakConfig.Description
+        if (
+            $descriptionText -match '\[Windows\s*11\]' -or
+            $descriptionText -match 'Windows 11\s+\d{2}H\d+\s+and later' -or
+            $descriptionText -match 'Windows 11\s+only'
+        ) {
+            $isWindows11OnlyTweak = $true
+        }
+    }
+
+    if ($isWindows11OnlyTweak -and [int]$sync.OSBuildNumber -lt 22000) {
+        Write-Warning "Skipping $CheckBox because it requires Windows 11. Current OS build: $($sync.OSBuildNumber)."
+        return
+    }
+
+    if (-not $undo) {
+        Save-WinUtilRollbackSnapshot -CheckBox $CheckBox
+    }
+
     if($undo) {
         $Values = @{
             Registry = "OriginalValue"
@@ -40,12 +79,14 @@ function Invoke-WinUtilTweaks {
         }
     }
     if($sync.configs.tweaks.$CheckBox.ScheduledTask) {
+        $executedAction = $true
         $sync.configs.tweaks.$CheckBox.ScheduledTask | ForEach-Object {
             Write-Debug "$($psitem.Name) and state is $($psitem.$($values.ScheduledTask))"
             Set-WinUtilScheduledTask -Name $psitem.Name -State $psitem.$($values.ScheduledTask)
         }
     }
     if($sync.configs.tweaks.$CheckBox.service) {
+        $executedAction = $true
         Write-Debug "KeepServiceStartup is $KeepServiceStartup"
         $sync.configs.tweaks.$CheckBox.service | ForEach-Object {
             $changeservice = $true
@@ -71,6 +112,7 @@ function Invoke-WinUtilTweaks {
         }
     }
     if($sync.configs.tweaks.$CheckBox.registry) {
+        $executedAction = $true
         $sync.configs.tweaks.$CheckBox.registry | ForEach-Object {
             Write-Debug "$($psitem.Name) and state is $($psitem.$($values.registry))"
             if (($psitem.Path -imatch "hku") -and !(Get-PSDrive -Name HKU -ErrorAction SilentlyContinue)) {
@@ -85,6 +127,7 @@ function Invoke-WinUtilTweaks {
         }
     }
     if($sync.configs.tweaks.$CheckBox.$($values.ScriptType)) {
+        $executedAction = $true
         $sync.configs.tweaks.$CheckBox.$($values.ScriptType) | ForEach-Object {
             Write-Debug "$($psitem) and state is $($psitem.$($values.ScriptType))"
             $Scriptblock = [scriptblock]::Create($psitem)
@@ -100,5 +143,9 @@ function Invoke-WinUtilTweaks {
             }
         }
 
+    }
+
+    if ($undo -and -not $executedAction) {
+        Invoke-WinUtilRollbackLatest -CheckBox $CheckBox | Out-Null
     }
 }

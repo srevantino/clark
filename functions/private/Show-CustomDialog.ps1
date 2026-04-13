@@ -46,7 +46,7 @@ function Show-CustomDialog {
     The Color used when creating the Drop-down Shadow effect for dialog window.
 
     .PARAMETER LogoColor
-    The color of the A-SYS title text next to the logo inside the dialog window.
+    The color of the A-SYS_clark title text next to the logo inside the dialog window.
 
     .PARAMETER LinkForegroundColor
     The Foreground Color for Links inside dialog window.
@@ -186,7 +186,7 @@ function Show-CustomDialog {
 
     # Header title
     $winutilTextBlock = New-Object Windows.Controls.TextBlock
-    $winutilTextBlock.Text = "A-SYS"
+    $winutilTextBlock.Text = "A-SYS_clark"
     $winutilTextBlock.FontSize = $HeaderFontSize
     $winutilTextBlock.FontStyle = if ($ItalicBrandTitle) { [Windows.FontStyles]::Italic } else { [Windows.FontStyles]::Normal }
     $winutilTextBlock.Foreground = $LogoColor
