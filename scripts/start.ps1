@@ -12,11 +12,6 @@ param (
     [switch]$Offline
 )
 
-if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm 'https://myutil.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac' | iex`""
-    exit
-}
-
 if ($Config) {
     $PARAM_CONFIG = $Config
 }
@@ -52,10 +47,13 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
         }
     }
 
-    $script = if ($PSCommandPath) {
-        "& { & `'$($PSCommandPath)`' $($argList -join ' ') }"
+    # Prefer local script path so dev/testing works; optional remote fallback when path is unknown (e.g. pasted into console).
+    $localScriptPath = if ($PSCommandPath) { $PSCommandPath } elseif ($MyInvocation.MyCommand.Path) { $MyInvocation.MyCommand.Path } else { $null }
+    $deployUrl = if ($env:ASYS_DEPLOY_URL) { $env:ASYS_DEPLOY_URL } else { 'https://myutil.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac' }
+    $script = if ($localScriptPath) {
+        "& { & `'$($localScriptPath)`' $($argList -join ' ') }"
     } else {
-        "&([ScriptBlock]::Create((irm 'https://myutil.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac'))) $($argList -join ' ')"
+        "irm '$deployUrl' | iex"
     }
 
     $powershellCmd = if (Get-Command pwsh -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
@@ -67,7 +65,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
         Start-Process $processCmd -ArgumentList "-ExecutionPolicy Bypass -NoProfile -Command `"$script`"" -Verb RunAs
     }
 
-    break
+    exit
 }
 
 # Load DLLs
@@ -101,5 +99,5 @@ New-Item $logdir -ItemType Directory -Force | Out-Null
 Start-Transcript -Path "$logdir\asys_$dateTime.log" -Append -NoClobber | Out-Null
 
 # Set PowerShell window title
-$Host.UI.RawUI.WindowTitle = "A-SYS (Admin) — Advance Systems 4042"
+$Host.UI.RawUI.WindowTitle = "A-SYS (Admin) - Advance Systems 4042"
 clear-host

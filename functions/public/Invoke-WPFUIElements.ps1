@@ -368,9 +368,16 @@ function Invoke-WPFUIElements {
                             $textBlock = New-Object Windows.Controls.TextBlock
                             $textBlock.Name = $checkBox.Name + "Link"
                             $textBlock.Text = "(?)"
-                            $textBlock.ToolTip = $entryInfo.Link
+                            $textBlock.ToolTip = if ($entryInfo.Description) { $entryInfo.Description } else { $entryInfo.Link }
                             $textBlock.Style = $HoverTextBlockStyle
                             $textBlock.UseLayoutRounding = $true
+                            $textBlock.SetResourceReference([Windows.Controls.Control]::FontSizeProperty, "HeaderFontSize")
+                            $textBlock.Margin = New-Object Windows.Thickness(6, 0, 0, 0)
+                            $textBlock.Tag = [PSCustomObject]@{
+                                ItemTitle   = $entryInfo.Content
+                                Description = $entryInfo.Description
+                                Link        = $entryInfo.Link
+                            }
 
                             $horizontalStackPanel.Children.Add($textBlock) | Out-Null
 

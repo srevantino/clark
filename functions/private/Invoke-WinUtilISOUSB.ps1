@@ -217,7 +217,7 @@ function Invoke-WinUtilISOWriteUSB {
                 throw "Insufficient free space on USB partition. Required: $contentSizeGB GB, available: $partitionFreeGB GB."
             }
 
-            SetProgress "Copying Windows 11 files to USB..." 45
+            SetProgress "Copying Windows setup files to USB..." 45
 
             # Copy files; split install.wim if > 4 GB (FAT32 limit)
             $installWim = Join-Path $contentsDir "sources\install.wim"
@@ -245,7 +245,7 @@ function Invoke-WinUtilISOWriteUSB {
 
             $sync["WPFWin11ISOStatusLog"].Dispatcher.Invoke([action]{
                 [System.Windows.MessageBox]::Show(
-                    "USB drive created successfully!`n`nYou can now boot from this drive to install Windows 11.",
+                    "USB drive created successfully!`n`nYou can now boot from this drive to install Windows.",
                     "USB Ready", "OK", "Info")
             })
         } catch {

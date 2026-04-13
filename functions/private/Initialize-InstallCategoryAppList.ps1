@@ -11,21 +11,32 @@ function Initialize-InstallCategoryAppList {
             The Categories are also extracted from the Apps Hashtable
 
     #>
-        param(
-            $TargetElement,
-            $Apps
-        )
+    param(
+        $TargetElement,
+        $Apps
+    )
 
-        # Pre-group apps by category
-        $appsByCategory = @{}
-        foreach ($appKey in $Apps.Keys) {
-            $category = $Apps.$appKey.Category
-            if (-not $appsByCategory.ContainsKey($category)) {
-                $appsByCategory[$category] = @()
-            }
-            $appsByCategory[$category] += $appKey
-        }
-        foreach ($category in $($appsByCategory.Keys | Sort-Object)) {
+    # Shown after IT-focused categories when both groups exist (see $script:InstallUiLeisureCategories).
+    function Add-InstallSectionTitle {
+        param(
+            [Windows.Controls.ItemsControl]$ItemsCtl,
+            [string]$Title,
+            [double]$TopMargin = 0
+        )
+        $lab = New-Object Windows.Controls.Label
+        $lab.Content = $Title
+        $lab.Margin = New-Object Windows.Thickness(0, $TopMargin, 0, 6)
+        $lab.SetResourceReference([Windows.Controls.Control]::FontSizeProperty, "HeaderFontSize")
+        $lab.SetResourceReference([Windows.Controls.Control]::FontFamilyProperty, "HeaderFontFamily")
+        $lab.SetResourceReference([Windows.Controls.Control]::ForegroundProperty, "MainForegroundColor")
+        $lab.FontWeight = [Windows.FontWeights]::SemiBold
+        [void]$ItemsCtl.Items.Add($lab)
+    }
+
+    function Add-InstallCategoryBlocks {
+        param([hashtable]$AppsByCategory)
+
+        foreach ($category in ($AppsByCategory.Keys | Sort-Object)) {
             # Create a container for category label + apps
             $categoryContainer = New-Object Windows.Controls.StackPanel
             $categoryContainer.Orientation = "Vertical"
@@ -90,8 +101,47 @@ function Initialize-InstallCategoryAppList {
             $null = $TargetElement.Items.Add($categoryContainer)
 
             # Add apps to the wrap panel
-            $appsByCategory[$category] | Sort-Object | ForEach-Object {
+            $AppsByCategory[$category] | Sort-Object | ForEach-Object {
                 $sync.$_ = $(Initialize-InstallAppEntry -TargetElement $wrapPanel -AppKey $_)
             }
         }
     }
+
+    # Categories listed here appear under "Media, games & entertainment" when IT-focused categories also exist.
+    $installUiLeisureCategories = @('Media')
+
+    # Pre-group apps by category
+    $appsByCategory = @{}
+    foreach ($appKey in $Apps.Keys) {
+        $category = $Apps.$appKey.Category
+        if (-not $appsByCategory.ContainsKey($category)) {
+            $appsByCategory[$category] = @()
+        }
+        $appsByCategory[$category] += $appKey
+    }
+
+    $essentialsByCategory = @{}
+    $leisureByCategory = @{}
+    foreach ($cat in $appsByCategory.Keys) {
+        if ($installUiLeisureCategories -contains $cat) {
+            $leisureByCategory[$cat] = $appsByCategory[$cat]
+        } else {
+            $essentialsByCategory[$cat] = $appsByCategory[$cat]
+        }
+    }
+
+    $hasEssentials = $essentialsByCategory.Count -gt 0
+    $hasLeisure = $leisureByCategory.Count -gt 0
+
+    if ($hasEssentials -and $hasLeisure) {
+        Add-InstallSectionTitle -ItemsCtl $TargetElement -Title "IT, browsers & productivity"
+        Add-InstallCategoryBlocks -AppsByCategory $essentialsByCategory
+        Add-InstallSectionTitle -ItemsCtl $TargetElement -Title "Media, games & entertainment" -TopMargin 20
+        Add-InstallCategoryBlocks -AppsByCategory $leisureByCategory
+    } elseif ($hasLeisure) {
+        Add-InstallSectionTitle -ItemsCtl $TargetElement -Title "Media, games & entertainment"
+        Add-InstallCategoryBlocks -AppsByCategory $leisureByCategory
+    } else {
+        Add-InstallCategoryBlocks -AppsByCategory $essentialsByCategory
+    }
+}

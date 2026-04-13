@@ -1,13 +1,13 @@
 function Invoke-WinUtilISOScript {
     <#
     .SYNOPSIS
-        Applies WinUtil modifications to a mounted Windows 11 install.wim image.
+        Applies WinUtil modifications to a mounted Windows 10 or Windows 11 install.wim image.
 
     .DESCRIPTION
         Removes AppX bloatware and OneDrive, optionally injects all drivers exported from
         the running system into install.wim and boot.wim (controlled by the
         -InjectCurrentSystemDrivers switch), applies offline registry tweaks (hardware
-        bypass, privacy, OOBE, telemetry, update suppression), deletes CEIP/WU
+        bypass where applicable, privacy, OOBE, telemetry, update suppression), deletes CEIP/WU
         scheduled-task definition files, and optionally writes autounattend.xml to the ISO
         root and removes the support\ folder from the ISO contents directory.
 
@@ -157,7 +157,7 @@ function Invoke-WinUtilISOScript {
                     & $Log "Injecting current system drivers into boot.wim..."
                     Invoke-BootWimInject -BootWimPath $bootWim -DriverDir $driverExportRoot -Logger $Log
                 } else {
-                    & $Log "Warning: boot.wim not found — skipping boot.wim driver injection."
+                    & $Log "Warning: boot.wim not found - skipping boot.wim driver injection."
                 }
             }
         } catch {
@@ -249,7 +249,7 @@ function Invoke-WinUtilISOScript {
                     & $Log "Pre-staged setup script: $relPath"
                 }
             } else {
-                & $Log "Warning: no <Extensions><File> nodes found in autounattend.xml — setup scripts not pre-staged."
+                & $Log "Warning: no <Extensions><File> nodes found in autounattend.xml - setup scripts not pre-staged."
             }
         } catch {
             & $Log "Warning: could not pre-stage setup scripts from autounattend.xml: $_"
@@ -261,7 +261,7 @@ function Invoke-WinUtilISOScript {
             & $Log "Written autounattend.xml to ISO root ($isoDest)."
         }
     } else {
-        & $Log "Warning: autounattend.xml content is empty — skipping OOBE bypass file."
+        & $Log "Warning: autounattend.xml content is empty - skipping OOBE bypass file."
     }
 
     & $Log "Disabling reserved storage..."

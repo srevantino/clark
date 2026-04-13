@@ -9,7 +9,7 @@
         "foss": true
     },
     "adobe": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "adobereader",
         "content": "Adobe Acrobat Reader",
         "description": "Adobe Acrobat Reader is a free PDF viewer with essential features for viewing, printing, and annotating PDF documents.",
@@ -17,7 +17,7 @@
         "winget": "Adobe.Acrobat.Reader.64-bit"
     },
     "advancedip": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "advanced-ip-scanner",
         "content": "Advanced IP Scanner",
         "description": "Advanced IP Scanner is a fast and easy-to-use network scanner. It is designed to analyze LAN networks and provides information about connected devices.",
@@ -34,7 +34,7 @@
         "foss": true
     },
     "anaconda3": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "anaconda3",
         "content": "Anaconda",
         "description": "Anaconda is a distribution of the Python and R programming languages for scientific computing.",
@@ -42,7 +42,7 @@
         "winget": "Anaconda.Anaconda3"
     },
     "angryipscanner": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "angryip",
         "content": "Angry IP Scanner",
         "description": "Angry IP Scanner is an open-source and cross-platform network scanner. It is used to scan IP addresses and ports, providing information about network connectivity.",
@@ -59,7 +59,7 @@
         "winget": "AnyDesk.AnyDesk"
     },
     "autoruns": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "autoruns",
         "content": "Autoruns",
         "description": "This utility shows you what programs are configured to run during system bootup or login.",
@@ -67,7 +67,7 @@
         "winget": "Microsoft.Sysinternals.Autoruns"
     },
     "rdcman": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "rdcman",
         "content": "RDCMan",
         "description": "RDCMan manages multiple remote desktop connections. It is useful for managing server labs where you need regular access to each machine such as automated checkin systems and data centers.",
@@ -84,7 +84,7 @@
         "foss": true
     },
     "beeper": {
-        "category": "Communications",
+        "category": "Productivity",
         "choco": "na",
         "content": "Beeper",
         "description": "All your chats in one app.",
@@ -101,7 +101,7 @@
         "foss": true
     },
     "blender": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "blender",
         "content": "Blender (3D Graphics)",
         "description": "Blender is a powerful open-source 3D creation suite, offering modeling, sculpting, animation, and rendering tools.",
@@ -110,7 +110,7 @@
         "foss": true
     },
     "brave": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "brave",
         "content": "Brave",
         "description": "Brave is a privacy-focused web browser that blocks ads and trackers, offering a faster and safer browsing experience.",
@@ -153,7 +153,7 @@
         "foss": true
     },
     "chrome": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "googlechrome",
         "content": "Chrome",
         "description": "Google Chrome is a widely used web browser known for its speed, simplicity, and seamless integration with Google services.",
@@ -161,7 +161,7 @@
         "winget": "Google.Chrome"
     },
     "chromium": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "chromium",
         "content": "Chromium",
         "description": "Chromium is the open-source project that serves as the foundation for various web browsers, including Chrome.",
@@ -196,7 +196,7 @@
         "foss": true
     },
     "diskgenius": {
-        "category": "Disk & backup",
+        "category": "Utilities",
         "choco": "na",
         "content": "DiskGenius",
         "description": "Disk partition manager, backup, and data recovery for Windows. Supports partition operations, disk cloning, and file recovery.",
@@ -204,7 +204,7 @@
         "winget": "Eassos.DiskGenius"
     },
     "cursor": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "cursoride",
         "content": "Cursor",
         "description": "AI-powered code editor (VS Code-based) with agentic coding features and integrated AI assistance for development workflows.",
@@ -238,7 +238,7 @@
         "winget": "DevToys-app.DevToys"
     },
     "discord": {
-        "category": "Communications",
+        "category": "Productivity",
         "choco": "discord",
         "content": "Discord",
         "description": "Discord is a popular communication platform with voice, video, and text chat, designed for gamers but used by a wide range of communities.",
@@ -246,7 +246,7 @@
         "winget": "Discord.Discord"
     },
     "ntlite": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "ntlite-free",
         "content": "NTLite",
         "description": "Integrate updates, drivers, automate Windows and application setup, speedup Windows deployment process and have it all set for the next time.",
@@ -254,7 +254,7 @@
         "winget": "Nlitesoft.NTLite"
     },
     "dockerdesktop": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "docker-desktop",
         "content": "Docker Desktop",
         "description": "Docker Desktop is a powerful tool for containerized application development and deployment.",
@@ -262,7 +262,7 @@
         "winget": "Docker.DockerDesktop"
     },
     "dotnet5": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "dotnet-5.0-runtime",
         "content": ".NET Desktop Runtime 5",
         "description": ".NET Desktop Runtime 5 is a runtime environment required for running applications developed with .NET 5.",
@@ -270,7 +270,7 @@
         "winget": "Microsoft.DotNet.DesktopRuntime.5"
     },
     "dotnet10": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "dotnet-10.0-runtime",
         "content": ".NET Desktop Runtime 10",
         "description": ".NET Desktop Runtime 10 is a runtime environment required for running applications developed with .NET 10.",
@@ -286,7 +286,7 @@
         "winget": "sordum.EasyContextMenu"
     },
     "edge": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "microsoft-edge",
         "content": "Edge",
         "description": "Microsoft Edge is a modern web browser built on Chromium, offering performance, security, and integration with Microsoft services.",
@@ -294,7 +294,7 @@
         "winget": "Microsoft.Edge"
     },
     "efibooteditor": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "na",
         "content": "EFI Boot Editor",
         "description": "EFI Boot Editor is a tool for managing the EFI/UEFI boot entries on your system. It allows you to customize the boot configuration of your computer.",
@@ -302,7 +302,7 @@
         "winget": "EFIBootEditor.EFIBootEditor"
     },
     "emulationstation": {
-        "category": "Games",
+        "category": "Media",
         "choco": "emulationstation",
         "content": "Emulation Station",
         "description": "Emulation Station is a graphical and themeable emulator front-end that allows you to access all your favorite games in one place.",
@@ -311,7 +311,7 @@
         "foss": true
     },
     "epicgames": {
-        "category": "Games",
+        "category": "Media",
         "choco": "epicgameslauncher",
         "content": "Epic Games Launcher",
         "description": "Epic Games Launcher is the client for accessing and playing games from the Epic Games Store.",
@@ -354,7 +354,7 @@
         "foss": true
     },
     "firefox": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "firefox",
         "content": "Firefox",
         "description": "Mozilla Firefox is an open-source web browser known for its customization options, privacy features, and extensions.",
@@ -363,7 +363,7 @@
         "foss": true
     },
     "floorp": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "na",
         "content": "Floorp",
         "description": "Floorp is an open-source web browser project that aims to provide a simple and fast browsing experience.",
@@ -372,7 +372,7 @@
         "foss": true
     },
     "gog": {
-        "category": "Games",
+        "category": "Media",
         "choco": "goggalaxy",
         "content": "GOG Galaxy",
         "description": "GOG Galaxy is a gaming client that offers DRM-free games, additional content, and more.",
@@ -412,7 +412,7 @@
         "winget": "CPUID.HWMonitor"
     },
     "imhex": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "na",
         "content": "ImHex (Hex Editor)",
         "description": "A modern, featureful Hex Editor for Reverse Engineers and Developers.",
@@ -421,7 +421,7 @@
         "foss": true
     },
     "imgburn": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "imgburn",
         "content": "ImgBurn",
         "description": "ImgBurn is a lightweight CD, DVD, HD-DVD, and Blu-ray burning application with advanced features for creating and burning disc images.",
@@ -429,7 +429,7 @@
         "winget": "LIGHTNINGUK.ImgBurn"
     },
     "itch": {
-        "category": "Games",
+        "category": "Media",
         "choco": "itch",
         "content": "Itch.io",
         "description": "Itch.io is a digital distribution platform for indie games and creative projects.",
@@ -438,7 +438,7 @@
         "foss": true
     },
     "hydralauncher": {
-        "category": "Games & modding",
+        "category": "Media",
         "choco": "na",
         "content": "Hydra Launcher",
         "description": "Game launcher with library management and download support for DRM-free and third-party sources. Open source.",
@@ -447,7 +447,7 @@
         "foss": true
     },
     "itunes": {
-        "category": "Media & music",
+        "category": "Media",
         "choco": "itunes",
         "content": "iTunes",
         "description": "iTunes is a media player, media library, and online radio broadcaster application developed by Apple Inc.",
@@ -455,7 +455,7 @@
         "winget": "Apple.iTunes"
     },
     "java8": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "corretto8jdk",
         "content": "Amazon Corretto 8 (LTS)",
         "description": "Amazon Corretto is a no-cost, multiplatform, production-ready distribution of the Open Java Development Kit (OpenJDK).",
@@ -464,7 +464,7 @@
         "foss": true
     },
     "java25": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "corretto25jdk",
         "content": "Amazon Corretto 25 (LTS)",
         "description": "Amazon Corretto is a no-cost, multiplatform, production-ready distribution of the Open Java Development Kit (OpenJDK).",
@@ -481,7 +481,7 @@
         "winget": "AppWork.JDownloader"
     },
     "jellyfinmediaplayer": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "jellyfin-media-player",
         "content": "Jellyfin Media Player",
         "description": "Jellyfin Media Player is a client application for the Jellyfin media server, providing access to your media library.",
@@ -490,7 +490,7 @@
         "foss": true
     },
     "jellyfinserver": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "jellyfin",
         "content": "Jellyfin Server",
         "description": "Jellyfin Server is an open-source media server software, allowing you to organize and stream your media library.",
@@ -499,7 +499,7 @@
         "foss": true
     },
     "jetbrains": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "jetbrainstoolbox",
         "content": "Jetbrains Toolbox",
         "description": "Jetbrains Toolbox is a platform for easy installation and management of JetBrains developer tools.",
@@ -507,7 +507,7 @@
         "winget": "JetBrains.Toolbox"
     },
     "kodi": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "kodi",
         "content": "Kodi Media Center",
         "description": "Kodi is an open-source media center application that allows you to play and view most videos, music, podcasts, and other digital media files.",
@@ -516,7 +516,7 @@
         "foss": true
     },
     "libreoffice": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "libreoffice-fresh",
         "content": "LibreOffice",
         "description": "LibreOffice is a powerful and free office suite, compatible with other major office suites.",
@@ -525,7 +525,7 @@
         "foss": true
     },
     "librewolf": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "librewolf",
         "content": "LibreWolf",
         "description": "LibreWolf is a privacy-focused web browser based on Firefox, with additional privacy and security enhancements.",
@@ -550,7 +550,7 @@
         "winget": "Malwarebytes.Malwarebytes"
     },
     "macriumreflect": {
-        "category": "Disk & backup",
+        "category": "Utilities",
         "choco": "reflect-free",
         "content": "Macrium Reflect Free",
         "description": "Disk imaging and cloning for backup and recovery. Free edition; Chocolatey package automates setup where silent install is limited.",
@@ -601,7 +601,7 @@
         "foss": true
     },
     "netbird": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "netbird",
         "content": "NetBird",
         "description": "NetBird is a open-source alternative comparable to TailScale that can be connected to a self-hosted server.",
@@ -610,7 +610,7 @@
         "foss": true
     },
     "naps2": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "naps2",
         "content": "NAPS2 (Document Scanner)",
         "description": "NAPS2 is a document scanning application that simplifies the process of creating electronic documents.",
@@ -628,7 +628,7 @@
         "foss": true
     },
     "neovim": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "neovim",
         "content": "Neovim",
         "description": "Neovim is a highly extensible text editor and an improvement over the original Vim editor.",
@@ -645,7 +645,7 @@
         "foss": true
     },
     "nmap": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "nmap",
         "content": "Nmap",
         "description": "Nmap (Network Mapper) is an open-source tool for network exploration and security auditing. It discovers devices on a network and provides information about their ports and services.",
@@ -654,7 +654,7 @@
         "foss": true
     },
     "nodejslts": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "nodejs-lts",
         "content": "NodeJS LTS",
         "description": "NodeJS LTS provides Long-Term Support releases for stable and reliable server-side JavaScript development.",
@@ -663,7 +663,7 @@
         "foss": true
     },
     "notepadplus": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "notepadplusplus",
         "content": "Notepad++",
         "description": "Notepad++ is a free, open-source code editor and Notepad replacement with support for multiple languages.",
@@ -672,7 +672,7 @@
         "foss": true
     },
     "obs": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "obs-studio",
         "content": "OBS Studio",
         "description": "OBS Studio is a free and open-source software for video recording and live streaming. It supports real-time video/audio capturing and mixing, making it popular among content creators.",
@@ -681,7 +681,7 @@
         "foss": true
     },
     "obsidian": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "obsidian",
         "content": "Obsidian",
         "description": "Obsidian is a powerful note-taking and knowledge management application.",
@@ -689,7 +689,7 @@
         "winget": "Obsidian.Obsidian"
     },
     "onlyoffice": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "onlyoffice",
         "content": "ONLYOffice Desktop",
         "description": "ONLYOffice Desktop is a comprehensive office suite for document editing and collaboration.",
@@ -725,7 +725,7 @@
         "foss": true
     },
     "policyplus": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "na",
         "content": "Policy Plus",
         "description": "Local Group Policy Editor plus more, for all Windows editions.",
@@ -734,7 +734,7 @@
         "foss": true
     },
     "processexplorer": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "na",
         "content": "Process Explorer",
         "description": "Process Explorer is a task manager and system monitor.",
@@ -742,7 +742,7 @@
         "winget": "Microsoft.Sysinternals.ProcessExplorer"
     },
     "pdfsam": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "pdfsam",
         "content": "PDFsam Basic",
         "description": "PDFsam Basic is a free and open-source tool for splitting, merging, and rotating PDF files.",
@@ -751,7 +751,7 @@
         "foss": true
     },
     "playnite": {
-        "category": "Games",
+        "category": "Media",
         "choco": "playnite",
         "content": "Playnite",
         "description": "Playnite is an open-source video game library manager with one simple goal: To provide a unified interface for all of your games.",
@@ -760,7 +760,7 @@
         "foss": true
     },
     "plex": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "plexmediaserver",
         "content": "Plex Media Server",
         "description": "Plex Media Server is a media server software that allows you to organize and stream your media library. It supports various media formats and offers a wide range of features.",
@@ -768,7 +768,7 @@
         "winget": "Plex.PlexMediaServer"
     },
     "plexdesktop": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "plex",
         "content": "Plex Desktop",
         "description": "Plex Desktop for Windows is the front end for Plex Media Server.",
@@ -776,7 +776,7 @@
         "winget": "Plex.Plex"
     },
     "Portmaster": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "portmaster",
         "content": "Portmaster",
         "description": "Portmaster is a free and open-source application that puts you back in charge over all your computers network connections.",
@@ -785,7 +785,7 @@
         "foss": true
     },
     "powerautomate": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "powerautomatedesktop",
         "content": "Power Automate",
         "description": "Using Power Automate Desktop you can automate tasks on the desktop as well as the Web.",
@@ -793,7 +793,7 @@
         "winget": "Microsoft.PowerAutomateDesktop"
     },
     "powerbi": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "powerbi",
         "content": "Power BI",
         "description": "Create stunning reports and visualizations with Power BI Desktop. It puts visual analytics at your fingertips with intuitive report authoring. Drag-and-drop to place content exactly where you want it on the flexible and fluid canvas. Quickly discover patterns as you explore a single unified view of linked, interactive visualizations.",
@@ -801,7 +801,7 @@
         "winget": "Microsoft.PowerBI"
     },
     "powershell": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "powershell-core",
         "content": "PowerShell",
         "description": "PowerShell is a task automation framework and scripting language designed for system administrators, offering powerful command-line capabilities.",
@@ -810,7 +810,7 @@
         "foss": true
     },
     "powertoys": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "powertoys",
         "content": "PowerToys",
         "description": "PowerToys is a set of utilities for power users to enhance productivity, featuring tools like FancyZones, PowerRename, and more.",
@@ -819,7 +819,7 @@
         "foss": true
     },
     "prismlauncher": {
-        "category": "Games",
+        "category": "Media",
         "choco": "prismlauncher",
         "content": "Prism Launcher",
         "description": "Prism Launcher is an open-source Minecraft launcher with the ability to manage multiple instances, accounts and mods.",
@@ -828,7 +828,7 @@
         "foss": true
     },
     "processmonitor": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "procexp",
         "content": "SysInternals Process Monitor",
         "description": "SysInternals Process Monitor is an advanced monitoring tool that shows real-time file system, registry, and process/thread activity.",
@@ -845,7 +845,7 @@
         "foss": true
     },
     "psremoteplay": {
-        "category": "Games",
+        "category": "Media",
         "choco": "ps-remote-play",
         "content": "PS Remote Play",
         "description": "PS Remote Play is a free application that allows you to stream games from your PlayStation console to a PC or mobile device.",
@@ -853,7 +853,7 @@
         "winget": "PlayStation.PSRemotePlay"
     },
     "putty": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "putty",
         "content": "PuTTY",
         "description": "PuTTY is a free and open-source terminal emulator, serial console, and network file transfer application. It supports various network protocols such as SSH, Telnet, and SCP.",
@@ -862,7 +862,7 @@
         "foss": true
     },
     "python3": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "python",
         "content": "Python3",
         "description": "Python is a versatile programming language used for web development, data analysis, artificial intelligence, and more.",
@@ -915,7 +915,7 @@
         "foss": true
     },
     "rustdesk": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "rustdesk.portable",
         "content": "RustDesk",
         "description": "RustDesk is a free and open-source remote desktop application. It provides a secure way to connect to remote machines and access desktop environments.",
@@ -924,7 +924,7 @@
         "foss": true
     },
     "systeminformer": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "na",
         "content": "System Informer",
         "description": "A free, powerful, multi-purpose tool that helps you monitor system resources, debug software and detect malware.",
@@ -949,7 +949,7 @@
         "winget": "iOSGods.Sideloadly"
     },
     "slack": {
-        "category": "Communications",
+        "category": "Productivity",
         "choco": "slack",
         "content": "Slack",
         "description": "Slack is a collaboration hub that connects teams and facilitates communication through channels, messaging, and file sharing.",
@@ -966,7 +966,7 @@
         "foss": true
     },
     "spotify": {
-        "category": "Media & music",
+        "category": "Media",
         "choco": "spotify",
         "content": "Spotify",
         "description": "Spotify streams music and podcasts with playlists, discovery, and offline listening on premium plans.",
@@ -974,7 +974,7 @@
         "winget": "Spotify.Spotify"
     },
     "steam": {
-        "category": "Games",
+        "category": "Media",
         "choco": "steam-client",
         "content": "Steam",
         "description": "Steam is a digital distribution platform for purchasing and playing video games, offering multiplayer gaming, video streaming, and more.",
@@ -982,7 +982,7 @@
         "winget": "Valve.Steam"
     },
     "sumatra": {
-        "category": "Document",
+        "category": "Productivity",
         "choco": "sumatrapdf",
         "content": "Sumatra PDF",
         "description": "Sumatra PDF is a lightweight and fast PDF viewer with minimalistic design.",
@@ -1000,7 +1000,7 @@
         "foss": true
     },
     "tcpview": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "tcpview",
         "content": "SysInternals TCPView",
         "description": "SysInternals TCPView is a network monitoring tool that displays a detailed list of all TCP and UDP endpoints on your system.",
@@ -1008,7 +1008,7 @@
         "winget": "Microsoft.Sysinternals.TCPView"
     },
     "teams": {
-        "category": "Communications",
+        "category": "Productivity",
         "choco": "microsoft-teams",
         "content": "Teams",
         "description": "Microsoft Teams is a collaboration platform that integrates with Office 365 and offers chat, video conferencing, file sharing, and more.",
@@ -1032,7 +1032,7 @@
         "winget": "TeamSpeakSystems.TeamSpeakClient"
     },
     "telegram": {
-        "category": "Communications",
+        "category": "Productivity",
         "choco": "telegram",
         "content": "Telegram",
         "description": "Telegram is a cloud-based instant messaging app known for its security features, speed, and simplicity.",
@@ -1041,7 +1041,7 @@
         "foss": true
     },
     "terminal": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "microsoft-windows-terminal",
         "content": "Windows Terminal",
         "description": "Windows Terminal is a modern, fast, and efficient terminal application for command-line users, supporting multiple tabs, panes, and more.",
@@ -1050,7 +1050,7 @@
         "foss": true
     },
     "thunderbird": {
-        "category": "Communications",
+        "category": "Productivity",
         "choco": "thunderbird",
         "content": "Thunderbird",
         "description": "Mozilla Thunderbird is a free and open-source email client, news client, and chat client with advanced features.",
@@ -1059,7 +1059,7 @@
         "foss": true
     },
     "tor": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "tor-browser",
         "content": "Tor Browser",
         "description": "Tor Browser is designed for anonymous web browsing, utilizing the Tor network to protect user privacy and security.",
@@ -1076,7 +1076,7 @@
         "winget": "JAMSoftware.TreeSize.Free"
     },
     "ubisoft": {
-        "category": "Games",
+        "category": "Media",
         "choco": "ubisoft-connect",
         "content": "Ubisoft Connect",
         "description": "Ubisoft Connect is Ubisoft's digital distribution and online gaming service, providing access to Ubisoft's games and services.",
@@ -1084,7 +1084,7 @@
         "winget": "Ubisoft.Connect"
     },
     "ungoogled": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "ungoogled-chromium",
         "content": "Ungoogled",
         "description": "Ungoogled Chromium is a version of Chromium without Google's integration for enhanced privacy and control.",
@@ -1093,7 +1093,7 @@
         "foss": true
     },
     "unity": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "unityhub",
         "content": "Unity Game Engine",
         "description": "Unity is a powerful game development platform for creating 2D, 3D, augmented reality, and virtual reality games.",
@@ -1101,7 +1101,7 @@
         "winget": "Unity.UnityHub"
     },
     "vc2015_64": {
-        "category": "Microsoft Tools",
+        "category": "Developer",
         "choco": "na",
         "content": "Visual C++ 2015-2022 64-bit",
         "description": "Visual C++ 2015-2022 64-bit redistributable package installs runtime components of Visual C++ libraries required to run 64-bit applications.",
@@ -1109,7 +1109,7 @@
         "winget": "Microsoft.VCRedist.2015+.x64"
     },
     "ventoy": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "ventoy",
         "content": "Ventoy",
         "description": "Ventoy is an open-source tool for creating bootable USB drives. It supports multiple ISO files on a single USB drive, making it a versatile solution for installing operating systems.",
@@ -1118,7 +1118,7 @@
         "foss": true
     },
     "visualstudio2026": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "visualstudio2026community",
         "content": "Visual Studio 2026",
         "description": "Visual Studio 2026 is an integrated development environment (IDE) for building, debugging, and deploying applications.",
@@ -1126,7 +1126,7 @@
         "winget": "Microsoft.VisualStudio.2026.Community"
     },
     "vortex": {
-        "category": "Games & modding",
+        "category": "Media",
         "choco": "na",
         "content": "Vortex Mod Manager",
         "description": "Nexus Mods mod manager for games: install, enable, and sort mods with conflict detection and plugin support.",
@@ -1135,7 +1135,7 @@
         "foss": true
     },
     "vlc": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "vlc",
         "content": "VLC (Video Player)",
         "description": "VLC Media Player is a free and open-source multimedia player that supports a wide range of audio and video formats. It is known for its versatility and cross-platform compatibility.",
@@ -1144,7 +1144,7 @@
         "foss": true
     },
     "voicemeeter": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "voicemeeter",
         "content": "Voicemeeter (Audio)",
         "description": "Voicemeeter is a virtual audio mixer that allows you to manage and enhance audio streams on your computer. It is commonly used for audio recording and streaming purposes.",
@@ -1152,7 +1152,7 @@
         "winget": "VB-Audio.Voicemeeter"
     },
     "VoicemeeterPotato": {
-        "category": "Multimedia Tools",
+        "category": "Media",
         "choco": "voicemeeter-potato",
         "content": "Voicemeeter Potato",
         "description": "Voicemeeter Potato is the ultimate version of the Voicemeeter Audio Mixer Application endowed with Virtual Audio Device to mix and manage any audio sources from or to any audio devices or applications.",
@@ -1160,7 +1160,7 @@
         "winget": "VB-Audio.Voicemeeter.Potato"
     },
     "vscode": {
-        "category": "Development",
+        "category": "Developer",
         "choco": "vscode",
         "content": "VS Code",
         "description": "Visual Studio Code is a free, open-source code editor with support for multiple programming languages.",
@@ -1169,7 +1169,7 @@
         "foss": true
     },
     "waterfox": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "waterfox",
         "content": "Waterfox",
         "description": "Waterfox is a fast, privacy-focused web browser based on Firefox, designed to preserve user choice and privacy.",
@@ -1195,7 +1195,7 @@
         "winget": "RARLab.WinRAR"
     },
     "winscp": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "winscp",
         "content": "WinSCP",
         "description": "WinSCP is a popular open-source SFTP, FTP, and SCP client for Windows. It allows secure file transfers between a local and a remote computer.",
@@ -1204,7 +1204,7 @@
         "foss": true
     },
     "wireguard": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "wireguard",
         "content": "WireGuard",
         "description": "WireGuard is a fast and modern VPN (Virtual Private Network) protocol. It aims to be simpler and more efficient than other VPN protocols, providing secure and reliable connections.",
@@ -1213,7 +1213,7 @@
         "foss": true
     },
     "wireshark": {
-        "category": "Pro Tools",
+        "category": "Developer",
         "choco": "wireshark",
         "content": "Wireshark",
         "description": "Wireshark is a widely-used open-source network protocol analyzer. It allows users to capture and analyze network traffic in real-time, providing detailed insights into network activities.",
@@ -1230,7 +1230,7 @@
         "winget": "WiseCleaner.WiseToys"
     },
     "wittytool": {
-        "category": "Disk & backup",
+        "category": "Utilities",
         "choco": "na",
         "content": "WittyTool",
         "description": "Free disk clone, partition, and data recovery tools from WittyTool. Install from the website; not available via WinGet or Chocolatey in this list.",
@@ -1304,7 +1304,7 @@
         "winget": "Dropbox.Dropbox"
     },
     "Overwolf": {
-        "category": "Games",
+        "category": "Media",
         "choco": "overwolf",
         "content": "Overwolf",
         "description": "Popular platform for game overlays and companion apps (mod managers, trackers, etc.), widely used by gamers.",
@@ -1321,7 +1321,7 @@
         "foss": true
     },
     "ZenBrowser": {
-        "category": "Browsers",
+        "category": "Browser",
         "choco": "na",
         "content": "Zen Browser",
         "description": "The modern, privacy-focused, performance-driven browser built on Firefox.",

@@ -1,22 +1,22 @@
 ---
-title: Win11 Creator
+title: Win ISO Creator
 weight: 8
 prev: /userguide/automation/
 ---
 
-## Using Winutil's Win11 Creator
+## Using Winutil's Win ISO Creator {#using-winutils-win11-creator}
 
-Winutil includes a built-in **Win11 Creator** tool that lets you take an official Windows 11 ISO and produce a customized, debloated version. The resulting image can remove telemetry, bypass hardware requirement checks, and enable local account setup out of the box. You can export the result as a new ISO file or write it directly to a USB drive.
+Winutil includes a built-in **Win ISO Creator** tool that lets you take an official **Windows 10** or **Windows 11** ISO and produce a customized, debloated version. The resulting image can remove telemetry, relax hardware requirement checks (especially relevant for Windows 11), and enable local account setup out of the box. You can export the result as a new ISO file or write it directly to a USB drive.
 
 > [!IMPORTANT]
-> You need an **official Windows 11 ISO** from [Microsoft's website](https://www.microsoft.com/en-us/software-download/windows11) before starting. Custom, modified, or non-official ISOs are not supported. The process uses ~10–15 GB of temporary disk space, so make sure you have room.
+> You need an **official Windows 10 or Windows 11 ISO** from Microsoft before starting — use [Windows 10 download](https://www.microsoft.com/software-download/windows10) or [Windows 11 download](https://www.microsoft.com/software-download/windows11). Custom, modified, or non-official ISOs are not supported. The process uses ~10–15 GB of temporary disk space, so make sure you have room.
 
 ---
 
-### Step 1 — Select Your Official Windows 11 ISO
+### Step 1 — Select Your Official ISO
 
-1. Open Winutil and go to the **Win11 Creator** tab.
-2. Click **Browse** and select your **official Windows 11 ISO file** from Microsoft (must be 4 GB or larger). Custom or modified ISOs are not supported.
+1. Open Winutil and go to the **Win ISO Creator** tab.
+2. Click **Browse** and select your **official Windows 10 or Windows 11 ISO file** from Microsoft (must be 4 GB or larger). Custom or modified ISOs are not supported.
 3. The file path and size will appear on screen once selected.
 
 ---
@@ -24,7 +24,7 @@ Winutil includes a built-in **Win11 Creator** tool that lets you take an officia
 ### Step 2 — Mount & Verify
 
 1. Click **Mount & Verify ISO**.
-2. Winutil mounts the ISO, checks for a valid `install.wim` or `install.esd`, and reads the available editions (Home, Pro, Enterprise, etc.).
+2. Winutil mounts the ISO, checks for a valid `install.wim` or `install.esd`, and reads the available editions (Home, Pro, Enterprise, etc.). The image must contain at least one **Windows 10** or **Windows 11** client edition (Windows Server ISOs are not supported).
 3. Once verified, select your desired **edition** from the dropdown — Pro is selected by default if available.
 
 > [!NOTE]
@@ -37,14 +37,14 @@ Winutil includes a built-in **Win11 Creator** tool that lets you take an officia
 Click **Run Windows ISO Modification and Creator** to start the customization process. Winutil will:
 
 **App & Component Removal:**
-- **Remove 40+ bloat apps** — Clipchamp, Teams, Copilot, Dev Home, new Outlook, Bing apps, Solitaire, and more
+- **Remove 40+ bloat apps** — Clipchamp, Teams, Copilot, Dev Home, new Outlook, Bing apps, Solitaire, and more (exact set depends on what is provisioned in that Windows build)
 - **Delete OneDrive setup** from the image
 
 **System Customization:**
-- **Bypass hardware checks** — removes TPM, Secure Boot, CPU, RAM, and storage requirement enforcement so the ISO installs on unsupported hardware
+- **Bypass hardware checks** — LabConfig / MoSetup tweaks remove TPM, Secure Boot, CPU, RAM, and storage requirement enforcement where applicable (most relevant for **Windows 11** on unsupported hardware)
 - **Enable local account setup** — injects an `autounattend.xml` that skips the Microsoft account screen during OOBE
 - **Disable BitLocker and device encryption** — removes startup overhead
-- **Disable Chat icon** — removes chat taskbar button
+- **Disable Chat icon** — removes the chat taskbar button where that feature exists
 - **Strip unused editions** — keeps only your selected edition, saving 1–2 GB per removed edition
 - **Clean the component store** — runs DISM cleanup to reclaim another 300–800 MB
 
@@ -53,14 +53,14 @@ Click **Run Windows ISO Modification and Creator** to start the customization pr
 - **Disable cloud content features** — app suggestions, Microsoft Store recommendations
 - **Remove telemetry scheduled tasks** — CEIP, Appraiser, WaaSMedic, and others
 - **Disable OneDrive folder backup** — prevents automatic backups to cloud
-- **Prevent DevHome and Outlook post-setup installation**
+- **Prevent DevHome and Outlook post-setup installation** (where those payloads exist)
 - **Prevent Teams installation** — blocks auto-install after OOBE
 - **Prevent new Outlook Mail app installation**
 - **Disable Windows Update during OOBE** — re-enabled automatically on first login
-- **Disable Copilot and search box suggestions**
+- **Disable Copilot and search box suggestions** (Windows 11–oriented; harmless on Windows 10 if keys are unused)
 
 **Optional: Driver Injection**
-- If enabled, it injects all drivers from your current system into the install.wim and boot.wim — useful for offline installations on machines with missing drivers. This is an optional checkbox in Step 3.
+- If enabled, it injects all drivers from your current system into the install.wim and boot.wim — useful for offline installations on machines with missing drivers. This is an optional checkbox in Step 2.
 
 A live log shows progress as each step completes. This stage usually takes **10–30 minutes** depending on disk speed. The WIM dismount near the end is the slowest part, so do not close Winutil while it is running.
 
@@ -74,7 +74,7 @@ Once the modification is complete, choose how to save your image:
 
   {{< tab name="Save as ISO" selected=true >}}
   1. Click **Save as an ISO File**.
-  2. Choose a save location (defaults to your Desktop as `Win11_Modified_yyyyMMdd.iso`).
+  2. Choose a save location. The default filename is **`Win10_Modified_yyyyMMdd.iso`** or **`Win11_Modified_yyyyMMdd.iso`** based on the edition you modified (or **`Win_Modified_yyyyMMdd.iso`** if the edition could not be determined, e.g. when resuming an old session).
   3. Winutil builds a dual BIOS/UEFI bootable ISO using `oscdimg.exe`.
 
   > [!NOTE]
@@ -107,12 +107,12 @@ Click **Clean & Reset** to delete the temporary working directory (~10–15 GB) 
 
 ### What the Modified ISO Does Differently
 
-When you install Windows 11 from your modified ISO:
+When you install **Windows 10 or Windows 11** from your modified ISO:
 
 - **No Microsoft account required** — create a local account directly during setup
-- **No hardware checks** — installs on machines without TPM 2.0, Secure Boot, or supported CPUs
+- **Relaxed hardware checks for setup** — especially useful for **Windows 11** on machines without TPM 2.0, Secure Boot, or supported CPUs
 - **Dark mode enabled by default**
-- **Empty taskbar and Start Menu** — no pinned apps, Chat icon removed
+- **Empty taskbar and Start Menu** — no pinned apps; Chat icon removed where applicable
 - **Windows Update disabled during OOBE** — automatically re-enabled on first login to prevent setup interruptions
 - **BitLocker disabled** — removes startup overhead on first boot
 
@@ -122,7 +122,8 @@ When you install Windows 11 from your modified ISO:
 
 | Problem | Fix |
 |---------|-----|
-| "install.wim not found" | Not a valid Windows 11 ISO — download a fresh one from Microsoft |
+| "install.wim not found" | Not a valid Windows ISO — download a fresh Windows 10 or 11 image from Microsoft |
+| "No Windows 10 or Windows 11 client edition" / unsupported ISO | Use a client Windows 10 or 11 ISO, not Windows Server |
 | "oscdimg.exe not found" | Run `winget install -e --id Microsoft.OSCDIMG` then retry |
 | USB drive not showing up | Plug it in, wait a few seconds, then click **Refresh** |
 | Modification seems stuck | The WIM dismount step is slow — wait at least 10 minutes before assuming it's frozen |
@@ -137,7 +138,8 @@ Below is a list of free and open-source tools for downloading, creating, and fla
 | Tool | Description | Website |
 |------|-------------|---------|
 | **[UUP Dump](https://uupdump.net/)** | Download Windows UUP files directly from Microsoft's servers and convert them into a clean ISO — great for getting the latest builds | [uupdump.net](https://uupdump.net/) |
-| **[Microsoft Media Creation Tool](https://www.microsoft.com/en-us/software-download/windows11)** | Microsoft's official tool for downloading and creating Windows 11 installation media | [microsoft.com](https://www.microsoft.com/en-us/software-download/windows11) |
+| **[Windows 10 — Microsoft](https://www.microsoft.com/software-download/windows10)** | Official Windows 10 installation media | [microsoft.com](https://www.microsoft.com/software-download/windows10) |
+| **[Windows 11 — Microsoft](https://www.microsoft.com/software-download/windows11)** | Official Windows 11 installation media | [microsoft.com](https://www.microsoft.com/software-download/windows11) |
 
 
 ## Customize Windows ISOs
@@ -162,7 +164,7 @@ Below is a list of free and open-source tools for downloading, creating, and fla
 ---
 
 > [!TIP]
-> Already have a Windows 11 ISO? Skip the third-party tools and use Winutil's built-in **[Win11 Creator](#using-winutils-win11-creator)** at the top of this page.
+> Already have a Windows 10 or 11 ISO? Skip the third-party tools and use Winutil's built-in **[Win ISO Creator](#using-winutils-win11-creator)** at the top of this page.
 
 > [!NOTE]
 > Always download Windows ISOs from official Microsoft sources or trusted tools like Rufus/UUP Dump to avoid tampered images.

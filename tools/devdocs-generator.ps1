@@ -181,22 +181,20 @@ $baseUrl       = "https://winutil.christitus.com"
 
 # Categories with generated docs
 $documentedCategories = @(
-    "Essential Tweaks",
-    "z__Advanced Tweaks - CAUTION",
-    "Customize Preferences",
-    "Performance Plans",
-    "Features",
-    "Fixes",
-    "Legacy Windows Panels",
-    "Powershell Profile Powershell 7+ Only",
-    "Remote Access"
+    "Essential",
+    "Preferences",
+    "z__Advanced",
+    "Windows",
+    "Panels",
+    "PowerShell 7",
+    "Remote"
 )
 
 # Categories where Button entries embed a PS function instead of raw JSON
 $functionEmbedCategories = @(
-    "Fixes",
-    "Powershell Profile Powershell 7+ Only",
-    "Remote Access"
+    "Windows",
+    "PowerShell 7",
+    "Remote"
 )
 
 Update-Progress "Loading JSON files" 10

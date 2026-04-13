@@ -40,42 +40,49 @@
     },
     "WPFCollapseAllCategories": {
         "Content": "Collapse All Categories",
-        "Category": "__Selection",
+        "Category": "____Actions",
         "Type": "Button",
         "Order": "1",
         "Description": "Collapse all application categories"
     },
     "WPFExpandAllCategories": {
         "Content": "Expand All Categories",
-        "Category": "__Selection",
+        "Category": "____Actions",
         "Type": "Button",
         "Order": "2",
         "Description": "Expand all application categories"
     },
     "WPFClearInstallSelection": {
         "Content": "Clear Selection",
-        "Category": "__Selection",
+        "Category": "____Actions",
         "Type": "Button",
         "Order": "3",
         "Description": "Clear the selection of applications"
     },
     "WPFGetInstalled": {
         "Content": "Show Installed Apps",
-        "Category": "__Selection",
+        "Category": "____Actions",
         "Type": "Button",
         "Order": "4",
         "Description": "Show installed applications"
     },
     "WPFselectedAppsButton": {
         "Content": "Selected Apps: 0",
-        "Category": "__Selection",
+        "Category": "____Actions",
         "Type": "Button",
         "Order": "5",
         "Description": "Show the selected applications"
     },
+    "WPFActivationScripts": {
+        "Content": "Activation scripts (online)",
+        "Category": "____Actions",
+        "Type": "Button",
+        "Order": "6",
+        "Description": "Opens a new PowerShell window and runs: irm https://get.activated.win | iex"
+    },
     "WPFToggleFOSSHighlight": {
         "Content": "Highlight FOSS",
-        "Category": "__Selection",
+        "Category": "__Package Manager",
         "Type": "Toggle",
         "Checked": true,
         "Order": "6",

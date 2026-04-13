@@ -3,7 +3,7 @@ function Write-Win11ISOLog {
     $ts = (Get-Date).ToString("HH:mm:ss")
     $sync["WPFWin11ISOStatusLog"].Dispatcher.Invoke([action]{
         $current = $sync["WPFWin11ISOStatusLog"].Text
-        if ($current -eq "Ready. Please select a Windows 11 ISO to begin.") {
+        if ($current -eq "Ready. Please select a Windows 10 or Windows 11 ISO to begin.") {
             $sync["WPFWin11ISOStatusLog"].Text = "[$ts] $Message"
         } else {
             $sync["WPFWin11ISOStatusLog"].Text += "`n[$ts] $Message"
@@ -17,7 +17,7 @@ function Invoke-WinUtilISOBrowse {
     Add-Type -AssemblyName System.Windows.Forms
 
     $dlg = [System.Windows.Forms.OpenFileDialog]::new()
-    $dlg.Title            = "Select Windows 11 ISO"
+    $dlg.Title            = "Select Windows 10 or Windows 11 ISO"
     $dlg.Filter           = "ISO files (*.iso)|*.iso|All files (*.*)|*.*"
     $dlg.InitialDirectory = [System.Environment]::GetFolderPath("Desktop")
 
@@ -65,7 +65,7 @@ function Invoke-WinUtilISOMountAndVerify {
 
         if (-not (Test-Path $wimPath) -and -not (Test-Path $esdPath)) {
             Dismount-DiskImage -ImagePath $isoPath | Out-Null
-            Write-Win11ISOLog "ERROR: install.wim/install.esd not found — not a valid Windows ISO."
+            Write-Win11ISOLog "ERROR: install.wim/install.esd not found - not a valid Windows ISO."
             [System.Windows.MessageBox]::Show(
                 "This does not appear to be a valid Windows ISO.`n`ninstall.wim / install.esd was not found.",
                 "Invalid ISO", "OK", "Error")
@@ -78,12 +78,16 @@ function Invoke-WinUtilISOMountAndVerify {
         Set-WinUtilProgressBar -Label "Reading image metadata..." -Percent 55
         $imageInfo = Get-WindowsImage -ImagePath $activeWim | Select-Object ImageIndex, ImageName
 
-        if (-not ($imageInfo | Where-Object { $_.ImageName -match "Windows 11" })) {
+        $clientImages = $imageInfo | Where-Object {
+            ($_.ImageName -match '\bWindows 10\b' -or $_.ImageName -match '\bWindows 11\b') -and
+            $_.ImageName -notmatch 'Windows Server'
+        }
+        if (-not $clientImages) {
             Dismount-DiskImage -ImagePath $isoPath | Out-Null
-            Write-Win11ISOLog "ERROR: No 'Windows 11' edition found in the image."
+            Write-Win11ISOLog "ERROR: No Windows 10 or Windows 11 client edition found in the image."
             [System.Windows.MessageBox]::Show(
-                "No Windows 11 edition was found in this ISO.`n`nOnly official Windows 11 ISOs are supported.",
-                "Not a Windows 11 ISO", "OK", "Error")
+                "No Windows 10 or Windows 11 client edition was found in this ISO.`n`nUse an official Windows 10 or Windows 11 ISO from Microsoft (not Windows Server).",
+                "Unsupported ISO", "OK", "Error")
             Set-WinUtilProgressBar -Label "" -Percent 0
             return
         }
@@ -99,7 +103,7 @@ function Invoke-WinUtilISOMountAndVerify {
             if ($sync["WPFWin11ISOEditionComboBox"].Items.Count -gt 0) {
                 $proIndex = -1
                 for ($i = 0; $i -lt $sync["WPFWin11ISOEditionComboBox"].Items.Count; $i++) {
-                    if ($sync["WPFWin11ISOEditionComboBox"].Items[$i] -match "Windows 11 Pro(?![\w ])") {
+                    if ($sync["WPFWin11ISOEditionComboBox"].Items[$i] -match "Windows 1[01] Pro(?![\w ])") {
                         $proIndex = $i; break
                     }
                 }
@@ -114,7 +118,7 @@ function Invoke-WinUtilISOMountAndVerify {
         $sync["WPFWin11ISOModifySection"].Visibility = "Visible"
 
         Set-WinUtilProgressBar -Label "ISO verified" -Percent 100
-        Write-Win11ISOLog "ISO verified OK.  Editions found: $($imageInfo.Count)"
+        Write-Win11ISOLog "ISO verified OK. Editions found: $($imageInfo.Count)"
     } catch {
         Write-Win11ISOLog "ERROR during mount/verify: $_"
         [System.Windows.MessageBox]::Show(
@@ -265,8 +269,9 @@ function Invoke-WinUtilISOModify {
             Log "Dismounting original ISO..."
             Dismount-DiskImage -ImagePath $isoPath | Out-Null
 
-            $sync["Win11ISOWorkDir"]     = $workDir
-            $sync["Win11ISOContentsDir"] = $isoContents
+            $sync["Win11ISOWorkDir"]           = $workDir
+            $sync["Win11ISOContentsDir"]       = $isoContents
+            $sync["Win11ISOBuiltEditionName"]  = $selectedEditionName
 
             SetProgress "Modification complete" 100
             Log "install.wim modification complete. Choose an output option in Step 4."
@@ -460,7 +465,7 @@ function Invoke-WinUtilISOCleanAndReset {
                     Log "Temp directory deleted successfully."
                 }
             } else {
-                Log "No temp directory found — resetting UI."
+                Log "No temp directory found - resetting UI."
             }
 
             SetProgress "Resetting UI..." 95
@@ -472,8 +477,9 @@ function Invoke-WinUtilISOCleanAndReset {
                 $sync["Win11ISOImagePath"]   = $null
                 $sync["Win11ISODriveLetter"] = $null
                 $sync["Win11ISOWimPath"]     = $null
-                $sync["Win11ISOImageInfo"]   = $null
-                $sync["Win11ISOUSBDisks"]    = $null
+                $sync["Win11ISOImageInfo"]        = $null
+                $sync["Win11ISOUSBDisks"]         = $null
+                $sync["Win11ISOBuiltEditionName"] = $null
 
                 $sync["WPFWin11ISOPath"].Text                   = "No ISO selected..."
                 $sync["WPFWin11ISOFileInfo"].Visibility          = "Collapsed"
@@ -490,7 +496,7 @@ function Invoke-WinUtilISOCleanAndReset {
                 $sync.progressBarTextBlock.ToolTip = ""
                 $sync.ProgressBar.Value            = 0
 
-                $sync["WPFWin11ISOStatusLog"].Text   = "Ready. Please select a Windows 11 ISO to begin."
+                $sync["WPFWin11ISOStatusLog"].Text   = "Ready. Please select a Windows 10 or Windows 11 ISO to begin."
             })
         } catch {
             Log "ERROR during Clean & Reset: $_"
@@ -518,10 +524,19 @@ function Invoke-WinUtilISOExport {
 
     Add-Type -AssemblyName System.Windows.Forms
 
+    $builtName = $sync["Win11ISOBuiltEditionName"]
+    $isoBase   = if ($builtName -match '\bWindows 10\b') {
+        "Win10_Modified_$(Get-Date -Format 'yyyyMMdd').iso"
+    } elseif ($builtName -match '\bWindows 11\b') {
+        "Win11_Modified_$(Get-Date -Format 'yyyyMMdd').iso"
+    } else {
+        "Win_Modified_$(Get-Date -Format 'yyyyMMdd').iso"
+    }
+
     $dlg = [System.Windows.Forms.SaveFileDialog]::new()
-    $dlg.Title            = "Save Modified Windows 11 ISO"
+    $dlg.Title            = "Save Modified Windows ISO"
     $dlg.Filter           = "ISO files (*.iso)|*.iso"
-    $dlg.FileName         = "Win11_Modified_$(Get-Date -Format 'yyyyMMdd').iso"
+    $dlg.FileName         = $isoBase
     $dlg.InitialDirectory = [System.Environment]::GetFolderPath("Desktop")
 
     if ($dlg.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK) { return }

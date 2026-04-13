@@ -213,8 +213,13 @@ $sync.keys | ForEach-Object {
             if ($sync["$psitem"].Name.EndsWith("Link")) {
                 $sync["$psitem"].Add_MouseUp({
                     [System.Object]$Sender = $args[0]
-                    Start-Process $Sender.ToolTip -ErrorAction Stop
-                    Write-Debug "Opening: $($Sender.ToolTip)"
+                    $tag = $Sender.Tag
+                    if ($tag -and ($tag.PSObject.Properties.Name -contains 'ItemTitle')) {
+                        Show-ASYSItemInfoPopup -ItemTitle $(if ($tag.ItemTitle) { $tag.ItemTitle } else { "Information" }) `
+                            -Description $tag.Description -Link $tag.Link
+                    } elseif ($Sender.ToolTip) {
+                        Show-ASYSItemInfoPopup -ItemTitle "Information" -Description "$($Sender.ToolTip)" -Link $null
+                    }
                 })
             }
 
@@ -319,12 +324,24 @@ $sync["Form"].Add_MouseDoubleClick({
     }
 })
 
+$sync["Form"].Add_StateChanged({
+    if ($null -eq $sync.WPFMaximizeButton) { return }
+    if ($sync.Form.WindowState -eq [Windows.WindowState]::Maximized) {
+        $sync.WPFMaximizeButton.Content = [char]0xE923
+        $sync.WPFMaximizeButton.ToolTip = "Restore down"
+    } else {
+        $sync.WPFMaximizeButton.Content = [char]0xE922
+        $sync.WPFMaximizeButton.ToolTip = "Maximize"
+    }
+})
+
 $sync["Form"].Add_Deactivated({
     Write-Debug "A-SYS lost focus"
     Invoke-WPFPopup -Action "Hide" -Popups @("Settings", "Theme", "FontScaling")
 })
 
 $sync["Form"].Add_ContentRendered({
+    Invoke-WinUtilFontScaling -ScaleFactor 1.25
     # Load the Windows Forms assembly
     Add-Type -AssemblyName System.Windows.Forms
     $primaryScreen = [System.Windows.Forms.Screen]::PrimaryScreen
@@ -431,7 +448,14 @@ $sync["Form"].Add_Loaded({
 })
 
 $NavLogoPanel = $sync["Form"].FindName("NavLogoPanel")
-$NavLogoPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size 25)) | Out-Null
+$navBrand = New-Object Windows.Controls.TextBlock
+$navBrand.Text = "A-SYS"
+$navBrand.FontStyle = [Windows.FontStyles]::Italic
+$navBrand.VerticalAlignment = [Windows.VerticalAlignment]::Center
+$navBrand.SetResourceReference([Windows.Controls.Control]::FontSizeProperty, "HeaderFontSize")
+$navBrand.SetResourceReference([Windows.Controls.Control]::ForegroundProperty, "MainForegroundColor")
+$navBrand.Margin = New-Object Windows.Thickness(2, 0, 0, 0)
+$NavLogoPanel.Children.Add($navBrand) | Out-Null
 
 
 if (Test-Path "$winutildir\logo.ico") {
@@ -533,8 +557,8 @@ $sync["FontScalingSlider"].Add_ValueChanged({
 
 $sync["FontScalingResetButton"].Add_Click({
     Write-Debug "FontScalingResetButton clicked"
-    $sync.FontScalingSlider.Value = 1.0
-    $sync.FontScalingValue.Text = "100%"
+    $sync.FontScalingSlider.Value = 1.25
+    $sync.FontScalingValue.Text = "125%"
 })
 
 $sync["FontScalingApplyButton"].Add_Click({
@@ -558,6 +582,11 @@ $sync["WPFWin11ISOBrowseButton"].Add_Click({
 $sync["WPFWin11ISODownloadLink"].Add_Click({
     Write-Debug "WPFWin11ISODownloadLink clicked"
     Start-Process "https://www.microsoft.com/software-download/windows11"
+})
+
+$sync["WPFWin10ISODownloadLink"].Add_Click({
+    Write-Debug "WPFWin10ISODownloadLink clicked"
+    Start-Process "https://www.microsoft.com/software-download/windows10"
 })
 
 $sync["WPFWin11ISOMountButton"].Add_Click({

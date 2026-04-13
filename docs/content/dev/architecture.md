@@ -128,49 +128,49 @@ winutil/
 - CheckBoxes for options
 - ListBoxes for selections
 
-## Win11 Creator Architecture
+## Win ISO Creator Architecture
 
-The **Win11 Creator** is a specialized subsystem within Winutil that creates customized Windows 11 ISOs. It operates independently from the main package installation and tweak system.
+The **Win ISO Creator** (UI: **Win ISO Creator** tab; code and `$sync` keys may still use `Win11ISO` prefixes) is a specialized subsystem within Winutil that creates customized **Windows 10** or **Windows 11** ISOs. It operates independently from the main package installation and tweak system.
 
-### Win11 Creator Components
+### Win ISO Creator Components
 
 **Core Functions** (`functions/private/`):
-- `Invoke-WinUtilISO.ps1`: Main orchestrator containing all Win11 Creator functions
+- `Invoke-WinUtilISO.ps1`: Main orchestrator containing all Win ISO Creator functions
   - `Invoke-WinUtilISOBrowse`: ISO file selection dialog
-  - `Invoke-WinUtilISOMountAndVerify`: Validates and mounts ISO, verifies it's official Windows 11
+  - `Invoke-WinUtilISOMountAndVerify`: Validates and mounts ISO, verifies image contains a Windows 10 or Windows 11 **client** edition (not Windows Server)
   - `Invoke-WinUtilISOModify`: Launches modification in background runspace
   - `Invoke-WinUtilISOExport`: Handles ISO and USB export
   - `Invoke-WinUtilISOCheckExistingWork`: Recovers incomplete work sessions
   - `Invoke-WinUtilISOCleanAndReset`: Cleans up temp directories and resets UI
 
 - `Invoke-WinUtilISOScript.ps1`: Applies modifications to mounted install.wim
-  - Removes provisioned AppX packages (40+ bloatware apps)
+  - Removes provisioned AppX packages (40+ bloatware apps; availability varies by Windows build)
   - Injects drivers (optional) from the current system
   - Removes OneDrive setup files
-  - Applies offline registry tweaks (hardware bypass, privacy, telemetry, OOBE)
+  - Applies offline registry tweaks (hardware bypass where applicable, privacy, telemetry, OOBE)
   - Deletes telemetry scheduled task definitions
   - Pre-stages setup scripts from autounattend.xml
   - Removes unused Windows editions
   - Cleans component store via DISM
 
-### Win11 Creator Data Flow
+### Win ISO Creator Data Flow
 
 ```
-User selects official Windows 11 ISO
+User selects official Windows 10 or Windows 11 ISO
     ↓
 Invoke-WinUtilISOBrowse → OpenFileDialog, validates file size
     ↓
 Invoke-WinUtilISOMountAndVerify
     ├─ Mount ISO via Mount-DiskImage
     ├─ Verify install.wim or install.esd exists
-    ├─ Check for "Windows 11" in image metadata
+    ├─ Require at least one client edition named Windows 10 or Windows 11 (exclude Windows Server)
     ├─ Extract available editions (Home, Pro, Enterprise, etc.)
     └─ Store ISO path, drive letter, WIM path, image info in $sync
     ↓
 User optionally enables the Driver Injection checkbox
     ↓
 Invoke-WinUtilISOModify (runs in background runspace)
-    ├─ Create work directory: ~WinUtil_Win11ISO_[timestamp]
+    ├─ Create work directory under %TEMP% (e.g. *Win11ISO* timestamped folder; exact prefix may vary by fork)
     ├─ Copy ISO contents to disk (~5-6 GB)
     ├─ Mount install.wim at selected edition/index
     ├─ Invoke-WinUtilISOScript:
@@ -186,12 +186,12 @@ Invoke-WinUtilISOModify (runs in background runspace)
     ├─ Dismount and save the modified install.wim (~10+ minutes, slowest step)
     ├─ Export selected edition only (removes all other editions, saves 1-2 GB each)
     ├─ Dismount source ISO
-    └─ Report completion, enable export options
+    └─ Report completion, enable export options; store built edition name for default export filename
     ↓
 Invoke-WinUtilISOExport (user chooses output)
     ├─ Option 1: Save as ISO
     │   ├─ Build bootable ISO via oscdimg.exe (BIOS/UEFI dual-boot)
-    │   └─ Output: Win11_Modified_[date].iso (2.5-3.5 GB)
+    │   └─ Default name: Win10_Modified_[date].iso or Win11_Modified_[date].iso (by edition); ~2.5-3.5 GB
     │
     └─ Option 2: Write to USB
         ├─ Format USB as GPT
@@ -204,13 +204,13 @@ Invoke-WinUtilISOCleanAndReset (optional)
     └─ Reset UI to initial state
 ```
 
-### Win11 Creator Validation & Safety
+### Win ISO Creator Validation & Safety
 
 **ISO Validation**:
-- Only accepts official Microsoft Windows 11 ISOs
+- Intended for official Microsoft **Windows 10** or **Windows 11** client ISOs
 - Validates presence of install.wim or install.esd
-- Checks image metadata for "Windows 11" string
-- Rejects custom, modified, or non-Windows 11 ISOs
+- Checks image metadata for a Windows 10 or Windows 11 client edition; rejects Windows Server
+- Custom or pre-modified ISOs are unsupported (may fail unpredictably)
 
 **Work Session Recovery**:
 - Auto-detects incomplete work from previous sessions
@@ -220,10 +220,10 @@ Invoke-WinUtilISOCleanAndReset (optional)
 **Modification Safety**:
 - All registry changes are documented in a script (reversible)
 - Original ISO never modified; only working copy
-- Logged to `WinUtil_Win11ISO.log` for debugging
+- Logged to a `*Win11ISO*.log` file under the work directory for debugging (exact name may vary by build)
 - DISM handles image dismount with automatic cleanup on error
 
-### Win11 Creator Registry Tweaks
+### Win ISO Creator Registry Tweaks
 
 The `Invoke-WinUtilISOScript` function applies **50+ offline registry tweaks**:
 
@@ -256,9 +256,9 @@ The `Invoke-WinUtilISOScript` function applies **50+ offline registry tweaks**:
 
 **System Features**:
 - Disable BitLocker and device encryption
-- Disable Chat icon from the Taskbar
+- Disable Chat icon from the Taskbar (where present)
 - Disable OneDrive folder backup
-- Disable Copilot
+- Disable Copilot (Windows 11–oriented)
 - Disable Windows Update during OOBE (re-enabled at first login)
 
 ### Driver Injection Feature
@@ -662,7 +662,7 @@ Outputs `winutil.ps1` in the root directory.
 
 - [Contributing Guide](../../contributing/) - How to contribute code
 - [User Guide](../../userguide/) - End-user documentation
-- [Win11 Creator Guide](../../userguide/win11Creator/) - Building customized Windows 11 ISOs
+- [Win ISO Creator Guide](../../userguide/win11creator/) - Building customized Windows 10 or Windows 11 ISOs
 - [FAQ](../../faq/) - Common questions
 
 ## Additional Resources

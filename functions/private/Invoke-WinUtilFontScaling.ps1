@@ -39,6 +39,7 @@ function Invoke-WinUtilFontScaling {
         "SearchBarClearButtonFontSize",
         "CustomDialogFontSize",
         "CustomDialogFontSizeHeader",
+        "ToolTipFontSize",
         "ConfigUpdateButtonFontSize",
         # Buttons and UI
         "CheckBoxBulletDecoratorSize",

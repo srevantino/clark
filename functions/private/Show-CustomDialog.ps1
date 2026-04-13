@@ -95,7 +95,11 @@ function Show-CustomDialog {
         [System.Windows.Media.SolidColorBrush]$LinkForegroundColor = $sync.Form.Resources.LinkForegroundColor,
         [System.Windows.Media.SolidColorBrush]$LinkHoverForegroundColor = $sync.Form.Resources.LinkHoverForegroundColor,
 
-        [bool]$EnableScroll = $false
+        [bool]$EnableScroll = $false,
+
+        [switch]$HideLogo,
+        [switch]$ItalicBrandTitle,
+        [string]$HeadingLine
     )
 
     # Create a custom dialog window
@@ -111,6 +115,9 @@ function Show-CustomDialog {
     $dialog.Background = $BackgroundColor
     $dialog.FontFamily = $FontFamily
     $dialog.FontSize = $FontSize
+    if ($sync.Form) {
+        $dialog.Owner = $sync.Form
+    }
 
     # Create a Border for the green edge with rounded corners
     $border = New-Object Windows.Controls.Border
@@ -120,7 +127,7 @@ function Show-CustomDialog {
 
     # Create a drop shadow effect
     $dropShadow = New-Object Windows.Media.Effects.DropShadowEffect
-    $dropShadow.Color = $shadowColor
+    $dropShadow.Color = $ShadowColor
     $dropShadow.Direction = 270
     $dropShadow.ShadowDepth = 5
     $dropShadow.BlurRadius = 10
@@ -172,13 +179,16 @@ function Show-CustomDialog {
     $grid.Children.Add($stackPanel)
     [Windows.Controls.Grid]::SetRow($stackPanel, 0)  # Set the row to the second row (0-based index)
 
-    # Add SVG path to the stack panel
-    $stackPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size $LogoSize))
+    # Optional vector logo beside brand text
+    if (-not $HideLogo) {
+        $stackPanel.Children.Add((Invoke-WinUtilAssets -Type "logo" -Size $LogoSize)) | Out-Null
+    }
 
     # Header title
     $winutilTextBlock = New-Object Windows.Controls.TextBlock
     $winutilTextBlock.Text = "A-SYS"
     $winutilTextBlock.FontSize = $HeaderFontSize
+    $winutilTextBlock.FontStyle = if ($ItalicBrandTitle) { [Windows.FontStyles]::Italic } else { [Windows.FontStyles]::Normal }
     $winutilTextBlock.Foreground = $LogoColor
     $winutilTextBlock.Margin = New-Object Windows.Thickness(10, 10, 10, 5)  # Add margins around the text block
     $stackPanel.Children.Add($winutilTextBlock)
@@ -190,12 +200,22 @@ function Show-CustomDialog {
     $messageTextBlock.VerticalAlignment = [Windows.VerticalAlignment]::Top
     $messageTextBlock.Margin = New-Object Windows.Thickness(10)  # Add margins around the text block
 
+    if (-not [string]::IsNullOrWhiteSpace($HeadingLine)) {
+        $headingRun = New-Object Windows.Documents.Run($HeadingLine)
+        $headingRun.FontWeight = [Windows.FontWeights]::Bold
+        $headingRun.FontSize = [double]$HeaderFontSize + 2
+        $messageTextBlock.Inlines.Add($headingRun)
+        $messageTextBlock.Inlines.Add([Windows.Documents.LineBreak]::new())
+        $messageTextBlock.Inlines.Add([Windows.Documents.LineBreak]::new())
+    }
+
     # Define the Regex to find hyperlinks formatted as HTML <a> tags
     $regex = [regex]::new('<a href="([^"]+)">([^<]+)</a>')
     $lastPos = 0
+    $matches = $regex.Matches($Message)
 
     # Iterate through each match and add regular text and hyperlinks
-    foreach ($match in $regex.Matches($Message)) {
+    foreach ($match in $matches) {
         # Add the text before the hyperlink, if any
         $textBefore = $Message.Substring($lastPos, $match.Index - $lastPos)
         if ($textBefore.Length -gt 0) {
@@ -232,15 +252,10 @@ function Show-CustomDialog {
         $lastPos = $match.Index + $match.Length
     }
 
-    # Add any remaining text after the last hyperlink
-    if ($lastPos -lt $Message.Length) {
+    # Add any remaining text after the last hyperlink (also covers plain text when there are no <a> tags)
+    if (-not [string]::IsNullOrEmpty($Message) -and $lastPos -lt $Message.Length) {
         $textAfter = $Message.Substring($lastPos)
         $messageTextBlock.Inlines.Add((New-Object Windows.Documents.Run($textAfter)))
-    }
-
-    # If no matches, add the entire message as a run
-    if ($regex.Matches($Message).Count -eq 0) {
-        $messageTextBlock.Inlines.Add((New-Object Windows.Documents.Run($Message)))
     }
 
     # Create a ScrollViewer if EnableScroll is true

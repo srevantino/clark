@@ -24,7 +24,7 @@
         <Setter Property="MaxWidth" Value="{DynamicResource ToolTipWidth}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="2"/>
-        <Setter Property="FontSize" Value="{DynamicResource FontSize}"/>
+        <Setter Property="FontSize" Value="{DynamicResource ToolTipFontSize}"/>
         <Setter Property="FontFamily" Value="{DynamicResource FontFamily}"/>
         <!-- This ContentTemplate ensures that the content of the ToolTip wraps text properly for better readability -->
         <Setter Property="ContentTemplate">
@@ -1001,7 +1001,7 @@
                     Background="{DynamicResource ButtonWin11ISOBackgroundColor}" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}" FontWeight="Bold" Name="WPFTab5BT">
                     <ToggleButton.Content>
                         <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}">
-                            <Underline>W</Underline>in11 Creator
+                            <Underline>W</Underline>in ISO Creator
                         </TextBlock>
                     </ToggleButton.Content>
                 </ToggleButton>
@@ -1117,7 +1117,7 @@
                                            Margin="0,0,10,0"/>
                                 <Slider Name="FontScalingSlider"
                                         Minimum="0.75" Maximum="2.0"
-                                        Value="1.0"
+                                        Value="1.25"
                                         TickFrequency="0.25"
                                         TickPlacement="BottomRight"
                                         IsSnapToTickEnabled="True"
@@ -1130,7 +1130,7 @@
                                            Margin="10,0,0,0"/>
                             </StackPanel>
                             <TextBlock Name="FontScalingValue"
-                                       Text="100%"
+                                       Text="125%"
                                        FontSize="{DynamicResource ButtonFontSize}"
                                        Foreground="{DynamicResource MainForegroundColor}"
                                        HorizontalAlignment="Center"
@@ -1186,6 +1186,30 @@
                     </Border>
                 </Popup>
 
+                    <Button Name="WPFMinimizeButton"
+                        Style="{StaticResource HoverButtonStyle}"
+                        BorderBrush="Transparent"
+                        Background="{DynamicResource MainBackgroundColor}"
+                        Foreground="{DynamicResource MainForegroundColor}"
+                        FontSize="{DynamicResource SettingsIconFontSize}"
+                        Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Margin="0,0,2,0"
+                        FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE921;"
+                        ToolTip="Minimize"/>
+                    <Button Name="WPFMaximizeButton"
+                        Style="{StaticResource HoverButtonStyle}"
+                        BorderBrush="Transparent"
+                        Background="{DynamicResource MainBackgroundColor}"
+                        Foreground="{DynamicResource MainForegroundColor}"
+                        FontSize="{DynamicResource SettingsIconFontSize}"
+                        Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Margin="0,0,2,0"
+                        FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE922;"
+                        ToolTip="Maximize"/>
                     <Button
                     Content="&#xD7;" BorderThickness="0"
                 BorderBrush="Transparent"
@@ -1379,7 +1403,7 @@
                     <!-- Steps 1-4 -->
                     <StackPanel Grid.Row="0">
 
-                            <!-- ─── STEP 1 : Select Windows 11 ISO ─────────────── -->
+                            <!-- ─── STEP 1 : Select Windows 10/11 ISO ─────────────── -->
                             <Grid Name="WPFWin11ISOSelectSection" Margin="5" HorizontalAlignment="Left" MinWidth="{DynamicResource ButtonWidth}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -1390,11 +1414,11 @@
                                 <StackPanel Grid.Column="0" Margin="5,5,15,5">
                                     <TextBlock FontSize="{DynamicResource FontSize}" FontWeight="Bold"
                                                Foreground="{DynamicResource MainForegroundColor}" Margin="0,0,0,8">
-                                        Step 1 - Select Windows 11 ISO
+                                        Step 1 - Select Windows 10 or 11 ISO
                                     </TextBlock>
                                     <TextBlock FontSize="{DynamicResource FontSize}" Foreground="{DynamicResource MainForegroundColor}"
                                                TextWrapping="Wrap" Margin="0,0,0,6">
-                                        Browse to your locally saved Windows 11 ISO file. Only official ISOs
+                                        Browse to your locally saved Windows 10 or Windows 11 ISO file. Only official ISOs
                                         downloaded from Microsoft are supported.
                                     </TextBlock>
                                     <TextBlock FontSize="{DynamicResource FontSize}" Foreground="{DynamicResource MainForegroundColor}"
@@ -1443,7 +1467,7 @@
                                         <TextBlock FontSize="{DynamicResource FontSize}"
                                                    Foreground="{DynamicResource MainForegroundColor}"
                                                    TextWrapping="Wrap" Margin="0,0,0,8">
-                                            Download the Windows 11 ISO directly from Microsoft.com.
+                                            Download a Windows 10 or Windows 11 ISO directly from Microsoft.
                                             Third-party, pre-modified, or unofficial images are not supported
                                             and may produce broken results.
                                         </TextBlock>
@@ -1455,15 +1479,22 @@
                                         <TextBlock FontSize="{DynamicResource FontSize}"
                                                    Foreground="{DynamicResource MainForegroundColor}"
                                                    TextWrapping="Wrap" Margin="12,0,0,12">
-                                            - Edition  : Windows 11
+                                            - Edition  : Windows 10 or Windows 11 (your choice)
                                             <LineBreak/>- Language : your preferred language
                                             <LineBreak/>- Architecture : 64-bit (x64)
                                         </TextBlock>
+                                        <StackPanel Orientation="Horizontal">
                                         <Button Name="WPFWin11ISODownloadLink"
-                                                Content="Open Microsoft Download Page"
+                                                Content="Windows 11 - Microsoft download"
                                                 HorizontalAlignment="Left"
                                                 Width="Auto" Padding="12,0"
                                                 Height="{DynamicResource ButtonHeight}"/>
+                                        <Button Name="WPFWin10ISODownloadLink"
+                                                Content="Windows 10 - Microsoft download"
+                                                HorizontalAlignment="Left"
+                                                Width="Auto" Padding="12,0" Margin="8,0,0,0"
+                                                Height="{DynamicResource ButtonHeight}"/>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Grid>
@@ -1486,7 +1517,7 @@
                                     <TextBlock FontSize="{DynamicResource FontSize}"
                                                Foreground="{DynamicResource MainForegroundColor}"
                                                TextWrapping="Wrap" Margin="0,0,0,12" MaxWidth="320">
-                                        Mount the ISO and confirm it contains a valid Windows 11
+                                        Mount the ISO and confirm it contains a valid Windows 10 or Windows 11
                                         install.wim before any modifications are made.
                                     </TextBlock>
                                     <Button Name="WPFWin11ISOMountButton"
@@ -1674,7 +1705,7 @@
                                  Foreground="{DynamicResource MainForegroundColor}"
                                  BorderBrush="{DynamicResource BorderColor}"
                                  BorderThickness="1"
-                                 Text="Ready. Please select a Windows 11 ISO to begin."/>
+                                 Text="Ready. Please select a Windows 10 or Windows 11 ISO to begin."/>
                     </Grid>
 
                 </Grid>

@@ -88,7 +88,7 @@ Winutil opens with a clean, tabbed interface:
 - **Tweaks**: Apply system optimizations and customizations
 - **Config**: Access system tools and utilities
 - **Updates**: Manage Windows updates
-- **Win11 Creator**: Allows user to debloat Windows 11 ISO files.
+- **Win ISO Creator**: Build customized Windows 10 or Windows 11 installation images (debloat, privacy tweaks, optional driver injection).
 
 ## Your First Actions
 
