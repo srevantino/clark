@@ -460,13 +460,13 @@ call :dk_color %_Yellow% "              Old renewal task found, run activation t
 )
 )
 echo        ______________________________________________________________
-echo: 
+echo:
 echo               [1] Activate - Windows
 echo               [2] Activate - Office [All]
 echo               [3] Activate - Office [Project/Visio]
 echo               [4] Activate - All
-echo               _______________________________________________  
-echo: 
+echo               _______________________________________________
+echo:
 if %_norentsk%==0 (
 echo               [5] Renewal Task With Activation       [Yes]
 ) else (
@@ -478,7 +478,7 @@ echo               [6] Change Edition If Needed           [Yes]
 call :dk_color2 %_White% "              [6] Change Edition If Needed            " %_Yellow% "[No]"
 )
 echo               [7] Uninstall Online %KS%
-echo               _______________________________________________       
+echo               _______________________________________________
 echo:
 if defined _server (
 echo               [8] Set %KS% Server/Port [%_server%] [%_port%]
@@ -564,7 +564,7 @@ for /f "delims=[] tokens=2" %%# in ('ping -n 1 %%a') do (if not "%%#"=="" set _i
 )
 
 if not defined _int (
-%psc% "If([Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]'{DCB00C01-570F-4A9B-8D69-199FDBA5723B}')).IsConnectedToInternet){Exit 0}Else{Exit 1}"
+%psc% "If([Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]'{DCB00C01-570F-4A9B-8D69-199FDBA5723B}')).IsConnectedToInternet) {Exit 0} else {Exit 1}"
 if !errorlevel!==0 (set _int=1&set ping_f= But Ping Failed)
 )
 
@@ -754,8 +754,8 @@ call :dk_color %Gray% "Checking Ohook                          [Ohook activation
 set o14c2r=
 set _68=HKLM\SOFTWARE\Microsoft\Office
 set _86=HKLM\SOFTWARE\Wow6432Node\Microsoft\Office
-%nul% reg query %_68%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R 
-%nul% reg query %_86%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R 
+%nul% reg query %_68%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R
+%nul% reg query %_86%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R
 
 if not "%o14c2r%"=="" (
 echo:
@@ -1178,7 +1178,7 @@ exit /b
 
 ::========================================================================================================================================
 
-::  After retail to volume conversion, new product ID needs .OSPPReady key in registry, otherwise product info may not fully reflect 
+::  After retail to volume conversion, new product ID needs .OSPPReady key in registry, otherwise product info may not fully reflect
 
 :ks_osppready
 
@@ -1194,7 +1194,7 @@ set "_osppready=%_config%"
 
 reg add %_osppready% /f /v %_altoffid%.OSPPReady /t %_osppt% /d 1 %nul1%
 
-::  Office builds before 16.0.10730.20102 need the Installed license product ID in ProductReleaseIds, otherwise product info may not fully reflect 
+::  Office builds before 16.0.10730.20102 need the Installed license product ID in ProductReleaseIds, otherwise product info may not fully reflect
 
 if exist "%_oLPath%\Word2019VL_KMS_Client_AE*.xrm-ms" exit /b
 
@@ -2325,7 +2325,7 @@ echo     C:\Program Files\Activation-Renewal\Logs.txt
 echo ______________________________________________________________________________________________
 echo:
 echo   This Script is a part of MAS project.
-echo:   
+echo:
 echo   Homepage: mass%w%grave%w%.dev
 )>"%_dest%\Info.txt"
 exit /b
@@ -2819,13 +2819,13 @@ function InstallLicenseArr($Str) {
     ForEach ($x in $a) {InstallLicenseFile "$x"}
 }
 function InstallLicenseDir($Loc) {
-	Get-ChildItem $Loc -Recurse -Filter *.xrm-ms | ForEach-Object {InstallLicenseFile $_.FullName}
+    Get-ChildItem $Loc -Recurse -Filter *.xrm-ms | ForEach-Object {InstallLicenseFile $_.FullName}
 }
 function ReinstallLicenses() {
-	$Paths = @("$env:SysPath\oem", "$env:SysPath\licensing", "$env:SysPath\spp\tokens")
-	foreach ($Path in $Paths) {
+    $Paths = @("$env:SysPath\oem", "$env:SysPath\licensing", "$env:SysPath\spp\tokens")
+    foreach ($Path in $Paths) {
     if (Test-Path $Path) { InstallLicenseDir "$Path" }
-	}
+    }
 }
 :xrm:
 
@@ -2956,9 +2956,9 @@ exit /b
 
 set w=
 set results=
-if exist "%ProgramFiles%\KM%w%Spico" set pupfound= KM%w%Spico 
+if exist "%ProgramFiles%\KM%w%Spico" set pupfound= KM%w%Spico
 if not defined pupfound (
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\taskcache\tasks" /f Path /s | find /i "AutoPico" %nul% && set pupfound= KM%w%Spico 
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\taskcache\tasks" /f Path /s | find /i "AutoPico" %nul% && set pupfound= KM%w%Spico
 )
 
 set hcount=0
@@ -3631,8 +3631,8 @@ if ($osVersion.Build -ge $minBuildNumber) {
     for ($i=1; $i -le $count; $i++) {
         if (-not $subkeyHashTable.ContainsKey("$i")) {
             Write-Output "Total Keys $count. Error Found - $i key does not exist."
-			$wpaKey.Close()
-			exit
+            $wpaKey.Close()
+            exit
         }
     }
 }
@@ -3640,18 +3640,18 @@ $wpaKey.GetSubKeyNames() | ForEach-Object {
     if ($_ -match '8DEC0AF1-0341-4b93-85CD-72606C2DF94C.*') {
         if ($PSVersionTable.PSVersion.Major -lt 3) {
             cmd /c "reg query "HKLM\SYSTEM\WPA\$_" /ve /t REG_BINARY >nul 2>&1"
-			if ($LASTEXITCODE -ne 0) {
+            if ($LASTEXITCODE -ne 0) {
             Write-Host "Total Keys $count. Error Found - Binary Data is corrupt."
-			$wpaKey.Close()
-			exit
-			}
+            $wpaKey.Close()
+            exit
+            }
         } else {
             $subkey = $wpaKey.OpenSubKey($_)
             $p = $subkey.GetValueNames()
             if (($p | Where-Object { $subkey.GetValueKind($_) -eq [Microsoft.Win32.RegistryValueKind]::Binary }).Count -eq 0) {
                 Write-Host "Total Keys $count. Error Found - Binary Data is corrupt."
-				$wpaKey.Close()
-				exit
+                $wpaKey.Close()
+                exit
             }
         }
     }

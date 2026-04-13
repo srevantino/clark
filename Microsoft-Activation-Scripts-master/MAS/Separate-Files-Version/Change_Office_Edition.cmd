@@ -503,7 +503,7 @@ echo:
 echo                 [5] Change Office Update Channel
 echo                 [0] %_exitmsg%
 echo         ____________________________________________________________
-echo: 
+echo:
 call :dk_color2 %_White% "           " %_Green% "Choose a menu option using your keyboard [1,2,3,4,5,0]"
 choice /C:123450 /N
 set _el=!errorlevel!
@@ -537,7 +537,7 @@ echo:
 echo:
 echo:
 echo:
-echo                 O365/Mondo editions have the latest features.     
+echo                 O365/Mondo editions have the latest features.
 echo         ____________________________________________________________
 echo:
 echo                 [1] Office Suites     - Retail
@@ -548,7 +548,7 @@ echo                 ____________________________________________
 echo:
 echo                 [0] Go Back
 echo         ____________________________________________________________
-echo: 
+echo:
 call :dk_color2 %_White% "            " %_Green% "Choose a menu option using your keyboard [1,2,3,4,0]"
 choice /C:12340 /N
 set _el=!errorlevel!
@@ -1394,7 +1394,7 @@ for /f "delims=[] tokens=2" %%# in ('ping -n 1 %%a') do (if not "%%#"=="" set _i
 )
 
 if not defined _int (
-%psc% "If([Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]'{DCB00C01-570F-4A9B-8D69-199FDBA5723B}')).IsConnectedToInternet){Exit 0}Else{Exit 1}"
+%psc% "If([Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]'{DCB00C01-570F-4A9B-8D69-199FDBA5723B}')).IsConnectedToInternet) {Exit 0} else {Exit 1}"
 if !errorlevel!==0 (set _int=1)
 )
 

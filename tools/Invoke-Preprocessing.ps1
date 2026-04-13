@@ -136,10 +136,14 @@ function Invoke-Preprocessing {
 
     for ($i = 0; $i -lt $numOfFiles; $i++) {
         $fullFileName = $files[$i]
+        $fileContent = Get-Content -Path $fullFileName -Raw -ErrorAction SilentlyContinue
+        if ($null -eq $fileContent) {
+            $fileContent = ""
+        }
 
         # TODO:
         #   make more formatting rules, and document them in WinUtil Official Documentation
-        (Get-Content "$fullFileName").TrimEnd() `
+        $fileContent.TrimEnd() `
             -replace ('\t', '    ') `
             -replace ('\)\s*\{', ') {') `
             -replace ('(?<keyword>if|for|foreach)\s*(?<condition>\([.*?]\))\s*\{', '${keyword} ${condition} {') `

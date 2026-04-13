@@ -569,7 +569,7 @@ if /i "%targetedition%"=="ServerRdsh" (
 echo:
 call :dk_color %Red% "==== Note ===="
 echo:
-echo Once the edition is changed to "%targetedition%", 
+echo Once the edition is changed to "%targetedition%",
 echo the system may not be able to properly change edition later.
 echo:
 echo [1] Continue Anyway

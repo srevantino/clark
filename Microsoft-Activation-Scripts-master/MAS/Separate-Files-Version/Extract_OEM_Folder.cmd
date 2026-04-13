@@ -435,7 +435,7 @@ echo:
 echo:
 echo:
 echo:
-echo:                     Extract $OEM$ folder on the desktop           
+echo:                     Extract $OEM$ folder on the desktop
 echo:         ____________________________________________________________
 echo:
 echo:            [1] HWID       [Windows]
@@ -450,7 +450,7 @@ echo:
 call :dk_color2 %_White% "            [R] " %_Green% "ReadMe"
 echo:            [0] Exit
 echo:         ____________________________________________________________
-echo:  
+echo:
 call :dk_color2 %_White% "             " %_Green% "Choose a menu option using your keyboard :"
 choice /C:1234567R0 /N
 set _erl=%errorlevel%

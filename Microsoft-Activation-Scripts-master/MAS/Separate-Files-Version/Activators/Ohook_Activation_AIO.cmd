@@ -433,7 +433,7 @@ echo                 [3] Download Office
 echo:
 echo                 [0] %_exitmsg%
 echo         ____________________________________________________________
-echo: 
+echo:
 call :dk_color2 %_White% "             " %_Green% "Choose a menu option using your keyboard [1,2,3,0]"
 choice /C:1230 /N
 set _el=!errorlevel!
@@ -512,8 +512,8 @@ set o16uwp=
 
 set _68=HKLM\SOFTWARE\Microsoft\Office
 set _86=HKLM\SOFTWARE\Wow6432Node\Microsoft\Office
-%nul% reg query %_68%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R 
-%nul% reg query %_86%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R 
+%nul% reg query %_68%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R
+%nul% reg query %_86%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R
 
 if %winbuild% GEQ 10240 (
 for /f "delims=" %%a in ('%psc% "(Get-AppxPackage -name 'Microsoft.Office.Desktop' | Select-Object -ExpandProperty InstallLocation)" %nul6%') do (if exist "%%a\Integration\Integrator.exe" set o16uwp=Office UWP )
@@ -739,7 +739,7 @@ call :dk_color %Gray% "Checking Old Office With Sub License    [Found. Update Of
 ::========================================================================================================================================
 
 ::  mass{}grave{dot}dev/office-license-is-not-genuine
-::  Add registry keys for volume products so that 'non-genuine' banner won't appear 
+::  Add registry keys for volume products so that 'non-genuine' banner won't appear
 ::  Script already is using MAK instead of GVLK so it won't appear anyway, but registry keys are added incase Office installs default GVLK grace key for volume products
 
 set "kmskey=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\0ff1ce15-a989-479d-af46-f275c6370663"
@@ -1835,7 +1835,7 @@ function InstallLicenseArr($Str) {
     ForEach ($x in $a) {InstallLicenseFile "$x"}
 }
 function InstallLicenseDir($Loc) {
-	Get-ChildItem $Loc -Recurse -Filter *.xrm-ms | ForEach-Object {InstallLicenseFile $_.FullName}
+    Get-ChildItem $Loc -Recurse -Filter *.xrm-ms | ForEach-Object {InstallLicenseFile $_.FullName}
 }
 function ReinstallLicenses() {
     $Oem = "$env:SysPath\oem"
@@ -1912,9 +1912,9 @@ exit /b
 
 set w=
 set results=
-if exist "%ProgramFiles%\KM%w%Spico" set pupfound= KM%w%Spico 
+if exist "%ProgramFiles%\KM%w%Spico" set pupfound= KM%w%Spico
 if not defined pupfound (
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\taskcache\tasks" /f Path /s | find /i "AutoPico" %nul% && set pupfound= KM%w%Spico 
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\taskcache\tasks" /f Path /s | find /i "AutoPico" %nul% && set pupfound= KM%w%Spico
 )
 
 set hcount=0
@@ -2587,8 +2587,8 @@ if ($osVersion.Build -ge $minBuildNumber) {
     for ($i=1; $i -le $count; $i++) {
         if (-not $subkeyHashTable.ContainsKey("$i")) {
             Write-Output "Total Keys $count. Error Found - $i key does not exist."
-			$wpaKey.Close()
-			exit
+            $wpaKey.Close()
+            exit
         }
     }
 }
@@ -2596,18 +2596,18 @@ $wpaKey.GetSubKeyNames() | ForEach-Object {
     if ($_ -match '8DEC0AF1-0341-4b93-85CD-72606C2DF94C.*') {
         if ($PSVersionTable.PSVersion.Major -lt 3) {
             cmd /c "reg query "HKLM\SYSTEM\WPA\$_" /ve /t REG_BINARY >nul 2>&1"
-			if ($LASTEXITCODE -ne 0) {
+            if ($LASTEXITCODE -ne 0) {
             Write-Host "Total Keys $count. Error Found - Binary Data is corrupt."
-			$wpaKey.Close()
-			exit
-			}
+            $wpaKey.Close()
+            exit
+            }
         } else {
             $subkey = $wpaKey.OpenSubKey($_)
             $p = $subkey.GetValueNames()
             if (($p | Where-Object { $subkey.GetValueKind($_) -eq [Microsoft.Win32.RegistryValueKind]::Binary }).Count -eq 0) {
                 Write-Host "Total Keys $count. Error Found - Binary Data is corrupt."
-				$wpaKey.Close()
-				exit
+                $wpaKey.Close()
+                exit
             }
         }
     }
@@ -3240,7 +3240,7 @@ $MemoryStream.Close()
 ::
 ::========================================================================================================================================
 ::
-::  If you want to use a different sppc.dll or without base64 format, then create a folder named "BIN" where this script is located and 
+::  If you want to use a different sppc.dll or without base64 format, then create a folder named "BIN" where this script is located and
 ::  place these two files in that "BIN" folder. sppc32.dll, sppc64.dll
 ::  Script will auto pick that instead of using the below from base64 section. You can also delete the below code in that case.
 ::
