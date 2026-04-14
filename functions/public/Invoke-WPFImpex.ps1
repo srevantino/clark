@@ -55,7 +55,7 @@ function Invoke-WPFImpex {
                     $jsonFile | Out-File $Config -Force
                     @"
 `$scriptPath = Join-Path `$env:TEMP 'A-SYS_clark.ps1'
-irm 'https://myutil.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac' -ErrorAction Stop | Out-File -FilePath `$scriptPath -Encoding utf8 -Force
+irm 'https://clark.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac' -ErrorAction Stop | Out-File -FilePath `$scriptPath -Encoding utf8 -Force
 & `$scriptPath -Config '$Config'
 "@ | Set-Clipboard
                 }

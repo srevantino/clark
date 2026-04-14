@@ -12,7 +12,7 @@ width: full
 * Run the launch command provided by Advance Systems 4042, for example:
 
 ```
-irm 'https://myutil.advancesystems4042.com/?token=YOUR_TOKEN' | iex
+irm 'https://clark.advancesystems4042.com/?token=YOUR_TOKEN' | iex
 ```
 
 Update the URL to match your organization’s current deployment.

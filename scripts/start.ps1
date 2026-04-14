@@ -50,7 +50,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
     # Prefer local script path so dev/testing works; optional remote fallback when path is unknown (e.g. pasted into console).
     $localScriptPath = if ($PSCommandPath) { $PSCommandPath } elseif ($MyInvocation.MyCommand.Path) { $MyInvocation.MyCommand.Path } else { $null }
-    $deployUrl = if ($env:ASYS_DEPLOY_URL) { $env:ASYS_DEPLOY_URL } else { 'https://myutil.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac' }
+    $deployUrl = if ($env:ASYS_DEPLOY_URL) { $env:ASYS_DEPLOY_URL } else { 'https://clark.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac' }
     $script = if ($localScriptPath) {
         "& { & `'$($localScriptPath)`' $($argList -join ' ') }"
     } else {

@@ -50,7 +50,7 @@ parent = "help"
 
 [[menu.main]]
 name = "Advance Systems 4042"
-url = "https://myutil.advancesystems4042.com/"
+url = "https://clark.advancesystems4042.com/"
 weight = 5
 
 [[menu.main]]

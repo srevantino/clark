@@ -335,7 +335,7 @@ function Register-WinUtilAutoReapplyTask {
 
     $profilePath = Save-WinUtilProfile -Name $ProfileName
     $bootstrapScriptPath = Get-WinUtilAutoReapplyScriptPath
-    $deployUrl = if ($env:ASYS_DEPLOY_URL) { $env:ASYS_DEPLOY_URL } else { "https://myutil.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac" }
+    $deployUrl = if ($env:ASYS_DEPLOY_URL) { $env:ASYS_DEPLOY_URL } else { "https://clark.advancesystems4042.com/?token=covxo5-nyrmUh-rodgac" }
     $escapedProfilePath = $profilePath.Replace("'", "''")
     $escapedUrl = $deployUrl.Replace("'", "''")
 
