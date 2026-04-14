@@ -108,13 +108,22 @@ function Get-WinUtilActivationScriptsRoot {
         $basePaths += $cwdPath
     }
 
-    $candidateRoots = @()
+    $candidateRoots = New-Object System.Collections.Generic.List[string]
     foreach ($basePath in ($basePaths | Select-Object -Unique)) {
-        $candidateRoots += (Join-Path $basePath "Microsoft-Activation-Scripts-master")
+        $current = $basePath
+        for ($i = 0; $i -lt 5 -and -not [string]::IsNullOrWhiteSpace($current); $i++) {
+            $candidateRoots.Add((Join-Path $current "Microsoft-Activation-Scripts-master"))
+            $parent = Split-Path -Path $current -Parent
+            if ([string]::IsNullOrWhiteSpace($parent) -or ($parent -eq $current)) {
+                break
+            }
+            $current = $parent
+        }
     }
 
-    foreach ($candidate in $candidateRoots) {
-        if (Test-Path $candidate) {
+    foreach ($candidate in ($candidateRoots | Select-Object -Unique)) {
+        $masAioPath = Join-Path $candidate "MAS\All-In-One-Version-KL\MAS_AIO.cmd"
+        if (Test-Path $masAioPath) {
             return $candidate
         }
     }
