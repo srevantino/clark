@@ -86,16 +86,18 @@ if ([string]::IsNullOrWhiteSpace($resolvedScriptRoot)) {
 }
 
 # Repo root: compiled script lives in repo root (.\config exists); dev start.ps1 lives in scripts\ (use parent).
+$repoRoot = $null
 if (Test-Path -LiteralPath (Join-Path $resolvedScriptRoot "config")) {
-    $sync.PSScriptRoot = $resolvedScriptRoot
+    $repoRoot = $resolvedScriptRoot
 } else {
     $parent = Split-Path -Parent $resolvedScriptRoot
     if ($parent -and (Test-Path -LiteralPath (Join-Path $parent "config"))) {
-        $sync.PSScriptRoot = $parent
-    } else {
-        throw "Cannot locate config\ folder (checked '$resolvedScriptRoot' and '$parent')."
+        $repoRoot = $parent
     }
 }
+
+# In deployed/irm mode, config is bundled in-script, so missing disk config should not block startup.
+$sync.PSScriptRoot = if ($repoRoot) { $repoRoot } else { $resolvedScriptRoot }
 $sync.version = "#{replaceme}"
 $sync.configs = @{}
 $sync.Buttons = [System.Collections.Generic.List[PSObject]]::new()
