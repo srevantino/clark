@@ -79,8 +79,7 @@ function Set-Preferences{
 
     if ($save) {
         Save-Preferences
-    }
-    else {
+    } else {
         Load-Preferences
     }
 }

@@ -57,8 +57,7 @@ function Find-AppsByNameOrDescription {
                     # Show the App and mark that this category has a match
                     $_.Visibility = [Windows.Visibility]::Visible
                     $categoryHasMatch = $true
-                }
-                else {
+                } else {
                     $_.Visibility = [Windows.Visibility]::Collapsed
                 }
             }

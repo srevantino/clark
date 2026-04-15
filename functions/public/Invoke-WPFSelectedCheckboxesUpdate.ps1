@@ -18,8 +18,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
         $checkboxName
     )
 
-    if (($type -ne "Add") -and ($type -ne "Remove"))
-    {
+    if (($type -ne "Add") -and ($type -ne "Remove")) {
         Write-Error "Type: $type not implemented"
         return
     }
@@ -29,8 +28,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
     $group = if ($appKey.StartsWith("WPFInstall")) { "Install" }
                 elseif ($appKey.StartsWith("WPFTweaks")) { "Tweaks" }
                 elseif ($appKey.StartsWith("WPFToggle")) { "Toggle" }
-                elseif ($appKey.StartsWith("WPFFeature")) { "Feature" }
-                else { "na" }
+                elseif ($appKey.StartsWith("WPFFeature")) { "Feature" } else { "na" }
 
     switch ($group) {
         "Install" {
@@ -40,8 +38,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                     # The List type needs to be specified again, because otherwise Sort-Object will convert the list to a string if there is only a single entry
                     [System.Collections.Generic.List[string]]$sync.selectedApps = $sync.SelectedApps | Sort-Object
                 }
-            }
-            else{
+            } else {
                 $sync.selectedApps.Remove($appKey)
             }
 
@@ -56,8 +53,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                 if (!$sync.selectedTweaks.Contains($appKey)) {
                     $sync.selectedTweaks.Add($appKey)
                 }
-            }
-            else{
+            } else {
                 $sync.selectedTweaks.Remove($appKey)
             }
         }
@@ -66,8 +62,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                 if (!$sync.selectedToggles.Contains($appKey)) {
                     $sync.selectedToggles.Add($appKey)
                 }
-            }
-            else{
+            } else {
                 $sync.selectedToggles.Remove($appKey)
             }
         }
@@ -76,8 +71,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                 if (!$sync.selectedFeatures.Contains($appKey)) {
                     $sync.selectedFeatures.Add($appKey)
                 }
-            }
-            else{
+            } else {
                 $sync.selectedFeatures.Remove($appKey)
             }
         }

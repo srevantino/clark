@@ -155,16 +155,13 @@ function Install-WinUtilProgramChoco {
                 if (Test-UpgradeNeeded $installOutputFile) {
                     $upgradeStatusCode = Invoke-ChocoCommand "upgrade $Program -y"
                     Write-Host "$Program was" $(if ($upgradeStatusCode -eq 0) { "upgraded successfully." } else { "not upgraded." })
-                }
-                else {
+                } else {
                     Write-Host "$Program installed successfully."
                 }
-            }
-            else {
+            } else {
                 Write-Host "Failed to install $Program."
             }
-        }
-        catch {
+        } catch {
             Write-Host "Failed to install $Program due to an error: $_"
         }
         finally {
@@ -209,15 +206,13 @@ function Install-WinUtilProgramChoco {
             try {
                 $uninstallStatusCode = Invoke-ChocoCommand "uninstall $chocoPackages -y"
                 Write-Host "$Program" $(if ($uninstallStatusCode -eq 0) { "uninstalled successfully." } else { "failed to uninstall." })
-            }
-            catch {
+            } catch {
                 Write-Host "Failed to uninstall $Program due to an error: $_"
             }
             finally {
                 Update-TaskbarProgress $currentIndex $totalPrograms
             }
-        }
-        else {
+        } else {
             Write-Host "$Program is not installed."
         }
     }

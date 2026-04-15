@@ -617,6 +617,16 @@ $sync["WPFWinISODownloadDirectButton"].Add_Click({
     Invoke-WinUtilISODirectDownload
 })
 
+$sync["WPFWinISODownloadPauseButton"].Add_Click({
+    Write-Debug "WPFWinISODownloadPauseButton clicked"
+    Invoke-WinUtilISODirectDownloadPauseToggle
+})
+
+$sync["WPFWinISODownloadStopButton"].Add_Click({
+    Write-Debug "WPFWinISODownloadStopButton clicked"
+    Invoke-WinUtilISODirectDownloadStop
+})
+
 $sync["WPFWin11ISOMountButton"].Add_Click({
     Write-Debug "WPFWin11ISOMountButton clicked"
     Invoke-WinUtilISOMountAndVerify

@@ -66,13 +66,11 @@ param (
     $Pass
 )
 
-function CONOUT($strObj)
-{
+function CONOUT($strObj) {
     Out-Host -Input $strObj
 }
 
-function ExitScript($ExitCode = 0)
-{
+function ExitScript($ExitCode = 0) {
     Exit $ExitCode
 }
 
@@ -107,13 +105,10 @@ if ($winbuild -LT 2600) {
     ExitScript 1
 }
 
-if ($All.IsPresent)
-{
+if ($All.IsPresent) {
     $isAll = {CONOUT "`r"}
     $noAll = {$null}
-}
-else
-{
+} else {
     $isAll = {$null}
     $noAll = {CONOUT "`r"}
 }
@@ -153,8 +148,7 @@ function echoOffice
     $script:doMSG = 0
 }
 
-function strGetRegistry($strKey, $strName)
-{
+function strGetRegistry($strKey, $strName) {
     try {
         return [Microsoft.Win32.Registry]::GetValue($strKey, $strName, $null)
     } catch {
@@ -248,49 +242,38 @@ function InitializePInvoke($LaDll, $bOffice) {
     $Win32 = $Class.CreateType()
 }
 
-function SlGetInfoIID($SkuId)
-{
+function SlGetInfoIID($SkuId) {
     $bData = 0
 
     if ($Win32::SLGenerateOfflineInstallationId(
         $hSLC,
         [ref][Guid]$SkuId,
         [ref]$bData
-    ))
-    {
+    )) {
         return $null
-    }
-    else
-    {
+    } else {
         return $Marshal::PtrToStringUni($bData)
     }
 }
 
 function SlReturnData($hrRet, $tData, $cData, $bData) {
-    if ($hrRet -NE 0 -Or $cData -EQ 0)
-    {
+    if ($hrRet -NE 0 -Or $cData -EQ 0) {
         return $null
     }
-    if ($tData -EQ 1)
-    {
+    if ($tData -EQ 1) {
         return $Marshal::PtrToStringUni($bData)
     }
-    elseif ($tData -EQ 4)
-    {
+    elseif ($tData -EQ 4) {
         return $Marshal::ReadInt32($bData)
     }
-    elseif ($tData -EQ 3 -And $cData -EQ 8)
-    {
+    elseif ($tData -EQ 3 -And $cData -EQ 8) {
         return $Marshal::ReadInt64($bData)
-    }
-    else
-    {
+    } else {
         return $null
     }
 }
 
-function SlGetInfoPKey($PkeyId, $Value)
-{
+function SlGetInfoPKey($PkeyId, $Value) {
     $tData = 0
     $cData = 0
     $bData = 0
@@ -307,8 +290,7 @@ function SlGetInfoPKey($PkeyId, $Value)
     return SlReturnData $hrRet $tData $cData $bData
 }
 
-function SlGetInfoSku($SkuId, $Value)
-{
+function SlGetInfoSku($SkuId, $Value) {
     $tData = 0
     $cData = 0
     $bData = 0
@@ -325,8 +307,7 @@ function SlGetInfoSku($SkuId, $Value)
     return SlReturnData $hrRet $tData $cData $bData
 }
 
-function SlGetInfoApp($AppId, $Value)
-{
+function SlGetInfoApp($AppId, $Value) {
     $tData = 0
     $cData = 0
     $bData = 0
@@ -343,8 +324,7 @@ function SlGetInfoApp($AppId, $Value)
     return SlReturnData $hrRet $tData $cData $bData
 }
 
-function SlGetInfoService($Value)
-{
+function SlGetInfoService($Value) {
     $tData = 0
     $cData = 0
     $bData = 0
@@ -360,20 +340,15 @@ function SlGetInfoService($Value)
     return SlReturnData $hrRet $tData $cData $bData
 }
 
-function SlGetInfoSvcApp($strApp, $Value)
-{
-    if ($SLApp)
-    {
+function SlGetInfoSvcApp($strApp, $Value) {
+    if ($SLApp) {
         return SlGetInfoApp $strApp $Value
-    }
-    else
-    {
+    } else {
         return SlGetInfoService $Value
     }
 }
 
-function SlGetInfoLicensing($AppId, $SkuId)
-{
+function SlGetInfoLicensing($AppId, $SkuId) {
     $dwStatus = 0
     $dwGrace = 0
     $hrReason = 0
@@ -391,8 +366,7 @@ function SlGetInfoLicensing($AppId, $SkuId)
         [ref]$pStatus
     )
 
-    if ($hrRet -NE 0 -Or $cStatus -EQ 0)
-    {
+    if ($hrRet -NE 0 -Or $cStatus -EQ 0) {
         return
     }
 
@@ -402,22 +376,17 @@ function SlGetInfoLicensing($AppId, $SkuId)
     $hrReason = $Marshal::ReadInt32($ppStatus, 28)
     $qwValidity = $Marshal::ReadInt64($ppStatus, 32)
 
-    if ($dwStatus -EQ 3)
-    {
+    if ($dwStatus -EQ 3) {
         $dwStatus = 5
     }
-    if ($dwStatus -EQ 2)
-    {
-        if ($hrReason -EQ 0x4004F00D)
-        {
+    if ($dwStatus -EQ 2) {
+        if ($hrReason -EQ 0x4004F00D) {
             $dwStatus = 3
         }
-        elseif ($hrReason -EQ 0x4004F065)
-        {
+        elseif ($hrReason -EQ 0x4004F065) {
             $dwStatus = 4
         }
-        elseif ($hrReason -EQ 0x4004FC06)
-        {
+        elseif ($hrReason -EQ 0x4004FC06) {
             $dwStatus = 6
         }
     }
@@ -425,8 +394,7 @@ function SlGetInfoLicensing($AppId, $SkuId)
     return
 }
 
-function SlGetInfoSLID($AppId)
-{
+function SlGetInfoSLID($AppId) {
     $cReturnIds = 0
     $pReturnIds = 0
 
@@ -439,8 +407,7 @@ function SlGetInfoSLID($AppId)
         [ref]$pReturnIds
     )
 
-    if ($hrRet -NE 0 -Or $cReturnIds -EQ 0)
-    {
+    if ($hrRet -NE 0 -Or $cReturnIds -EQ 0) {
         return
     }
 
@@ -449,8 +416,7 @@ function SlGetInfoSLID($AppId)
     $a3List = @()
     $a4List = @()
 
-    foreach ($i in 0..($cReturnIds - 1))
-    {
+    foreach ($i in 0..($cReturnIds - 1)) {
         $bytes = New-Object byte[] 16
         $Marshal::Copy([Int64]$pReturnIds + [Int64]16 * $i, $bytes, 0, 16)
         $actid = ([Guid]$bytes).Guid
@@ -468,16 +434,13 @@ function SlGetInfoSLID($AppId)
 }
 
 function DetectSubscription {
-    try
-    {
+    try {
         $objSvc = New-Object PSObject
         $wmiSvc = [wmisearcher]"SELECT SubscriptionType, SubscriptionStatus, SubscriptionEdition, SubscriptionExpiry FROM SoftwareLicensingService"
         $wmiSvc.Options.Rewindable = $false
         $wmiSvc.Get() | select -Expand Properties -EA 0 | foreach { $objSvc | Add-Member 8 $_.Name $_.Value }
         $wmiSvc.Dispose()
-    }
-    catch
-    {
+    } catch {
         return
     }
 
@@ -581,12 +544,9 @@ function DetectKmsHost
     if ($KMSPublishing -EQ "TRUE") {$KMSPublishing = "Enabled"} else {$KMSPublishing = "Disabled"}
     if ($KMSPriority -EQ "TRUE") {$KMSPriority = "Low"} else {$KMSPriority = "Normal"}
 
-    if ($SLApp)
-    {
+    if ($SLApp) {
         $propKMSServer | foreach { set $_ (SlGetInfoApp $strApp $_) }
-    }
-    else
-    {
+    } else {
         $propKMSServer | foreach { set $_ (SlGetInfoService $_) }
     }
 
@@ -687,8 +647,7 @@ function DetectKmsClient
     if (-Not [String]::IsNullOrEmpty($KeyManagementServiceLookupDomain)) {CONOUT "    KMS SRV record lookup domain: $KeyManagementServiceLookupDomain"}
 }
 
-function GetResult($strSLP, $strApp, $entry)
-{
+function GetResult($strSLP, $strApp, $entry) {
     $licID = $entry.id
     $propPrd | foreach { set $_ (SlGetInfoSku $licID $_) }
     . SlGetInfoLicensing $strApp $licID
@@ -811,24 +770,17 @@ function GetResult($strSLP, $strApp, $entry)
     }
 
     if ($Dlv) {
-        if ($win8)
-        {
+        if ($win8) {
             $RemainingSkuReArmCount = SlGetInfoSku $licID 'RemainingRearmCount'
             $RemainingAppReArmCount = SlGetInfoApp $strApp 'RemainingRearmCount'
-        }
-        else
-        {
-            if (($winID -And $NT7) -Or $strSLP -EQ $oslp)
-            {
+        } else {
+            if (($winID -And $NT7) -Or $strSLP -EQ $oslp) {
                 $RemainingSLReArmCount = SlGetInfoApp $strApp 'RemainingRearmCount'
-            }
-            else
-            {
+            } else {
                 $RemainingSLReArmCount = SlGetInfoService 'RearmCount'
             }
         }
-        if ($null -EQ $TrustedTime)
-        {
+        if ($null -EQ $TrustedTime) {
             $TrustedTime = SlGetInfoSvcApp $strApp 'TrustedTime'
         }
     }
@@ -904,10 +856,8 @@ function GetResult($strSLP, $strApp, $entry)
 
 }
 
-function ParseList($strSLP, $strApp, $arrList)
-{
-    foreach ($entry in $arrList)
-    {
+function ParseList($strSLP, $strApp, $arrList) {
+    foreach ($entry in $arrList) {
         GetResult $strSLP $strApp $entry
         CONOUT "$line3"
         & $noAll
@@ -916,8 +866,7 @@ function ParseList($strSLP, $strApp, $arrList)
 #endregion
 
 #region vNextDiag
-if ($PSVersionTable.PSVersion.Major -Lt 3)
-{
+if ($PSVersionTable.PSVersion.Major -Lt 3) {
     function ConvertFrom-Json
     {
         [CmdletBinding()]
@@ -940,12 +889,10 @@ if ($PSVersionTable.PSVersion.Major -Lt 3)
     }
 }
 
-function PrintModePerPridFromRegistry
-{
+function PrintModePerPridFromRegistry {
     $vNextRegkey = "HKCU:\SOFTWARE\Microsoft\Office\16.0\Common\Licensing\LicensingNext"
     $vNextPrids = Get-Item -Path $vNextRegkey -ErrorAction SilentlyContinue | Select-Object -ExpandProperty 'property' -ErrorAction SilentlyContinue | Where-Object -FilterScript {$_.ToLower() -like "*retail" -or $_.ToLower() -like "*volume"}
-    If ($null -Eq $vNextPrids)
-    {
+    If ($null -Eq $vNextPrids) {
         CONOUT "`nNo registry keys found."
         Return
     }
@@ -953,8 +900,7 @@ function PrintModePerPridFromRegistry
     $vNextPrids | ForEach `
     {
         $mode = (Get-ItemProperty -Path $vNextRegkey -Name $_).$_
-        Switch ($mode)
-        {
+        Switch ($mode) {
             2 { $mode = "vNext"; Break }
             3 { $mode = "Device"; Break }
             Default { $mode = "Legacy"; Break }
@@ -971,30 +917,25 @@ function PrintSharedComputerLicensing
     $scaValue2 = Get-ItemProperty -Path $scaRegKey2 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty "SharedComputerLicensing" -ErrorAction SilentlyContinue
     $scaPolicyKey = "HKLM:\SOFTWARE\Policies\Microsoft\Office\16.0\Common\Licensing"
     $scaPolicyValue = Get-ItemProperty -Path $scaPolicyKey -ErrorAction SilentlyContinue | Select-Object -ExpandProperty "SharedComputerLicensing" -ErrorAction SilentlyContinue
-    If ($null -Eq $scaValue -And $null -Eq $scaValue2 -And $null -Eq $scaPolicyValue)
-    {
+    If ($null -Eq $scaValue -And $null -Eq $scaValue2 -And $null -Eq $scaPolicyValue) {
         CONOUT "`nNo registry keys found."
         Return
     }
     $scaModeValue = $scaValue -Or $scaValue2 -Or $scaPolicyValue
-    If ($scaModeValue -Eq 0)
-    {
+    If ($scaModeValue -Eq 0) {
         $scaMode = "Disabled"
     }
-    If ($scaModeValue -Eq 1)
-    {
+    If ($scaModeValue -Eq 1) {
         $scaMode = "Enabled"
     }
     CONOUT "`nStatus: $scaMode"
     CONOUT "`r"
     $tokenFiles = $null
     $tokenPath = "${env:LOCALAPPDATA}\Microsoft\Office\16.0\Licensing"
-    If (Test-Path $tokenPath)
-    {
+    If (Test-Path $tokenPath) {
         $tokenFiles = Get-ChildItem -Path $tokenPath -Filter "*authString*" -Recurse | Where-Object { !$_.PSIsContainer }
     }
-    If ($null -Eq $tokenFiles -Or $tokenFiles.Length -Eq 0)
-    {
+    If ($null -Eq $tokenFiles -Or $tokenFiles.Length -Eq 0) {
         CONOUT "No tokens found."
         Return
     }
@@ -1016,21 +957,17 @@ function PrintLicensesInformation
         [ValidateSet("NUL", "Device")]
         [String]$mode
     )
-    If ($mode -Eq "NUL")
-    {
+    If ($mode -Eq "NUL") {
         $licensePath = "${env:LOCALAPPDATA}\Microsoft\Office\Licenses"
     }
-    ElseIf ($mode -Eq "Device")
-    {
+    ElseIf ($mode -Eq "Device") {
         $licensePath = "${env:PROGRAMDATA}\Microsoft\Office\Licenses"
     }
     $licenseFiles = $null
-    If (Test-Path $licensePath)
-    {
+    If (Test-Path $licensePath) {
         $licenseFiles = Get-ChildItem -Path $licensePath -Recurse | Where-Object { !$_.PSIsContainer }
     }
-    If ($null -Eq $licenseFiles -Or $licenseFiles.Length -Eq 0)
-    {
+    If ($null -Eq $licenseFiles -Or $licenseFiles.Length -Eq 0) {
         CONOUT "`nNo licenses found."
         Return
     }
@@ -1039,21 +976,16 @@ function PrintLicensesInformation
         $license = (Get-Content -Encoding Unicode $_.FullName | ConvertFrom-Json).License
         $decodedLicense = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($license)) | ConvertFrom-Json
         $licenseType = $decodedLicense.LicenseType
-        If ($null -Ne $decodedLicense.ExpiresOn)
-        {
+        If ($null -Ne $decodedLicense.ExpiresOn) {
             $expiry = [System.DateTime]::Parse($decodedLicense.ExpiresOn, $null, 'AdjustToUniversal')
-        }
-        Else
-        {
+        } else {
             $expiry = New-Object System.DateTime
         }
         $licenseState = "Grace"
-        If ((Get-Date) -Gt (Get-Date $decodedLicense.Metadata.NotAfter))
-        {
+        If ((Get-Date) -Gt (Get-Date $decodedLicense.Metadata.NotAfter)) {
             $licenseState = "RFM"
         }
-        ElseIf ((Get-Date) -Lt (Get-Date $expiry))
-        {
+        ElseIf ((Get-Date) -Lt (Get-Date $expiry)) {
             $licenseState = "Licensed"
         }
         $output = New-Object PSObject
@@ -1318,18 +1250,14 @@ function clcGetExpireKrn
         [ref]$bData
     )
 
-    if ($hrRet -Or !$cData -Or $tData -NE 3)
-    {
+    if ($hrRet -Or !$cData -Or $tData -NE 3) {
         return $null
     }
 
     $year = $Marshal::ReadInt16($bData, 0)
-    if ($year -EQ 0 -Or $year -EQ 1601)
-    {
+    if ($year -EQ 0 -Or $year -EQ 1601) {
         $rData = $null
-    }
-    else
-    {
+    } else {
         $rData = '{0}/{1}/{2}:{3}:{4}:{5}' -f $year, $Marshal::ReadInt16($bData, 2), $Marshal::ReadInt16($bData, 4), $Marshal::ReadInt16($bData, 6), $Marshal::ReadInt16($bData, 8), $Marshal::ReadInt16($bData, 10)
     }
 
@@ -1341,8 +1269,7 @@ function clcGetExpireSys
 {
     $kuser = $Marshal::ReadInt64((New-Object IntPtr(0x7FFE02C8)))
 
-    if ($kuser -EQ 0)
-    {
+    if ($kuser -EQ 0) {
         return $null
     }
 
@@ -1350,8 +1277,7 @@ function clcGetExpireSys
     return $rData
 }
 
-function clcGetLicensingState($dwState)
-{
+function clcGetLicensingState($dwState) {
     if ($dwState -EQ 5) {
         $dwState = 3
     } elseif ($dwState -EQ 3 -Or $dwState -EQ 4 -Or $dwState -EQ 6) {
@@ -1364,8 +1290,7 @@ function clcGetLicensingState($dwState)
     return $rData
 }
 
-function clcGetGenuineState($AppId)
-{
+function clcGetGenuineState($AppId) {
     $dwGenuine = 0
 
     if ($NT7) {
@@ -1374,8 +1299,7 @@ function clcGetGenuineState($AppId)
         $hrRet = $Win32::SLIsGenuineLocal([ref][Guid]$AppId, [ref]$dwGenuine, 0)
     }
 
-    if ($hrRet)
-    {
+    if ($hrRet) {
         $dwGenuine = 4
     }
 
@@ -1512,13 +1436,11 @@ if ($WsppHook -NE 0) {
     $c0ff1ce14 = SlGetInfoSLID $o14App
 }
 
-if ($cW1nd0ws.Count -GT 0)
-{
+if ($cW1nd0ws.Count -GT 0) {
     echoWindows
     ParseList $wslp $winApp $cW1nd0ws
 }
-elseif ($NT6)
-{
+elseif ($NT6) {
     echoWindows
     CONOUT "Error: product key not found.`n"
 }
@@ -1533,15 +1455,13 @@ if ($NT8) {
 
 $doMSG = 1
 
-if ($c0ff1ce15.Count -GT 0)
-{
+if ($c0ff1ce15.Count -GT 0) {
     CheckOhook
     echoOffice
     ParseList $wslp $o15App $c0ff1ce15
 }
 
-if ($c0ff1ce14.Count -GT 0)
-{
+if ($c0ff1ce14.Count -GT 0) {
     echoOffice
     ParseList $wslp $o14App $c0ff1ce14
 }
@@ -1563,14 +1483,12 @@ if ($OsppHook -NE 0) {
     $ospp14 = SlGetInfoSLID $o14App
 }
 
-if ($ospp15.Count -GT 0)
-{
+if ($ospp15.Count -GT 0) {
     echoOffice
     ParseList $oslp $o15App $ospp15
 }
 
-if ($ospp14.Count -GT 0)
-{
+if ($ospp14.Count -GT 0) {
     echoOffice
     ParseList $oslp $o14App $ospp14
 }

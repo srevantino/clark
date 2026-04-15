@@ -45,8 +45,7 @@ function Invoke-WPFToggleAllCategories {
                 }
             }
         }
-    }
-    catch {
+    } catch {
         Write-Error "Error toggling categories: $_"
     }
 }

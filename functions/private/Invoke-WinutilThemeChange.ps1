@@ -82,8 +82,7 @@ function Invoke-WinutilThemeChange {
                     "Double" { [double]$Value }
                     default { $Value }
                 }
-            }
-            catch {
+            } catch {
                 # Log a warning if there's an issue setting the property
                 Write-Warning "Failed to set property $($Name): $_"
             }
@@ -132,8 +131,7 @@ function Invoke-WinutilThemeChange {
             $systemUsesDarkMode = Get-WinUtilToggleStatus WPFToggleDarkMode
             if ($systemUsesDarkMode) {
                 $theme = "Dark"
-            }
-            else{
+            } else {
                 $theme = "Light"
             }
 

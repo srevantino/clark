@@ -471,8 +471,7 @@ Winutil uses PowerShell error handling:
 try {
     # Attempt operation
     Invoke-SomeOperation
-}
-catch {
+} catch {
     Write-Host "Error: $_" -ForegroundColor Red
     # Log error
     Add-Content -Path $logfile -Value "ERROR: $_"

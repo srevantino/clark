@@ -8,9 +8,7 @@ toc: false
 
 {{< autolinks section="dev/tweaks/essential-tweaks" >}}
 
-### Advanced Tweaks (CAUTION)
-
-{{< autolinks section="dev/tweaks/z--advanced-tweaks---caution" >}}
+### Advanced Tweaks (CAUTION) {{< autolinks section="dev/tweaks/z--advanced-tweaks---caution" >}}
 
 ### Customize Preferences
 

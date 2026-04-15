@@ -20,8 +20,7 @@ function Update-WinUtilSelections {
         $group = if ($cbkey.StartsWith("WPFInstall")) { "Install" }
                     elseif ($cbkey.StartsWith("WPFTweaks")) { "Tweaks" }
                     elseif ($cbkey.StartsWith("WPFToggle")) { "Toggle" }
-                    elseif ($cbkey.StartsWith("WPFFeature")) { "Feature" }
-                    else { "na" }
+                    elseif ($cbkey.StartsWith("WPFFeature")) { "Feature" } else { "na" }
 
         switch ($group) {
             "Install" {

@@ -2,7 +2,7 @@
 .NOTES
     Product        : clark
     Organization   : Advance Systems 4042 (developed & managed)
-    Version        : 26.04.14
+    Version        : 26.04.15
 #>
 
 param (
@@ -98,7 +98,7 @@ if (Test-Path -LiteralPath (Join-Path $resolvedScriptRoot "config")) {
 
 # In deployed/irm mode, config is bundled in-script, so missing disk config should not block startup.
 $sync.PSScriptRoot = if ($repoRoot) { $repoRoot } else { $resolvedScriptRoot }
-$sync.version = "26.04.14"
+$sync.version = "26.04.15"
 $sync.configs = @{}
 $sync.Buttons = [System.Collections.Generic.List[PSObject]]::new()
 $sync.preferences = @{}
@@ -290,8 +290,7 @@ function Find-AppsByNameOrDescription {
                     # Show the App and mark that this category has a match
                     $_.Visibility = [Windows.Visibility]::Visible
                     $categoryHasMatch = $true
-                }
-                else {
+                } else {
                     $_.Visibility = [Windows.Visibility]::Collapsed
                 }
             }
@@ -1188,16 +1187,13 @@ function Install-WinUtilProgramChoco {
                 if (Test-UpgradeNeeded $installOutputFile) {
                     $upgradeStatusCode = Invoke-ChocoCommand "upgrade $Program -y"
                     Write-Host "$Program was" $(if ($upgradeStatusCode -eq 0) { "upgraded successfully." } else { "not upgraded." })
-                }
-                else {
+                } else {
                     Write-Host "$Program installed successfully."
                 }
-            }
-            else {
+            } else {
                 Write-Host "Failed to install $Program."
             }
-        }
-        catch {
+        } catch {
             Write-Host "Failed to install $Program due to an error: $_"
         }
         finally {
@@ -1242,15 +1238,13 @@ function Install-WinUtilProgramChoco {
             try {
                 $uninstallStatusCode = Invoke-ChocoCommand "uninstall $chocoPackages -y"
                 Write-Host "$Program" $(if ($uninstallStatusCode -eq 0) { "uninstalled successfully." } else { "failed to uninstall." })
-            }
-            catch {
+            } catch {
                 Write-Host "Failed to uninstall $Program due to an error: $_"
             }
             finally {
                 Update-TaskbarProgress $currentIndex $totalPrograms
             }
-        }
-        else {
+        } else {
             Write-Host "$Program is not installed."
         }
     }
@@ -2489,6 +2483,9 @@ function Set-WinUtilISODownloadProgress {
         [switch]$Hide
     )
 
+    $safePercent = [Math]::Max(0, [Math]::Min(100, $Percent))
+    $sync["WinISODownloadLastPercent"] = $safePercent
+
     Invoke-WPFUIThread -ScriptBlock {
         if (-not $sync["WPFWinISODownloadProgressBar"] -or -not $sync["WPFWinISODownloadProgressText"]) {
             return
@@ -2502,11 +2499,90 @@ function Set-WinUtilISODownloadProgress {
             return
         }
 
-        $safePercent = [Math]::Max(0, [Math]::Min(100, $Percent))
         $sync["WPFWinISODownloadProgressBar"].Visibility = "Visible"
         $sync["WPFWinISODownloadProgressText"].Visibility = "Visible"
         $sync["WPFWinISODownloadProgressBar"].Value = $safePercent
         $sync["WPFWinISODownloadProgressText"].Text = $Text
+    }
+}
+
+function Set-WinUtilISODownloadControlState {
+    param(
+        [bool]$IsRunning,
+        [bool]$IsPaused = $false
+    )
+
+    Invoke-WPFUIThread -ScriptBlock {
+        if ($sync["WPFWinISODownloadDirectButton"]) {
+            $sync["WPFWinISODownloadDirectButton"].IsEnabled = -not $IsRunning
+        }
+        if ($sync["WPFWinISODownloadPauseButton"]) {
+            $sync["WPFWinISODownloadPauseButton"].IsEnabled = $IsRunning
+            $sync["WPFWinISODownloadPauseButton"].Content = if ($IsPaused) { "Resume" } else { "Pause" }
+        }
+        if ($sync["WPFWinISODownloadStopButton"]) {
+            $sync["WPFWinISODownloadStopButton"].IsEnabled = $IsRunning
+        }
+    }
+}
+
+function Test-WinUtilISODownloadStopRequested {
+    if ($sync["WinISODownloadStopRequested"]) {
+        throw "ISO download stopped by user."
+    }
+}
+
+function Invoke-WinUtilISODirectDownloadPauseToggle {
+    if (-not $sync["WinISODownloadRunning"]) {
+        return
+    }
+
+    $isPaused = [bool]$sync["WinISODownloadPauseRequested"]
+    $newPausedState = -not $isPaused
+    $sync["WinISODownloadPauseRequested"] = $newPausedState
+    $sync["WinISODownloadIsPaused"] = $newPausedState
+
+    $bitsJobId = [string]$sync["WinISODownloadBitsJobId"]
+    if (-not [string]::IsNullOrWhiteSpace($bitsJobId)) {
+        try {
+            $bitsJob = Get-BitsTransfer -Id $bitsJobId -ErrorAction SilentlyContinue
+            if ($bitsJob) {
+                if ($newPausedState -and $bitsJob.JobState -ne "Suspended") {
+                    Suspend-BitsTransfer -BitsJob $bitsJob -ErrorAction SilentlyContinue
+                } elseif (-not $newPausedState -and $bitsJob.JobState -eq "Suspended") {
+                    Resume-BitsTransfer -BitsJob $bitsJob -ErrorAction SilentlyContinue
+                }
+            }
+        } catch {}
+    }
+
+    if ($newPausedState) {
+        Write-Win11ISOLog "ISO download paused."
+        Set-WinUtilISODownloadProgress -Percent ([int]$sync["WinISODownloadLastPercent"]) -Text "Download paused. Click Resume to continue."
+    } else {
+        Write-Win11ISOLog "ISO download resumed."
+    }
+    Set-WinUtilISODownloadControlState -IsRunning $true -IsPaused $newPausedState
+}
+
+function Invoke-WinUtilISODirectDownloadStop {
+    if (-not $sync["WinISODownloadRunning"]) {
+        return
+    }
+
+    $sync["WinISODownloadStopRequested"] = $true
+    $sync["WinISODownloadPauseRequested"] = $false
+    $sync["WinISODownloadIsPaused"] = $false
+    Write-Win11ISOLog "Stop requested for ISO download..."
+
+    $bitsJobId = [string]$sync["WinISODownloadBitsJobId"]
+    if (-not [string]::IsNullOrWhiteSpace($bitsJobId)) {
+        try {
+            $bitsJob = Get-BitsTransfer -Id $bitsJobId -ErrorAction SilentlyContinue
+            if ($bitsJob) {
+                Remove-BitsTransfer -BitsJob $bitsJob -ErrorAction SilentlyContinue
+            }
+        } catch {}
     }
 }
 
@@ -2660,13 +2736,38 @@ function Invoke-WinUtilISOBitsOrHttpDownload {
             throw "BITS did not return a transfer job (JobId empty)."
         }
         $bitsJobId = $bitsJob.JobId
+        $sync["WinISODownloadBitsJobId"] = [string]$bitsJobId
         $downloadStart = Get-Date
 
         do {
             Start-Sleep -Seconds 1
+            Test-WinUtilISODownloadStopRequested
+
             $bitsJob = Get-BitsTransfer -Id $bitsJobId -ErrorAction SilentlyContinue
             if (-not $bitsJob) {
+                Test-WinUtilISODownloadStopRequested
                 throw "BITS job was not found (it may have been cancelled or cleared). JobId: $bitsJobId"
+            }
+
+            if ($sync["WinISODownloadPauseRequested"]) {
+                if ($bitsJob.JobState -ne "Suspended") {
+                    Suspend-BitsTransfer -BitsJob $bitsJob -ErrorAction SilentlyContinue
+                }
+                $sync["WinISODownloadIsPaused"] = $true
+                Set-WinUtilISODownloadControlState -IsRunning $true -IsPaused $true
+                Set-WinUtilISODownloadProgress -Percent ([int]$sync["WinISODownloadLastPercent"]) -Text "Download paused. Click Resume to continue."
+
+                while ($sync["WinISODownloadPauseRequested"]) {
+                    Start-Sleep -Milliseconds 500
+                    Test-WinUtilISODownloadStopRequested
+                }
+
+                $bitsJob = Get-BitsTransfer -Id $bitsJobId -ErrorAction SilentlyContinue
+                if ($bitsJob -and $bitsJob.JobState -eq "Suspended") {
+                    Resume-BitsTransfer -BitsJob $bitsJob -ErrorAction SilentlyContinue
+                }
+                $sync["WinISODownloadIsPaused"] = $false
+                Set-WinUtilISODownloadControlState -IsRunning $true -IsPaused $false
             }
 
             $bytesTotal = [double]$bitsJob.BytesTotal
@@ -2693,8 +2794,9 @@ function Invoke-WinUtilISOBitsOrHttpDownload {
 
             Set-WinUtilProgressBar -Label $label -Percent ([Math]::Max(5, $percent))
             Set-WinUtilISODownloadProgress -Percent $percent -Text $label
-        } while ($bitsJob.JobState -in @("Queued", "Connecting", "Transferring"))
+        } while ($bitsJob.JobState -in @("Queued", "Connecting", "Transferring", "Suspended"))
 
+        Test-WinUtilISODownloadStopRequested
         if ($bitsJob.JobState -eq "Transferred") {
             Complete-BitsTransfer -BitsJob $bitsJob -ErrorAction Stop
         } elseif ($bitsJob.JobState -eq "Error") {
@@ -2704,14 +2806,100 @@ function Invoke-WinUtilISOBitsOrHttpDownload {
             throw "BITS download did not complete successfully. Final state: $($bitsJob.JobState)"
         }
     } catch {
-        Write-Win11ISOLog "BITS path failed ($($_.Exception.Message)); using HTTP fallback (no per-percent progress)."
+        if ($sync["WinISODownloadStopRequested"] -or $_.Exception.Message -match "stopped by user") {
+            try { Get-BitsTransfer -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -eq "clark ISO Download" } | Remove-BitsTransfer -ErrorAction SilentlyContinue } catch {}
+            if (Test-Path -LiteralPath $Destination) {
+                Remove-Item -LiteralPath $Destination -Force -ErrorAction SilentlyContinue
+            }
+            throw "ISO download stopped by user."
+        }
+
+        Write-Win11ISOLog "BITS path failed ($($_.Exception.Message)); using HTTP fallback."
         try { Get-BitsTransfer -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -eq "clark ISO Download" } | Remove-BitsTransfer -ErrorAction SilentlyContinue } catch {}
         if (Test-Path -LiteralPath $Destination) {
             Remove-Item -LiteralPath $Destination -Force -ErrorAction SilentlyContinue
         }
+
         Set-WinUtilProgressBar -Label "Downloading ISO via HTTP..." -Percent 15
-        Set-WinUtilISODownloadProgress -Percent 5 -Text "Downloading ISO via HTTP (large file, please wait)..."
-        Invoke-WebRequest -Uri $Url -OutFile $Destination -UseBasicParsing
+        Set-WinUtilISODownloadProgress -Percent 5 -Text "Downloading ISO via HTTP..."
+
+        Add-Type -AssemblyName System.Net.Http
+        $client = [System.Net.Http.HttpClient]::new()
+        $response = $null
+        $sourceStream = $null
+        $targetStream = $null
+
+        try {
+            $response = $client.GetAsync($Url, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead).GetAwaiter().GetResult()
+            $response.EnsureSuccessStatusCode()
+            $totalBytes = [double]($response.Content.Headers.ContentLength | ForEach-Object { $_ })
+            if (-not $totalBytes) { $totalBytes = 0.0 }
+
+            $sourceStream = $response.Content.ReadAsStreamAsync().GetAwaiter().GetResult()
+            $targetStream = [System.IO.File]::Open($Destination, [System.IO.FileMode]::Create, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
+            $buffer = New-Object byte[] (1024 * 1024)
+            $downloadedBytes = 0.0
+            $lastUpdate = Get-Date
+            $httpStart = Get-Date
+
+            while (($read = $sourceStream.Read($buffer, 0, $buffer.Length)) -gt 0) {
+                Test-WinUtilISODownloadStopRequested
+
+                while ($sync["WinISODownloadPauseRequested"]) {
+                    $sync["WinISODownloadIsPaused"] = $true
+                    Set-WinUtilISODownloadControlState -IsRunning $true -IsPaused $true
+                    Set-WinUtilISODownloadProgress -Percent ([int]$sync["WinISODownloadLastPercent"]) -Text "Download paused. Click Resume to continue."
+                    Start-Sleep -Milliseconds 500
+                    Test-WinUtilISODownloadStopRequested
+                }
+
+                if ($sync["WinISODownloadIsPaused"]) {
+                    $sync["WinISODownloadIsPaused"] = $false
+                    Set-WinUtilISODownloadControlState -IsRunning $true -IsPaused $false
+                }
+
+                $targetStream.Write($buffer, 0, $read)
+                $downloadedBytes += $read
+
+                if (((Get-Date) - $lastUpdate).TotalMilliseconds -ge 1000) {
+                    $percent = if ($totalBytes -gt 0) { [int][Math]::Round(($downloadedBytes / $totalBytes) * 100, 0) } else { 0 }
+                    $elapsedSeconds = [Math]::Max(1.0, ((Get-Date) - $httpStart).TotalSeconds)
+                    $speedBps = if ($downloadedBytes -gt 0) { $downloadedBytes / $elapsedSeconds } else { 0.0 }
+                    $remainingBytes = [Math]::Max(0.0, $totalBytes - $downloadedBytes)
+                    $etaText = if ($speedBps -gt 0 -and $totalBytes -gt 0) {
+                        $etaSeconds = [int][Math]::Ceiling($remainingBytes / $speedBps)
+                        [TimeSpan]::FromSeconds($etaSeconds).ToString("hh\:mm\:ss")
+                    } else {
+                        "estimating..."
+                    }
+                    $downloadedMb = [Math]::Round($downloadedBytes / 1MB, 1)
+                    $totalMb = if ($totalBytes -gt 0) { [Math]::Round($totalBytes / 1MB, 1) } else { 0 }
+                    $label = if ($totalBytes -gt 0) {
+                        "Downloading ISO... $percent% ($downloadedMb MB / $totalMb MB, ETA $etaText)"
+                    } else {
+                        "Downloading ISO... $downloadedMb MB downloaded"
+                    }
+                    Set-WinUtilProgressBar -Label $label -Percent ([Math]::Max(5, $percent))
+                    Set-WinUtilISODownloadProgress -Percent $percent -Text $label
+                    $lastUpdate = Get-Date
+                }
+            }
+        } catch {
+            if ($sync["WinISODownloadStopRequested"] -or $_.Exception.Message -match "stopped by user") {
+                if (Test-Path -LiteralPath $Destination) {
+                    Remove-Item -LiteralPath $Destination -Force -ErrorAction SilentlyContinue
+                }
+                throw "ISO download stopped by user."
+            }
+            throw
+        } finally {
+            if ($targetStream) { $targetStream.Dispose() }
+            if ($sourceStream) { $sourceStream.Dispose() }
+            if ($response) { $response.Dispose() }
+            if ($client) { $client.Dispose() }
+        }
+    } finally {
+        $sync["WinISODownloadBitsJobId"] = $null
     }
 }
 
@@ -2813,7 +3001,12 @@ function Invoke-WinUtilISODirectDownload {
     }
 
     $destination = $dlg.FileName
-    $sync["WPFWinISODownloadDirectButton"].IsEnabled = $false
+    $sync["WinISODownloadRunning"] = $true
+    $sync["WinISODownloadStopRequested"] = $false
+    $sync["WinISODownloadPauseRequested"] = $false
+    $sync["WinISODownloadIsPaused"] = $false
+    $sync["WinISODownloadBitsJobId"] = $null
+    Set-WinUtilISODownloadControlState -IsRunning $true -IsPaused $false
     Add-Win11ISOStatusLogLineUIThread "Starting direct download: $windowsProduct $windowsRelease -> $destination"
 
     Invoke-WPFRunspace -ParameterList @(("windowsProduct", $windowsProduct), ("windowsRelease", $windowsRelease), ("destination", $destination)) -ScriptBlock {
@@ -2862,9 +3055,16 @@ function Invoke-WinUtilISODirectDownload {
             Write-Win11ISOLog "ISO download completed: $destination"
             $null = Show-WinUtilISOMessageBox -Message "ISO download complete:`n`n$destination" -Title "Download Complete" -Button OK -Image Information
         } catch {
+            $errMsg = [string]$_.Exception.Message
+            if ($errMsg -match "stopped by user") {
+                Write-Win11ISOLog "ISO download stopped by user."
+                Set-WinUtilISODownloadProgress -Percent 0 -Text "Download stopped."
+                $null = Show-WinUtilISOMessageBox -Message "ISO download was stopped." -Title "Download Stopped" -Button OK -Image Information
+                return
+            }
+
             Write-Win11ISOLog "ERROR during direct ISO download: $_"
             Set-WinUtilISODownloadProgress -Percent 0 -Text "Download failed. Check the log for details."
-            $errMsg = [string]$_.Exception.Message
             $officialPage = Get-WinUtilMicrosoftSoftwareDownloadUrl -WindowsProduct $windowsProduct
             if (Test-WinUtilFidoMicrosoftAccessDenied -Text $errMsg) {
                 $prompt = "$errMsg`n`nOpen Microsoft's official download page in your browser?"
@@ -2877,8 +3077,13 @@ function Invoke-WinUtilISODirectDownload {
             }
         } finally {
             $sync.ProcessRunning = $false
+            $sync["WinISODownloadRunning"] = $false
+            $sync["WinISODownloadStopRequested"] = $false
+            $sync["WinISODownloadPauseRequested"] = $false
+            $sync["WinISODownloadIsPaused"] = $false
+            $sync["WinISODownloadBitsJobId"] = $null
             Set-WinUtilProgressBar -Label "" -Percent 0
-            Invoke-WPFUIThread -ScriptBlock { $sync["WPFWinISODownloadDirectButton"].IsEnabled = $true }
+            Set-WinUtilISODownloadControlState -IsRunning $false -IsPaused $false
         }
     } | Out-Null
 }
@@ -4627,8 +4832,7 @@ function Invoke-WinutilThemeChange {
                     "Double" { [double]$Value }
                     default { $Value }
                 }
-            }
-            catch {
+            } catch {
                 # Log a warning if there's an issue setting the property
                 Write-Warning "Failed to set property $($Name): $_"
             }
@@ -4677,8 +4881,7 @@ function Invoke-WinutilThemeChange {
             $systemUsesDarkMode = Get-WinUtilToggleStatus WPFToggleDarkMode
             if ($systemUsesDarkMode) {
                 $theme = "Dark"
-            }
-            else{
+            } else {
                 $theme = "Light"
             }
 
@@ -4866,8 +5069,7 @@ function Invoke-WinUtilUninstallPSProfile {
     if (Test-Path ($Profile + '.bak')) {
         Remove-Item $Profile
         Rename-Item ($Profile + '.bak') -NewName $Profile
-    }
-    else {
+    } else {
         Remove-Item $Profile
     }
 
@@ -5052,8 +5254,7 @@ function Set-Preferences{
 
     if ($save) {
         Save-Preferences
-    }
-    else {
+    } else {
         Load-Preferences
     }
 }
@@ -5158,8 +5359,7 @@ function Set-WinUtilRegistry {
         if ($Value -ne "<RemoveEntry>") {
             Write-Host "Set $Path\$Name to $Value"
             Set-ItemProperty -Path $Path -Name $Name -Type $Type -Value $Value -Force -ErrorAction Stop | Out-Null
-        }
-        else{
+        } else {
             Write-Host "Remove $Path\$Name"
             Remove-ItemProperty -Path $Path -Name $Name -Force -ErrorAction Stop | Out-Null
         }
@@ -5799,8 +5999,7 @@ function Update-WinUtilSelections {
         $group = if ($cbkey.StartsWith("WPFInstall")) { "Install" }
                     elseif ($cbkey.StartsWith("WPFTweaks")) { "Tweaks" }
                     elseif ($cbkey.StartsWith("WPFToggle")) { "Toggle" }
-                    elseif ($cbkey.StartsWith("WPFFeature")) { "Feature" }
-                    else { "na" }
+                    elseif ($cbkey.StartsWith("WPFFeature")) { "Feature" } else { "na" }
 
         switch ($group) {
             "Install" {
@@ -7236,8 +7435,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
         $checkboxName
     )
 
-    if (($type -ne "Add") -and ($type -ne "Remove"))
-    {
+    if (($type -ne "Add") -and ($type -ne "Remove")) {
         Write-Error "Type: $type not implemented"
         return
     }
@@ -7247,8 +7445,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
     $group = if ($appKey.StartsWith("WPFInstall")) { "Install" }
                 elseif ($appKey.StartsWith("WPFTweaks")) { "Tweaks" }
                 elseif ($appKey.StartsWith("WPFToggle")) { "Toggle" }
-                elseif ($appKey.StartsWith("WPFFeature")) { "Feature" }
-                else { "na" }
+                elseif ($appKey.StartsWith("WPFFeature")) { "Feature" } else { "na" }
 
     switch ($group) {
         "Install" {
@@ -7258,8 +7455,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                     # The List type needs to be specified again, because otherwise Sort-Object will convert the list to a string if there is only a single entry
                     [System.Collections.Generic.List[string]]$sync.selectedApps = $sync.SelectedApps | Sort-Object
                 }
-            }
-            else{
+            } else {
                 $sync.selectedApps.Remove($appKey)
             }
 
@@ -7274,8 +7470,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                 if (!$sync.selectedTweaks.Contains($appKey)) {
                     $sync.selectedTweaks.Add($appKey)
                 }
-            }
-            else{
+            } else {
                 $sync.selectedTweaks.Remove($appKey)
             }
         }
@@ -7284,8 +7479,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                 if (!$sync.selectedToggles.Contains($appKey)) {
                     $sync.selectedToggles.Add($appKey)
                 }
-            }
-            else{
+            } else {
                 $sync.selectedToggles.Remove($appKey)
             }
         }
@@ -7294,8 +7488,7 @@ function Invoke-WPFSelectedCheckboxesUpdate{
                 if (!$sync.selectedFeatures.Contains($appKey)) {
                     $sync.selectedFeatures.Add($appKey)
                 }
-            }
-            else{
+            } else {
                 $sync.selectedFeatures.Remove($appKey)
             }
         }
@@ -7450,8 +7643,7 @@ function Invoke-WPFToggleAllCategories {
                 }
             }
         }
-    }
-    catch {
+    } catch {
         Write-Error "Error toggling categories: $_"
     }
 }
@@ -10016,7 +10208,7 @@ $sync.configs.feature = @'
 
                                             ],
                                 "InvokeScript":  [
-                                                     "\n      New-ItemProperty -Path \u0027HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Configuration Manager\u0027 -Name \u0027EnablePeriodicBackup\u0027 -Type DWord -Value 1 -Force\n      New-ItemProperty -Path \u0027HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Configuration Manager\u0027 -Name \u0027BackupCount\u0027 -Type DWord -Value 2 -Force\n      $action = New-ScheduledTaskAction -Execute \u0027schtasks\u0027 -Argument \u0027/run /i /tn \"\\Microsoft\\Windows\\Registry\\RegIdleBackup\"\u0027\n      $trigger = New-ScheduledTaskTrigger -Daily -At 00:30\n      Register-ScheduledTask -Action $action -Trigger $trigger -TaskName \u0027AutoRegBackup\u0027 -Description \u0027Create System Registry Backups\u0027 -User \u0027System\u0027\n      "
+                                                     "\r\n      New-ItemProperty -Path \u0027HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Configuration Manager\u0027 -Name \u0027EnablePeriodicBackup\u0027 -Type DWord -Value 1 -Force\r\n      New-ItemProperty -Path \u0027HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Configuration Manager\u0027 -Name \u0027BackupCount\u0027 -Type DWord -Value 2 -Force\r\n      $action = New-ScheduledTaskAction -Execute \u0027schtasks\u0027 -Argument \u0027/run /i /tn \"\\Microsoft\\Windows\\Registry\\RegIdleBackup\"\u0027\r\n      $trigger = New-ScheduledTaskTrigger -Daily -At 00:30\r\n      Register-ScheduledTask -Action $action -Trigger $trigger -TaskName \u0027AutoRegBackup\u0027 -Description \u0027Create System Registry Backups\u0027 -User \u0027System\u0027\r\n      "
                                                  ],
                                 "link":  "https://winutil.christitus.com/dev/features/features/regbackup"
                             },
@@ -14467,6 +14659,20 @@ $inputXML = @'
                                                 HorizontalAlignment="Left"
                                                 Width="Auto" Padding="12,0"
                                                 Height="{DynamicResource ButtonHeight}"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                            <Button Name="WPFWinISODownloadPauseButton"
+                                                    Content="Pause"
+                                                    HorizontalAlignment="Left"
+                                                    Width="Auto" Padding="12,0"
+                                                    Height="{DynamicResource ButtonHeight}"
+                                                    IsEnabled="False"/>
+                                            <Button Name="WPFWinISODownloadStopButton"
+                                                    Content="Stop"
+                                                    HorizontalAlignment="Left"
+                                                    Width="Auto" Padding="12,0" Margin="8,0,0,0"
+                                                    Height="{DynamicResource ButtonHeight}"
+                                                    IsEnabled="False"/>
+                                        </StackPanel>
                                         <ProgressBar Name="WPFWinISODownloadProgressBar"
                                                      Minimum="0"
                                                      Maximum="100"
@@ -15806,6 +16012,16 @@ $sync["WPFWinISODownloadProductComboBox"].Add_SelectionChanged({
 $sync["WPFWinISODownloadDirectButton"].Add_Click({
     Write-Debug "WPFWinISODownloadDirectButton clicked"
     Invoke-WinUtilISODirectDownload
+})
+
+$sync["WPFWinISODownloadPauseButton"].Add_Click({
+    Write-Debug "WPFWinISODownloadPauseButton clicked"
+    Invoke-WinUtilISODirectDownloadPauseToggle
+})
+
+$sync["WPFWinISODownloadStopButton"].Add_Click({
+    Write-Debug "WPFWinISODownloadStopButton clicked"
+    Invoke-WinUtilISODirectDownloadStop
 })
 
 $sync["WPFWin11ISOMountButton"].Add_Click({
