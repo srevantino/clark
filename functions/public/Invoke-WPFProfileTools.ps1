@@ -23,6 +23,61 @@ function Invoke-WPFAutoReapplyDisable {
     }
 }
 
+function Invoke-WPFProfileExportFile {
+    Add-Type -AssemblyName System.Windows.Forms
+    $dlg = New-Object System.Windows.Forms.SaveFileDialog
+    $dlg.Filter = "Clark profile JSON (*.json)|*.json"
+    $dlg.FileName = "clark-profile.json"
+    $dlg.InitialDirectory = [Environment]::GetFolderPath('Desktop')
+    if ($dlg.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK) {
+        return
+    }
+    $path = $dlg.FileName
+    if ([string]::IsNullOrWhiteSpace($path)) {
+        return
+    }
+    try {
+        Invoke-WinUtilProfileExportToPath -LiteralPath $path
+        [System.Windows.MessageBox]::Show("Profile exported to:`n$path", "clark", "OK", "Information")
+    } catch {
+        [System.Windows.MessageBox]::Show("Export failed: $($_.Exception.Message)", "clark", "OK", "Error")
+    }
+}
+
+function Invoke-WPFProfileImportFile {
+    Add-Type -AssemblyName System.Windows.Forms
+    $dlg = New-Object System.Windows.Forms.OpenFileDialog
+    $dlg.Filter = "Clark profile JSON (*.json)|*.json|All files (*.*)|*.*"
+    $dlg.InitialDirectory = [Environment]::GetFolderPath('Desktop')
+    if ($dlg.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK) {
+        return
+    }
+    $path = $dlg.FileName
+    if ([string]::IsNullOrWhiteSpace($path)) {
+        return
+    }
+    try {
+        $raw = Get-Content -LiteralPath $path -Raw -ErrorAction Stop
+        $obj = $raw | ConvertFrom-Json
+        $sync.selectedApps = [System.Collections.Generic.List[string]]::new()
+        $sync.selectedTweaks = [System.Collections.Generic.List[string]]::new()
+        $sync.selectedToggles = [System.Collections.Generic.List[string]]::new()
+        $sync.selectedFeatures = [System.Collections.Generic.List[string]]::new()
+        Invoke-WinUtilProfileImportFromObject -ProfileObject $obj
+        if (-not $PARAM_NOUI) {
+            $sync.ImportInProgress = $true
+            try {
+                Reset-WPFCheckBoxes -doToggles $true
+            } finally {
+                $sync.ImportInProgress = $false
+            }
+        }
+        [System.Windows.MessageBox]::Show("Profile imported from:`n$path", "clark", "OK", "Information")
+    } catch {
+        [System.Windows.MessageBox]::Show("Import failed: $($_.Exception.Message)", "clark", "OK", "Error")
+    }
+}
+
 function Invoke-WPFProfileSave {
     Add-Type -AssemblyName Microsoft.VisualBasic
     $defaultName = if ($sync.preferences.activeprofile) { $sync.preferences.activeprofile } else { "MyProfile" }

@@ -54,6 +54,17 @@ function Invoke-WPFButton {
         }
     }
 
+    if ($sync.configs.tools -and ($null -ne $sync.configs.tools.$Button)) {
+        $toolBtn = $sync.configs.tools.$Button
+        if ($toolBtn.function) {
+            $tfn = [string]$toolBtn.function
+            if (Get-Command $tfn -ErrorAction SilentlyContinue) {
+                & $tfn
+                return
+            }
+        }
+    }
+
     # Fallback to hard-coded switch for buttons not in feature.json
     Switch -Wildcard ($Button) {
         "WPFTab?BT" {Invoke-WPFTab $Button}

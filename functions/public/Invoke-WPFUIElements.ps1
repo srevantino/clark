@@ -201,6 +201,7 @@ function Invoke-WPFUIElements {
                                 Invoke-WPFSelectedCheckboxesUpdate -type "Add" -checkboxName $Sender.name
                                 # Skip applying tweaks while an import is restoring toggle states
                                 if (-not $sync.ImportInProgress) {
+                                    $null = Invoke-WinUtilPreTweakRegistryExportIfNeeded
                                     Invoke-WinUtilTweaks $Sender.name
                                 }
                             })
@@ -210,6 +211,7 @@ function Invoke-WPFUIElements {
                                 Invoke-WPFSelectedCheckboxesUpdate -type "Remove" -checkboxName $Sender.name
                                 # Skip undoing tweaks while an import is restoring toggle states
                                 if (-not $sync.ImportInProgress) {
+                                    $null = Invoke-WinUtilPreTweakRegistryExportIfNeeded
                                     Invoke-WinUtiltweaks $Sender.name -undo $true
                                 }
                             })

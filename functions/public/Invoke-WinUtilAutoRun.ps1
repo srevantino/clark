@@ -25,7 +25,16 @@ function Invoke-WinUtilAutoRun {
 
         $sync.ProcessRunning = $true
 
-        for ($i = 0; $i -lt $Tweaks.Count; $i++) {
+        if ($Toggles.Count -gt 0) {
+            try {
+                $bak = Invoke-WinUtilPreTweakRegistryExport
+                foreach ($m in @($bak.Messages)) { Write-Host $m }
+            } catch {
+                Write-Warning "Pre-toggle registry backup failed: $($_.Exception.Message)"
+            }
+        }
+
+        for ($i = 0; $i -lt $Toggles.Count; $i++) {
             Invoke-WinUtilTweaks $Toggles[$i]
         }
 

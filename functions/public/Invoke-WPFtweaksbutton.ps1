@@ -28,6 +28,19 @@ function Invoke-WPFtweaksbutton {
 
   Write-Debug "Number of tweaks to process: $($Tweaks.Count)"
 
+  $needsRegistryTweakWork = ($restorePointSelected -or ($tweaksToRun.Count -gt 0))
+  if ($needsRegistryTweakWork) {
+    try {
+      $bak = Invoke-WinUtilPreTweakRegistryExport
+      foreach ($m in @($bak.Messages)) { Write-Host $m }
+      if (-not $bak.HKCUOk -or -not $bak.HKLMOk) {
+        Write-Warning "Pre-tweak registry export incomplete (HKCU:$($bak.HKCUOk) HKLM:$($bak.HKLMOk)). Restore may require Administrator."
+      }
+    } catch {
+      Write-Warning "Pre-tweak registry backup failed: $($_.Exception.Message)"
+    }
+  }
+
   if ($restorePointSelected) {
     $sync.ProcessRunning = $true
 

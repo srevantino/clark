@@ -14,7 +14,8 @@ function Update-WinUtilSelections {
 
     Write-Debug "JSON to import: $($flatJson)"
 
-    foreach ($item in $flatJson) {
+    $items = Convert-WinUtilProfileInputToList -InputObject $flatJson
+    foreach ($item in $items) {
         # Ensure each item is treated as a string to handle PSCustomObject from JSON deserialization
         $cbkey = [string]$item
         $group = if ($cbkey.StartsWith("WPFInstall")) { "Install" }
